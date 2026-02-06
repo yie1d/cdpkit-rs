@@ -4,6 +4,7 @@ version.workspace = true
 edition.workspace = true
 license.workspace = true
 publish = false
+description = "Code generator for cdpkit (internal tool)"
 
 [dependencies]
 serde = { workspace = true }
