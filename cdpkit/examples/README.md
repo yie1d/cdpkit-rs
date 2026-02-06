@@ -4,7 +4,7 @@ This directory contains examples demonstrating various features of cdpkit.
 
 ## Prerequisites
 
-1. Launch Chrome with remote debugging enabled:
+Launch Chrome with remote debugging enabled:
 
 ```bash
 # Linux/Mac
@@ -17,7 +17,9 @@ chrome.exe --remote-debugging-port=9222
 google-chrome --headless --remote-debugging-port=9222
 ```
 
-2. Run examples (WebSocket URL is auto-discovered):
+## Running Examples
+
+All examples automatically discover the WebSocket URL from Chrome's debugging port.
 
 ```bash
 # Use default localhost:9222
@@ -26,49 +28,36 @@ cargo run --example basic
 # Or specify custom host
 CDP_HOST="localhost:9222" cargo run --example basic
 
-# Advanced: Use direct WebSocket URL
-# (modify example code to use CDP::connect_ws())
+# Or use a different port
+CDP_HOST="localhost:9223" cargo run --example basic
 ```
 
 ## Examples
 
-### auto_connect.rs
-Demonstrates connection methods.
-
-```bash
-cargo run --example auto_connect
-```
-
-Demonstrates:
-- Connecting by host:port (default method)
-- Auto-discovery of WebSocket URL
-- Using `CDP::connect()` and `CDP::connect_ws()`
-
 ### basic.rs
-Basic connection and navigation example.
+Basic connection and navigation.
 
 ```bash
 cargo run --example basic
 ```
 
-Demonstrates:
-- Connecting to Chrome
+**Demonstrates:**
+- Connecting to Chrome (auto-discovers WebSocket URL)
 - Creating a new page
+- Attaching to a session
 - Navigating to a URL
 - Listening to page load events
 
-### events.rs
-Event handling with multiple event streams.
-
-```bash
-cargo run --example events
+**Output:**
+```
+Connected to Chrome
+Created target: ...
+Attached to session: ...
+Navigating to https://example.com
+Page loaded at timestamp: ...
 ```
 
-Demonstrates:
-- Subscribing to multiple events
-- Using `tokio::select!` to handle events concurrently
-- Console API events
-- Page lifecycle events
+---
 
 ### evaluate.rs
 JavaScript execution and evaluation.
@@ -77,35 +66,22 @@ JavaScript execution and evaluation.
 cargo run --example evaluate
 ```
 
-Demonstrates:
+**Demonstrates:**
 - Executing JavaScript code
 - Getting return values
-- Accessing page properties (title, URL, etc.)
+- Accessing page properties (title, URL)
+- Counting DOM elements
 
-### network.rs
-Network request and response monitoring.
-
-```bash
-cargo run --example network
+**Output:**
+```
+Connected to Chrome
+Page loaded
+Page title: "Example Domain"
+Page URL: "https://example.com/"
+Total elements: 11
 ```
 
-Demonstrates:
-- Enabling network domain
-- Monitoring HTTP requests
-- Monitoring HTTP responses
-- Tracking network activity
-
-### screenshot.rs
-Capturing page screenshots.
-
-```bash
-cargo run --example screenshot
-```
-
-Demonstrates:
-- Taking screenshots
-- Saving images to disk
-- Working with base64-encoded data
+---
 
 ### dom.rs
 DOM querying and manipulation.
@@ -114,16 +90,126 @@ DOM querying and manipulation.
 cargo run --example dom
 ```
 
-Demonstrates:
-- Getting the document
+**Demonstrates:**
+- Getting the document node
 - Querying elements with CSS selectors
-- Getting element HTML
+- Finding h1 and paragraph elements
 - Working with node IDs
+
+**Output:**
+```
+Connected to Chrome
+Navigating to https://example.com
+Page loaded
+Document node ID: 1
+Found h1 element with node ID: 7
+Found 2 paragraph elements
+```
+
+---
+
+### events.rs
+Event handling with multiple event streams.
+
+```bash
+cargo run --example events
+```
+
+**Demonstrates:**
+- Subscribing to multiple events
+- Using `tokio::select!` for concurrent event handling
+- Frame navigation events
+- Page lifecycle events
+- Timeout control
+
+**Output:**
+```
+Connected to Chrome
+Navigating to https://example.com
+Listening to events...
+Frame navigated: "https://example.com/"
+Page loaded at: ...
+Timeout reached
+```
+
+---
+
+### network.rs
+Network request and response monitoring.
+
+```bash
+cargo run --example network
+```
+
+**Demonstrates:**
+- Enabling network domain
+- Monitoring HTTP requests
+- Monitoring HTTP responses
+- Tracking network activity
+
+**Output:**
+```
+Connected to Chrome
+Navigating to https://example.com
+[Request #1] GET https://example.com/
+[Response #1] https://example.com/ - Status: 200
+
+Page loaded!
+Total requests: 1
+Total responses: 1
+```
+
+---
+
+### screenshot.rs
+Capturing page screenshots.
+
+```bash
+cargo run --example screenshot
+```
+
+**Demonstrates:**
+- Taking page screenshots
+- Saving PNG images to disk
+- Working with base64-encoded data
+
+**Output:**
+```
+Connected to Chrome
+Navigating to https://example.com
+Page loaded
+Capturing screenshot...
+Screenshot saved to screenshot.png (60700 bytes)
+```
+
+The screenshot will be saved as `screenshot.png` in the current directory.
+
+---
 
 ## Tips
 
-- **Default usage**: Just run examples, connects to `localhost:9222` automatically
-- Set `CDP_HOST` for custom host/port (e.g., `CDP_HOST="192.168.1.100:9222"`)
-- For advanced usage, use `CDP::connect_ws()` with full WebSocket URL
-- Use `RUST_LOG=debug` for detailed logging
-- Examples are minimal and focused on specific features
+- **Auto-discovery**: Examples automatically connect to `localhost:9222`
+- **Custom host**: Set `CDP_HOST` environment variable for different host/port
+- **Logging**: Use `RUST_LOG=debug` for detailed logging
+- **Clean code**: Examples are minimal and focused on specific features
+- **Error handling**: All examples include proper error handling
+
+## Common Issues
+
+**Chrome not found:**
+```
+Error: Connection failed
+```
+→ Make sure Chrome is running with `--remote-debugging-port=9222`
+
+**Port already in use:**
+```
+Error: Address already in use
+```
+→ Use a different port: `google-chrome --remote-debugging-port=9223`
+
+**Permission denied:**
+```
+Error: Permission denied
+```
+→ On Linux, you may need to run Chrome with `--no-sandbox` in some environments
