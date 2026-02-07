@@ -55,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.1"
+cdpkit = "0.2"
 tokio = { version = "1", features = ["full"] }
 futures = "0.3"
 ```
