@@ -1,5 +1,5 @@
 // DOM manipulation example: Query and interact with DOM
-use cdpkit::{dom, page, target, Method, CDP};
+use cdpkit::{dom, page, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]

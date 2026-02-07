@@ -428,6 +428,16 @@ fn generate_command(
         format!("responses::{}Response", struct_name)
     };
 
+    // Inherent send method — no trait import needed by callers
+    output.push_str(&format!("        impl {} {{\n", struct_name));
+    output.push_str(&format!(
+        "            pub async fn send(self, cdp: &CDP, session_id: Option<&str>) -> Result<{}, crate::CdpError> {{\n",
+        result_type
+    ));
+    output.push_str("                cdp.send(self, session_id).await\n");
+    output.push_str("            }\n");
+    output.push_str("        }\n\n");
+
     output.push_str(&format!("        impl Method for {} {{\n", struct_name));
     output.push_str(&format!("            type Response = {};\n", result_type));
     output.push_str(&format!(

@@ -1,5 +1,5 @@
 // Network monitoring example: Monitor network requests and responses
-use cdpkit::{network, page, target, Method, CDP};
+use cdpkit::{network, page, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]

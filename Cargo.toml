@@ -6,7 +6,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/yie1d/cdpkit-rs"
@@ -15,7 +15,7 @@ authors = ["yie1d <myie1d.dev@gmail.com>"]
 [workspace.dependencies]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tokio = { version = "1", features = ["rt", "net", "sync", "macros"] }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "sync", "macros"] }
 tokio-tungstenite = "0.28"
 tokio-stream = "0.1"
 futures = "0.3"
