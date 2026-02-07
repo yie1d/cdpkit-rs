@@ -11,7 +11,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if update {
         println!("Downloading latest protocol files to {:?}...", protocol_dir);
-        std::fs::create_dir_all(&protocol_dir)?;
         fetch::fetch_protocols(&protocol_dir).await?;
     }
 
@@ -25,9 +24,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Generating code...");
     let code = generator::generate_code(&[browser_protocol, js_protocol]);
 
-    // Output to cdpkit/src/cdp.rs (relative to workspace root)
+    // Output to cdpkit/src/protocol.rs (relative to workspace root)
     let workspace_root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).parent().unwrap().to_path_buf();
-    let output_path = workspace_root.join("cdpkit/src/cdp.rs");
+    let output_path = workspace_root.join("cdpkit/src/protocol.rs");
     std::fs::write(&output_path, code)?;
 
     println!("Code generated successfully at {:?}", output_path);

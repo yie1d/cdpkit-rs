@@ -15,7 +15,7 @@
 ## 快速开始
 
 ```rust
-use cdpkit::{CDP, Command, page, target};
+use cdpkit::{CDP, Method, page, target};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -24,12 +24,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cdp = CDP::connect("localhost:9222").await?;
     
     // 创建新页面
-    let result = target::CreateTarget::new("https://example.com")
+    let result = target::methods::CreateTarget::new("https://example.com")
         .send(&cdp, None)
         .await?;
     
     // 附加到页面
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
@@ -37,12 +37,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let session = attach.session_id;
     
     // 导航并监听事件
-    page::Enable::new().send(&cdp, Some(&session)).await?;
-    page::Navigate::new("https://rust-lang.org")
+    page::methods::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Navigate::new("https://rust-lang.org")
         .send(&cdp, Some(&session))
         .await?;
     
-    let mut events = page::LoadEventFired::subscribe(&cdp);
+    let mut events = page::events::LoadEventFired::subscribe(&cdp);
     if let Some(event) = events.next().await {
         println!("页面加载完成，时间戳: {}", event.timestamp);
     }
@@ -76,7 +76,7 @@ cdpkit 使用从官方 Chrome DevTools Protocol 规范自动生成的绑定。`c
 # 运行代码生成器
 cargo run -p cdpkit_codegen
 
-# 生成的代码将写入 cdpkit/src/cdp.rs
+# 生成的代码将写入 cdpkit/src/protocol.rs
 ```
 
 ### 工作原理
@@ -84,13 +84,14 @@ cargo run -p cdpkit_codegen
 1. **获取协议** - 从 Chrome 仓库下载最新的 CDP 协议 JSON
 2. **解析规范** - 将协议定义解析为 Rust 数据结构
 3. **生成代码** - 为所有 CDP 域、命令和事件生成类型安全的 Rust 代码
-4. **输出** - 将生成的代码写入 `cdpkit/src/cdp.rs`
+4. **输出** - 将生成的代码写入 `cdpkit/src/protocol.rs`
 
 生成的代码包括：
 - 所有 CDP 域（Page、Network、Runtime 等）
-- 带有构建器模式的强类型命令结构
-- 用于订阅的事件类型
-- 参数和返回值的完整类型定义
+- 带有构建器模式的强类型命令结构，位于 `methods` 子模块
+- 响应类型位于 `responses` 子模块，用于方法返回值
+- 事件类型位于 `events` 子模块，用于订阅
+- 类型定义位于 `types` 子模块，用于参数和共享类型
 
 ### 何时重新生成
 
@@ -98,7 +99,7 @@ cargo run -p cdpkit_codegen
 - 当你需要实验性 CDP 功能时
 - 当贡献协议绑定更新时
 
-**注意：** 生成的 `cdp.rs` 文件已提交到版本控制，因此用户无需运行生成器，除非想要更新协议版本。
+**注意：** 生成的 `protocol.rs` 文件已提交到版本控制，因此用户无需运行生成器，除非想要更新协议版本。
 
 ## 为什么选择 cdpkit？
 
@@ -108,14 +109,21 @@ cdpkit 提供对 CDP 的直接访问，让你完全控制浏览器行为：
 
 ```rust
 // 直接发送 CDP 命令，支持所有参数
-page::Navigate::new("https://example.com")
+page::methods::Navigate::new("https://example.com")
     .with_referrer("https://google.com")
-    .with_transition_type(page::TransitionType::Link)
+    .with_transition_type(page::types::TransitionType::Link)
     .send(&cdp, Some(&session))
     .await?;
 
+// 使用 FromStr 从字符串解析枚举值
+let transition: page::types::TransitionType = "link".parse()
+    .expect("invalid transition type");
+
+// 使用 AsRef<str> 将枚举值转换为字符串
+let s: &str = page::types::TransitionType::Link.as_ref(); // "link"
+
 // 访问完整的返回数据
-let result = runtime::Evaluate::new("document.title")
+let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
     .send(&cdp, Some(&session))
     .await?;
@@ -129,8 +137,8 @@ let result = runtime::Evaluate::new("document.title")
 use futures::StreamExt;
 
 // 订阅多个事件
-let mut load_events = page::LoadEventFired::subscribe(&cdp);
-let mut console_events = runtime::ConsoleAPICalled::subscribe(&cdp);
+let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
+let mut console_events = runtime::events::ConsoleAPICalled::subscribe(&cdp);
 
 // 使用 Stream 组合器
 let mut combined = futures::stream::select(load_events, console_events);
@@ -147,17 +155,17 @@ while let Some(event) = combined.next().await {
 
 ```rust
 // ✅ 类型检查：必需参数
-let cmd = page::Navigate::new("https://example.com");
+let cmd = page::methods::Navigate::new("https://example.com");
 
 // ✅ 类型检查：返回值
 let result = cmd.send(&cdp, Some(&session)).await?;
 let frame_id: String = result.frame_id;  // 类型已知
 
 // ❌ 编译错误：缺少参数
-let cmd = page::Navigate::new();  // 错误：缺少 url
+let cmd = page::methods::Navigate::new();  // 错误：缺少 url
 
 // ❌ 编译错误：类型不匹配
-let cmd = page::Navigate::new(123);  // 错误：期望 String
+let cmd = page::methods::Navigate::new(123);  // 错误：期望 String
 ```
 
 ### 适用场景

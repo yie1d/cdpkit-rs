@@ -1,5 +1,5 @@
 // Network monitoring example: Monitor network requests and responses
-use cdpkit::{network, page, target, Command, CDP};
+use cdpkit::{network, page, target, Method, CDP};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -9,27 +9,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Connected to Chrome");
 
     // Create and attach to page
-    let result = target::CreateTarget::new("about:blank")
+    let result = target::methods::CreateTarget::new("about:blank")
         .send(&cdp, None)
         .await?;
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
     let session = attach.session_id;
 
     // Enable domains
-    page::Enable::new().send(&cdp, Some(&session)).await?;
-    network::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
+    network::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
 
     // Subscribe to network events
-    let mut request_events = network::RequestWillBeSent::subscribe(&cdp);
-    let mut response_events = network::ResponseReceived::subscribe(&cdp);
-    let mut load_events = page::LoadEventFired::subscribe(&cdp);
+    let mut request_events = network::events::RequestWillBeSent::subscribe(&cdp);
+    let mut response_events = network::events::ResponseReceived::subscribe(&cdp);
+    let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
 
     // Navigate
     println!("Navigating to https://example.com");
-    page::Navigate::new("https://example.com")
+    page::methods::Navigate::new("https://example.com")
         .send(&cdp, Some(&session))
         .await?;
 

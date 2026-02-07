@@ -2,15 +2,15 @@ use crate::{error::CdpError, CDP};
 use serde::{de::DeserializeOwned, Serialize};
 use std::future::Future;
 
-/// Trait for CDP commands
-pub trait Command: Serialize {
-    /// Response type for this command
+/// Trait for CDP methods (commands)
+pub trait Method: Serialize {
+    /// Response type for this method
     type Response: DeserializeOwned;
 
     /// CDP method name (e.g., "Page.navigate")
     const METHOD: &'static str;
 
-    /// Send this command using fluent API
+    /// Send this method using fluent API
     fn send(
         self,
         cdp: &CDP,

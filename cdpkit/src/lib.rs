@@ -5,16 +5,13 @@ mod types;
 
 // Generated CDP protocol definitions
 #[allow(clippy::all)]
-pub mod cdp;
+pub mod protocol;
 
 pub use error::CdpError;
-pub use types::Command;
+pub use types::Method;
 
 // Re-export all CDP domains
-pub use cdp::*;
-
-// Re-export protocol version from generated code
-pub use cdp::CDP_VERSION;
+pub use protocol::*;
 
 use inner::CDPInner;
 use std::sync::Arc;
@@ -69,8 +66,8 @@ impl CDP {
         Ok(Self { inner })
     }
 
-    /// Send a command
-    pub async fn send<C: Command>(
+    /// Send a method
+    pub async fn send<C: Method>(
         &self,
         cmd: C,
         session_id: Option<&str>,

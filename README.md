@@ -17,7 +17,7 @@ Type-safe Rust [Chrome DevTools Protocol (CDP)](https://chromedevtools.github.io
 ## Quick Start
 
 ```rust
-use cdpkit::{CDP, Command, page, target};
+use cdpkit::{CDP, Method, page, target};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -26,12 +26,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cdp = CDP::connect("localhost:9222").await?;
     
     // Create a new page
-    let result = target::CreateTarget::new("https://example.com")
+    let result = target::methods::CreateTarget::new("https://example.com")
         .send(&cdp, None)
         .await?;
     
     // Attach to the page
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
@@ -39,12 +39,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let session = attach.session_id;
     
     // Navigate and listen to events
-    page::Enable::new().send(&cdp, Some(&session)).await?;
-    page::Navigate::new("https://rust-lang.org")
+    page::methods::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Navigate::new("https://rust-lang.org")
         .send(&cdp, Some(&session))
         .await?;
     
-    let mut events = page::LoadEventFired::subscribe(&cdp);
+    let mut events = page::events::LoadEventFired::subscribe(&cdp);
     if let Some(event) = events.next().await {
         println!("Page loaded at {}", event.timestamp);
     }
@@ -78,7 +78,7 @@ To update CDP bindings to the latest protocol version:
 # Run the code generator
 cargo run -p cdpkit_codegen
 
-# The generated code will be written to cdpkit/src/cdp.rs
+# The generated code will be written to cdpkit/src/protocol.rs
 ```
 
 ### How It Works
@@ -86,13 +86,14 @@ cargo run -p cdpkit_codegen
 1. **Fetch Protocol** - Downloads the latest CDP protocol JSON from Chrome's repository
 2. **Parse Specification** - Parses the protocol definition into Rust data structures
 3. **Generate Code** - Generates type-safe Rust code for all CDP domains, commands, and events
-4. **Output** - Writes the generated code to `cdpkit/src/cdp.rs`
+4. **Output** - Writes the generated code to `cdpkit/src/protocol.rs`
 
 The generated code includes:
 - All CDP domains (Page, Network, Runtime, etc.)
-- Strongly-typed command structures with builder patterns
-- Event types for subscription
-- Complete type definitions for parameters and return values
+- Strongly-typed command structures with builder patterns in `methods` submodule
+- Response types in `responses` submodule for method return values
+- Event types in `events` submodule for subscription
+- Type definitions in `types` submodule for parameters and shared types
 
 ### When to Regenerate
 
@@ -100,7 +101,7 @@ The generated code includes:
 - When you need experimental CDP features
 - When contributing updates to the protocol bindings
 
-**Note:** The generated `cdp.rs` file is checked into version control, so users don't need to run the generator unless they want to update the protocol version.
+**Note:** The generated `protocol.rs` file is checked into version control, so users don't need to run the generator unless they want to update the protocol version.
 
 ## Why cdpkit?
 
@@ -110,14 +111,21 @@ cdpkit provides direct access to CDP, giving you full control over browser behav
 
 ```rust
 // Send CDP commands directly with all parameters
-page::Navigate::new("https://example.com")
+page::methods::Navigate::new("https://example.com")
     .with_referrer("https://google.com")
-    .with_transition_type(page::TransitionType::Link)
+    .with_transition_type(page::types::TransitionType::Link)
     .send(&cdp, Some(&session))
     .await?;
 
+// Parse enum values from strings using FromStr
+let transition: page::types::TransitionType = "link".parse()
+    .expect("invalid transition type");
+
+// Convert enum values back to strings using AsRef<str>
+let s: &str = page::types::TransitionType::Link.as_ref(); // "link"
+
 // Access complete return data
-let result = runtime::Evaluate::new("document.title")
+let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
     .send(&cdp, Some(&session))
     .await?;
@@ -131,8 +139,8 @@ Stream-based event system with composition, filtering, and multiplexing:
 use futures::StreamExt;
 
 // Subscribe to multiple events
-let mut load_events = page::LoadEventFired::subscribe(&cdp);
-let mut nav_events = page::FrameNavigated::subscribe(&cdp);
+let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
+let mut nav_events = page::events::FrameNavigated::subscribe(&cdp);
 
 // Use stream combinators
 let mut combined = futures::stream::select(load_events, nav_events);
@@ -149,17 +157,17 @@ All CDP operations are type-checked, catching errors at compile time:
 
 ```rust
 // ✅ Type-checked: required parameters
-let cmd = page::Navigate::new("https://example.com");
+let cmd = page::methods::Navigate::new("https://example.com");
 
 // ✅ Type-checked: return values
 let result = cmd.send(&cdp, Some(&session)).await?;
 let frame_id: String = result.frame_id;  // Type is known
 
 // ❌ Compile error: missing parameter
-let cmd = page::Navigate::new();  // Error: missing url
+let cmd = page::methods::Navigate::new();  // Error: missing url
 
 // ❌ Compile error: type mismatch
-let cmd = page::Navigate::new(123);  // Error: expected String
+let cmd = page::methods::Navigate::new(123);  // Error: expected String
 ```
 
 ### Use Cases

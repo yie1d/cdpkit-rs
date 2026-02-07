@@ -1,5 +1,5 @@
 // Basic example: Connect to Chrome and navigate to a page
-use cdpkit::{page, target, Command, CDP};
+use cdpkit::{page, target, Method, CDP};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -10,13 +10,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Connected to Chrome");
 
     // Create a new page
-    let result = target::CreateTarget::new("about:blank")
+    let result = target::methods::CreateTarget::new("about:blank")
         .send(&cdp, None)
         .await?;
     println!("Created target: {}", result.target_id);
 
     // Attach to the page
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
@@ -24,14 +24,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Attached to session: {}", session);
 
     // Enable page domain
-    page::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
 
     // Subscribe to load events
-    let mut events = page::LoadEventFired::subscribe(&cdp);
+    let mut events = page::events::LoadEventFired::subscribe(&cdp);
 
     // Navigate to a page
     println!("Navigating to https://example.com");
-    page::Navigate::new("https://example.com")
+    page::methods::Navigate::new("https://example.com")
         .send(&cdp, Some(&session))
         .await?;
 

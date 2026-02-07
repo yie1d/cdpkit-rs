@@ -1,6 +1,6 @@
 use crate::error::CdpError;
 use crate::listeners::EventListeners;
-use crate::types::Command;
+use crate::types::Method;
 use futures::stream::Stream;
 use futures::{SinkExt, StreamExt};
 use serde::de::DeserializeOwned;
@@ -17,8 +17,14 @@ use tracing::{debug, error, info, trace, warn};
 
 type WsStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 
+/// Channel capacity for outgoing WebSocket messages
+const WS_SEND_CAPACITY: usize = 2048;
+
+/// Channel capacity for event listeners
+const EVENT_CHANNEL_CAPACITY: usize = 1024;
+
 pub(crate) struct CDPInner {
-    tx: mpsc::UnboundedSender<Message>,
+    tx: mpsc::Sender<Message>,
     pending: RwLock<HashMap<u64, oneshot::Sender<Result<Value, CdpError>>>>,
     event_listeners: Arc<RwLock<EventListeners>>,
     next_id: AtomicU64,
@@ -30,7 +36,7 @@ impl CDPInner {
         let (ws, _) = connect_async(url).await?;
         info!("Connected to CDP successfully");
 
-        let (tx, rx) = mpsc::unbounded_channel();
+        let (tx, rx) = mpsc::channel(WS_SEND_CAPACITY);
 
         let inner = Arc::new(Self {
             tx,
@@ -48,12 +54,12 @@ impl CDPInner {
         Ok(inner)
     }
 
-    pub async fn send_command<C: Command>(
+    pub async fn send_command<C: Method>(
         &self,
         cmd: C,
         session_id: Option<&str>,
     ) -> Result<C::Response, CdpError> {
-        let id = self.next_id.fetch_add(1, Ordering::SeqCst);
+        let id = self.next_id.fetch_add(1, Ordering::Relaxed);
         let (tx, rx) = oneshot::channel();
 
         self.pending.write().await.insert(id, tx);
@@ -77,8 +83,13 @@ impl CDPInner {
         trace!("Command payload: {}", msg);
 
         self.tx
-            .send(Message::Text(msg.to_string().into()))
-            .map_err(|_| CdpError::ConnectionClosed)?;
+            .try_send(Message::Text(msg.to_string().into()))
+            .map_err(|e| match e {
+                mpsc::error::TrySendError::Closed(_) => CdpError::ConnectionClosed,
+                mpsc::error::TrySendError::Full(_) => {
+                    CdpError::ConnectionFailed("Send channel full".into())
+                }
+            })?;
 
         let response = rx.await.map_err(|_| CdpError::ChannelClosed)??;
 
@@ -86,24 +97,19 @@ impl CDPInner {
         trace!("Response payload: {}", response);
 
         // Handle empty response for unit type
-        if response.is_null() {
-            serde_json::from_value(Value::Null).map_err(Into::into)
-        } else if let Some(obj) = response.as_object() {
-            if obj.is_empty() {
-                serde_json::from_value(Value::Null).map_err(Into::into)
-            } else {
-                serde_json::from_value(response).map_err(Into::into)
-            }
+        let response = if response.is_null() || response.as_object().is_some_and(|o| o.is_empty()) {
+            Value::Null
         } else {
-            serde_json::from_value(response).map_err(Into::into)
-        }
+            response
+        };
+        serde_json::from_value(response).map_err(Into::into)
     }
 
     pub fn event_stream<T>(&self, event_name: &str) -> Pin<Box<dyn Stream<Item = T> + Send>>
     where
         T: DeserializeOwned + Send + 'static,
     {
-        let (tx, rx) = mpsc::unbounded_channel();
+        let (tx, rx) = mpsc::channel(EVENT_CHANNEL_CAPACITY);
         let event_name = event_name.to_string();
         let listeners = Arc::clone(&self.event_listeners);
 
@@ -117,24 +123,24 @@ impl CDPInner {
                 .add_listener(&event_name_for_spawn, tx);
         });
 
-        Box::pin(
-            tokio_stream::wrappers::UnboundedReceiverStream::new(rx).filter_map(move |v| {
-                let event_name = event_name.clone();
-                async move {
-                    match serde_json::from_value((*v).clone()) {
-                        Ok(event) => Some(event),
-                        Err(e) => {
-                            warn!(event = %event_name, error = %e, "Failed to deserialize event");
-                            trace!("Event data: {}", v);
-                            None
-                        }
+        let rx_stream = tokio_stream::wrappers::ReceiverStream::new(rx);
+
+        Box::pin(rx_stream.filter_map(move |v| {
+            let event_name = event_name.clone();
+            async move {
+                match serde_json::from_value((*v).clone()) {
+                    Ok(event) => Some(event),
+                    Err(e) => {
+                        warn!(event = %event_name, error = %e, "Failed to deserialize event");
+                        trace!("Event data: {}", v);
+                        None
                     }
                 }
-            }),
-        )
+            }
+        }))
     }
 
-    async fn message_loop(&self, mut ws: WsStream, mut rx: mpsc::UnboundedReceiver<Message>) {
+    async fn message_loop(&self, mut ws: WsStream, mut rx: mpsc::Receiver<Message>) {
         debug!("Starting message loop");
         loop {
             tokio::select! {

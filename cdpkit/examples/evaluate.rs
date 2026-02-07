@@ -1,5 +1,5 @@
 // JavaScript evaluation example: Execute JavaScript and get results
-use cdpkit::{page, runtime, target, Command, CDP};
+use cdpkit::{page, runtime, target, Method, CDP};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -9,29 +9,33 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Connected to Chrome");
 
     // Create and attach to page
-    let result = target::CreateTarget::new("about:blank")
+    let result = target::methods::CreateTarget::new("about:blank")
         .send(&cdp, None)
         .await?;
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
     let session = attach.session_id;
 
     // Enable domains
-    page::Enable::new().send(&cdp, Some(&session)).await?;
-    runtime::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
+    runtime::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
 
     // Navigate and wait for load
-    let mut events = page::LoadEventFired::subscribe(&cdp);
-    page::Navigate::new("https://example.com")
+    let mut events = page::events::LoadEventFired::subscribe(&cdp);
+    page::methods::Navigate::new("https://example.com")
         .send(&cdp, Some(&session))
         .await?;
     events.next().await;
     println!("Page loaded");
 
     // Execute JavaScript to get page title
-    let result = runtime::Evaluate::new("document.title")
+    let result = runtime::methods::Evaluate::new("document.title")
         .with_return_by_value(true)
         .send(&cdp, Some(&session))
         .await?;
@@ -41,7 +45,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // Execute JavaScript to get page URL
-    let result = runtime::Evaluate::new("window.location.href")
+    let result = runtime::methods::Evaluate::new("window.location.href")
         .with_return_by_value(true)
         .send(&cdp, Some(&session))
         .await?;
@@ -51,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // Execute JavaScript to count elements
-    let result = runtime::Evaluate::new("document.querySelectorAll('*').length")
+    let result = runtime::methods::Evaluate::new("document.querySelectorAll('*').length")
         .with_return_by_value(true)
         .send(&cdp, Some(&session))
         .await?;

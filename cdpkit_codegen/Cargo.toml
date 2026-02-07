@@ -12,5 +12,4 @@ serde_json = { workspace = true }
 reqwest = { workspace = true }
 heck = { workspace = true }
 thiserror = { workspace = true }
-tokio = { workspace = true }
-chrono = "0.4"
+tokio = { workspace = true, features = ["rt-multi-thread"] }

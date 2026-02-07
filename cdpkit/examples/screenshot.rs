@@ -1,5 +1,5 @@
 // Screenshot example: Capture page screenshot
-use cdpkit::{page, target, Command, CDP};
+use cdpkit::{page, target, Method, CDP};
 use futures::StreamExt;
 
 #[tokio::main]
@@ -9,22 +9,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Connected to Chrome");
 
     // Create and attach to page
-    let result = target::CreateTarget::new("about:blank")
+    let result = target::methods::CreateTarget::new("about:blank")
         .send(&cdp, None)
         .await?;
-    let attach = target::AttachToTarget::new(result.target_id)
+    let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
         .send(&cdp, None)
         .await?;
     let session = attach.session_id;
 
     // Enable page domain
-    page::Enable::new().send(&cdp, Some(&session)).await?;
+    page::methods::Enable::new()
+        .send(&cdp, Some(&session))
+        .await?;
 
     // Navigate and wait for load
-    let mut events = page::LoadEventFired::subscribe(&cdp);
+    let mut events = page::events::LoadEventFired::subscribe(&cdp);
     println!("Navigating to https://example.com");
-    page::Navigate::new("https://example.com")
+    page::methods::Navigate::new("https://example.com")
         .send(&cdp, Some(&session))
         .await?;
     events.next().await;
@@ -35,7 +37,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Capture screenshot
     println!("Capturing screenshot...");
-    let result = page::CaptureScreenshot::new()
+    let result = page::methods::CaptureScreenshot::new()
         .with_format("png")
         .send(&cdp, Some(&session))
         .await?;

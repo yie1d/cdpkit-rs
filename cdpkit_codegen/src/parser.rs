@@ -112,7 +112,10 @@ pub enum TypeRef {
 }
 
 impl TypeRef {
-    pub fn to_rust_type(&self, domain: &str, all_types: &HashMap<String, String>) -> String {
+    /// Generate Rust type reference.
+    /// `from_types_submod`: true when generating code inside the `types` submodule (same-domain refs are plain names),
+    /// false when generating inside `methods`/`events` submodules (same-domain refs need `types::` prefix).
+    pub fn to_rust_type(&self, domain: &str, all_types: &HashMap<String, String>, from_types_submod: bool) -> String {
         match self {
             TypeRef::Simple { type_, items } => match type_.as_str() {
                 "string" => "String".to_string(),
@@ -121,7 +124,7 @@ impl TypeRef {
                 "boolean" => "bool".to_string(),
                 "array" => {
                     if let Some(items) = items {
-                        format!("Vec<{}>", items.to_rust_type(domain, all_types))
+                        format!("Vec<{}>", items.to_rust_type(domain, all_types, from_types_submod))
                     } else {
                         "Vec<serde_json::Value>".to_string()
                     }
@@ -132,22 +135,29 @@ impl TypeRef {
             },
             TypeRef::Ref { ref_ } => {
                 if ref_.contains('.') {
-                    // Cross-domain reference
+                    // Cross-domain reference: always domain::types::Type
                     let parts: Vec<&str> = ref_.split('.').collect();
-                    let mut domain_name = parts[0].to_snake_case();
-                    // Fix special cases
-                    if domain_name.contains("_d_o_m_") {
-                        domain_name = domain_name.replace("_d_o_m_", "_dom_");
-                    }
-                    if domain_name == "service_worker" {
-                        domain_name = "serviceworker".to_string();
-                    }
-                    format!("{}::{}", domain_name, parts[1])
-                } else {
-                    // Same domain reference
+                    let domain_name = normalize_domain_name(&parts[0].to_snake_case());
+                    format!("{}::types::{}", domain_name, parts[1])
+                } else if from_types_submod {
+                    // Same domain, inside types submodule: plain name
                     ref_.clone()
+                } else {
+                    // Same domain, inside methods/events submodule: types::Type
+                    format!("types::{}", ref_)
                 }
             }
         }
     }
+}
+
+pub fn normalize_domain_name(name: &str) -> String {
+    let mut s = name.to_string();
+    if s.contains("_d_o_m_") {
+        s = s.replace("_d_o_m_", "_dom_");
+    }
+    if s == "service_worker" {
+        s = "serviceworker".to_string();
+    }
+    s
 }
