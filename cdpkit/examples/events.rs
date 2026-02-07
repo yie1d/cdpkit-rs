@@ -1,5 +1,5 @@
 // Event handling example: Listen to multiple CDP events
-use cdpkit::{page, target, Method, CDP};
+use cdpkit::{page, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]

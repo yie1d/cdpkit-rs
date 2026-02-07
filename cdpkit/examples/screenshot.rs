@@ -1,5 +1,5 @@
 // Screenshot example: Capture page screenshot
-use cdpkit::{page, target, Method, CDP};
+use cdpkit::{page, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]

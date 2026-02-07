@@ -5,6 +5,7 @@ mod types;
 
 // Generated CDP protocol definitions
 #[allow(clippy::all)]
+#[allow(deprecated)]
 pub mod protocol;
 
 pub use error::CdpError;

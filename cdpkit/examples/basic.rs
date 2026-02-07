@@ -1,5 +1,5 @@
 // Basic example: Connect to Chrome and navigate to a page
-use cdpkit::{page, target, Method, CDP};
+use cdpkit::{page, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]

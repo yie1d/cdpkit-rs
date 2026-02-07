@@ -1,5 +1,5 @@
 // Auto-generated from Chrome DevTools Protocol
-// Generated at: 2026-02-07 02:29:36 UTC
+// Generated at: 2026-02-07 03:29:43 UTC
 // DO NOT EDIT MANUALLY  OvO
 
 #![allow(dead_code, unused_imports, clippy::all)]
@@ -638,6 +638,16 @@ pub mod accessibility {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Accessibility.disable";
@@ -651,6 +661,16 @@ pub mod accessibility {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -715,6 +735,16 @@ pub mod accessibility {
             }
         }
 
+        impl GetPartialAxTree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPartialAxTreeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetPartialAxTree {
             type Response = responses::GetPartialAxTreeResponse;
             const METHOD: &'static str = "Accessibility.getPartialAXTree";
@@ -752,6 +782,16 @@ pub mod accessibility {
             }
         }
 
+        impl GetFullAxTree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFullAxTreeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetFullAxTree {
             type Response = responses::GetFullAxTreeResponse;
             const METHOD: &'static str = "Accessibility.getFullAXTree";
@@ -775,6 +815,16 @@ pub mod accessibility {
             pub fn with_frame_id(mut self, frame_id: impl Into<page::types::FrameId>) -> Self {
                 self.frame_id = Some(frame_id.into());
                 self
+            }
+        }
+
+        impl GetRootAxNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetRootAxNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -830,6 +880,16 @@ pub mod accessibility {
             }
         }
 
+        impl GetAxNodeAndAncestors {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAxNodeAndAncestorsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAxNodeAndAncestors {
             type Response = responses::GetAxNodeAndAncestorsResponse;
             const METHOD: &'static str = "Accessibility.getAXNodeAndAncestors";
@@ -857,6 +917,16 @@ pub mod accessibility {
             pub fn with_frame_id(mut self, frame_id: impl Into<page::types::FrameId>) -> Self {
                 self.frame_id = Some(frame_id.into());
                 self
+            }
+        }
+
+        impl GetChildAxNodes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetChildAxNodesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -927,6 +997,16 @@ pub mod accessibility {
             pub fn with_role(mut self, role: impl Into<String>) -> Self {
                 self.role = Some(role.into());
                 self
+            }
+        }
+
+        impl QueryAxTree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::QueryAxTreeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -1130,6 +1210,16 @@ pub mod animation {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Animation.disable";
@@ -1143,6 +1233,16 @@ pub mod animation {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -1165,6 +1265,16 @@ pub mod animation {
             }
         }
 
+        impl GetCurrentTime {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCurrentTimeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetCurrentTime {
             type Response = responses::GetCurrentTimeResponse;
             const METHOD: &'static str = "Animation.getCurrentTime";
@@ -1178,6 +1288,16 @@ pub mod animation {
         impl GetPlaybackRate {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetPlaybackRate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPlaybackRateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -1202,6 +1322,16 @@ pub mod animation {
             }
         }
 
+        impl ReleaseAnimations {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReleaseAnimations {
             type Response = ();
             const METHOD: &'static str = "Animation.releaseAnimations";
@@ -1220,6 +1350,16 @@ pub mod animation {
                 Self {
                     animation_id: animation_id.into(),
                 }
+            }
+        }
+
+        impl ResolveAnimation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ResolveAnimationResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -1247,6 +1387,16 @@ pub mod animation {
             }
         }
 
+        impl SeekAnimations {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SeekAnimations {
             type Response = ();
             const METHOD: &'static str = "Animation.seekAnimations";
@@ -1271,6 +1421,16 @@ pub mod animation {
             }
         }
 
+        impl SetPaused {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPaused {
             type Response = ();
             const METHOD: &'static str = "Animation.setPaused";
@@ -1289,6 +1449,16 @@ pub mod animation {
                 Self {
                     playback_rate: playback_rate.into(),
                 }
+            }
+        }
+
+        impl SetPlaybackRate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -1320,6 +1490,16 @@ pub mod animation {
                     duration: duration.into(),
                     delay: delay.into(),
                 }
+            }
+        }
+
+        impl SetTiming {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -3783,6 +3963,16 @@ pub mod audits {
             }
         }
 
+        impl GetEncodedResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetEncodedResponseResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetEncodedResponse {
             type Response = responses::GetEncodedResponseResponse;
             const METHOD: &'static str = "Audits.getEncodedResponse";
@@ -3799,6 +3989,16 @@ pub mod audits {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Audits.disable";
@@ -3812,6 +4012,16 @@ pub mod audits {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -3841,6 +4051,16 @@ pub mod audits {
             }
         }
 
+        impl CheckContrast {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CheckContrast {
             type Response = ();
             const METHOD: &'static str = "Audits.checkContrast";
@@ -3854,6 +4074,16 @@ pub mod audits {
         impl CheckFormsIssues {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl CheckFormsIssues {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CheckFormsIssuesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4034,6 +4264,16 @@ pub mod autofill {
             }
         }
 
+        impl Trigger {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Trigger {
             type Response = ();
             const METHOD: &'static str = "Autofill.trigger";
@@ -4054,6 +4294,16 @@ pub mod autofill {
             }
         }
 
+        impl SetAddresses {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAddresses {
             type Response = ();
             const METHOD: &'static str = "Autofill.setAddresses";
@@ -4070,6 +4320,16 @@ pub mod autofill {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Autofill.disable";
@@ -4083,6 +4343,16 @@ pub mod autofill {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4217,6 +4487,16 @@ pub mod background_service {
             }
         }
 
+        impl StartObserving {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartObserving {
             type Response = ();
             const METHOD: &'static str = "BackgroundService.startObserving";
@@ -4234,6 +4514,16 @@ pub mod background_service {
                 Self {
                     service: service.into(),
                 }
+            }
+        }
+
+        impl StopObserving {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4262,6 +4552,16 @@ pub mod background_service {
             }
         }
 
+        impl SetRecording {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetRecording {
             type Response = ();
             const METHOD: &'static str = "BackgroundService.setRecording";
@@ -4279,6 +4579,16 @@ pub mod background_service {
                 Self {
                     service: service.into(),
                 }
+            }
+        }
+
+        impl ClearEvents {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4602,6 +4912,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "BluetoothEmulation.enable";
@@ -4623,6 +4943,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl SetSimulatedCentralState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSimulatedCentralState {
             type Response = ();
             const METHOD: &'static str = "BluetoothEmulation.setSimulatedCentralState";
@@ -4636,6 +4966,16 @@ pub mod bluetooth_emulation {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4670,6 +5010,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl SimulatePreconnectedPeripheral {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SimulatePreconnectedPeripheral {
             type Response = ();
             const METHOD: &'static str = "BluetoothEmulation.simulatePreconnectedPeripheral";
@@ -4687,6 +5037,16 @@ pub mod bluetooth_emulation {
                 Self {
                     entry: entry.into(),
                 }
+            }
+        }
+
+        impl SimulateAdvertisement {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4715,6 +5075,16 @@ pub mod bluetooth_emulation {
                     type_: type_.into(),
                     code: code.into(),
                 }
+            }
+        }
+
+        impl SimulateGattOperationResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4751,6 +5121,16 @@ pub mod bluetooth_emulation {
             pub fn with_data(mut self, data: impl Into<String>) -> Self {
                 self.data = Some(data.into());
                 self
+            }
+        }
+
+        impl SimulateCharacteristicOperationResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4791,6 +5171,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl SimulateDescriptorOperationResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SimulateDescriptorOperationResponse {
             type Response = ();
             const METHOD: &'static str = "BluetoothEmulation.simulateDescriptorOperationResponse";
@@ -4813,6 +5203,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl AddService {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddServiceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddService {
             type Response = responses::AddServiceResponse;
             const METHOD: &'static str = "BluetoothEmulation.addService";
@@ -4830,6 +5230,16 @@ pub mod bluetooth_emulation {
                 Self {
                     service_id: service_id.into(),
                 }
+            }
+        }
+
+        impl RemoveService {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4861,6 +5271,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl AddCharacteristic {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddCharacteristicResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddCharacteristic {
             type Response = responses::AddCharacteristicResponse;
             const METHOD: &'static str = "BluetoothEmulation.addCharacteristic";
@@ -4878,6 +5298,16 @@ pub mod bluetooth_emulation {
                 Self {
                     characteristic_id: characteristic_id.into(),
                 }
+            }
+        }
+
+        impl RemoveCharacteristic {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -4906,6 +5336,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl AddDescriptor {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddDescriptorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddDescriptor {
             type Response = responses::AddDescriptorResponse;
             const METHOD: &'static str = "BluetoothEmulation.addDescriptor";
@@ -4926,6 +5366,16 @@ pub mod bluetooth_emulation {
             }
         }
 
+        impl RemoveDescriptor {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveDescriptor {
             type Response = ();
             const METHOD: &'static str = "BluetoothEmulation.removeDescriptor";
@@ -4943,6 +5393,16 @@ pub mod bluetooth_emulation {
                 Self {
                     address: address.into(),
                 }
+            }
+        }
+
+        impl SimulateGattDisconnection {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5519,6 +5979,16 @@ pub mod browser {
             }
         }
 
+        impl SetPermission {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPermission {
             type Response = ();
             const METHOD: &'static str = "Browser.setPermission";
@@ -5562,6 +6032,16 @@ pub mod browser {
             }
         }
 
+        impl GrantPermissions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GrantPermissions {
             type Response = ();
             const METHOD: &'static str = "Browser.grantPermissions";
@@ -5589,6 +6069,16 @@ pub mod browser {
             ) -> Self {
                 self.browser_context_id = Some(browser_context_id.into());
                 self
+            }
+        }
+
+        impl ResetPermissions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5644,6 +6134,16 @@ pub mod browser {
             }
         }
 
+        impl SetDownloadBehavior {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDownloadBehavior {
             type Response = ();
             const METHOD: &'static str = "Browser.setDownloadBehavior";
@@ -5678,6 +6178,16 @@ pub mod browser {
             }
         }
 
+        impl CancelDownload {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CancelDownload {
             type Response = ();
             const METHOD: &'static str = "Browser.cancelDownload";
@@ -5691,6 +6201,16 @@ pub mod browser {
         impl Close {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Close {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5711,6 +6231,16 @@ pub mod browser {
             }
         }
 
+        impl Crash {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Crash {
             type Response = ();
             const METHOD: &'static str = "Browser.crash";
@@ -5725,6 +6255,16 @@ pub mod browser {
         impl CrashGpuProcess {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl CrashGpuProcess {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5744,6 +6284,16 @@ pub mod browser {
             }
         }
 
+        impl GetVersion {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetVersionResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetVersion {
             type Response = responses::GetVersionResponse;
             const METHOD: &'static str = "Browser.getVersion";
@@ -5758,6 +6308,16 @@ pub mod browser {
         impl GetBrowserCommandLine {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetBrowserCommandLine {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBrowserCommandLineResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5798,6 +6358,16 @@ pub mod browser {
             }
         }
 
+        impl GetHistograms {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetHistogramsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetHistograms {
             type Response = responses::GetHistogramsResponse;
             const METHOD: &'static str = "Browser.getHistograms";
@@ -5829,6 +6399,16 @@ pub mod browser {
             }
         }
 
+        impl GetHistogram {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetHistogramResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetHistogram {
             type Response = responses::GetHistogramResponse;
             const METHOD: &'static str = "Browser.getHistogram";
@@ -5848,6 +6428,16 @@ pub mod browser {
                 Self {
                     window_id: window_id.into(),
                 }
+            }
+        }
+
+        impl GetWindowBounds {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetWindowBoundsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5877,6 +6467,16 @@ pub mod browser {
             }
         }
 
+        impl GetWindowForTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetWindowForTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetWindowForTarget {
             type Response = responses::GetWindowForTargetResponse;
             const METHOD: &'static str = "Browser.getWindowForTarget";
@@ -5902,6 +6502,16 @@ pub mod browser {
                     window_id: window_id.into(),
                     bounds: bounds.into(),
                 }
+            }
+        }
+
+        impl SetWindowBounds {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -5945,6 +6555,16 @@ pub mod browser {
             }
         }
 
+        impl SetContentsSize {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetContentsSize {
             type Response = ();
             const METHOD: &'static str = "Browser.setContentsSize";
@@ -5981,6 +6601,16 @@ pub mod browser {
             }
         }
 
+        impl SetDockTile {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDockTile {
             type Response = ();
             const METHOD: &'static str = "Browser.setDockTile";
@@ -6002,6 +6632,16 @@ pub mod browser {
             }
         }
 
+        impl ExecuteBrowserCommand {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ExecuteBrowserCommand {
             type Response = ();
             const METHOD: &'static str = "Browser.executeBrowserCommand";
@@ -6017,6 +6657,16 @@ pub mod browser {
         impl AddPrivacySandboxEnrollmentOverride {
             pub fn new(url: impl Into<String>) -> Self {
                 Self { url: url.into() }
+            }
+        }
+
+        impl AddPrivacySandboxEnrollmentOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -6057,6 +6707,16 @@ pub mod browser {
             ) -> Self {
                 self.browser_context_id = Some(browser_context_id.into());
                 self
+            }
+        }
+
+        impl AddPrivacySandboxCoordinatorKeyConfig {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7193,6 +7853,16 @@ pub mod css {
             }
         }
 
+        impl AddRule {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddRuleResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddRule {
             type Response = responses::AddRuleResponse;
             const METHOD: &'static str = "CSS.addRule";
@@ -7210,6 +7880,16 @@ pub mod css {
                 Self {
                     style_sheet_id: style_sheet_id.into(),
                 }
+            }
+        }
+
+        impl CollectClassNames {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CollectClassNamesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7243,6 +7923,16 @@ pub mod css {
             }
         }
 
+        impl CreateStyleSheet {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CreateStyleSheetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CreateStyleSheet {
             type Response = responses::CreateStyleSheetResponse;
             const METHOD: &'static str = "CSS.createStyleSheet";
@@ -7259,6 +7949,16 @@ pub mod css {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "CSS.disable";
@@ -7272,6 +7972,16 @@ pub mod css {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7302,6 +8012,16 @@ pub mod css {
             }
         }
 
+        impl ForcePseudoState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ForcePseudoState {
             type Response = ();
             const METHOD: &'static str = "CSS.forcePseudoState";
@@ -7326,6 +8046,16 @@ pub mod css {
             }
         }
 
+        impl ForceStartingStyle {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ForceStartingStyle {
             type Response = ();
             const METHOD: &'static str = "CSS.forceStartingStyle";
@@ -7346,6 +8076,16 @@ pub mod css {
             }
         }
 
+        impl GetBackgroundColors {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBackgroundColorsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetBackgroundColors {
             type Response = responses::GetBackgroundColorsResponse;
             const METHOD: &'static str = "CSS.getBackgroundColors";
@@ -7363,6 +8103,16 @@ pub mod css {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetComputedStyleForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetComputedStyleForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7424,6 +8174,16 @@ pub mod css {
             }
         }
 
+        impl ResolveValues {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ResolveValuesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ResolveValues {
             type Response = responses::ResolveValuesResponse;
             const METHOD: &'static str = "CSS.resolveValues";
@@ -7446,6 +8206,16 @@ pub mod css {
             }
         }
 
+        impl GetLonghandProperties {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetLonghandPropertiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetLonghandProperties {
             type Response = responses::GetLonghandPropertiesResponse;
             const METHOD: &'static str = "CSS.getLonghandProperties";
@@ -7463,6 +8233,16 @@ pub mod css {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetInlineStylesForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetInlineStylesForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7487,6 +8267,16 @@ pub mod css {
             }
         }
 
+        impl GetAnimatedStylesForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAnimatedStylesForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAnimatedStylesForNode {
             type Response = responses::GetAnimatedStylesForNodeResponse;
             const METHOD: &'static str = "CSS.getAnimatedStylesForNode";
@@ -7507,6 +8297,16 @@ pub mod css {
             }
         }
 
+        impl GetMatchedStylesForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetMatchedStylesForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetMatchedStylesForNode {
             type Response = responses::GetMatchedStylesForNodeResponse;
             const METHOD: &'static str = "CSS.getMatchedStylesForNode";
@@ -7524,6 +8324,16 @@ pub mod css {
             }
         }
 
+        impl GetEnvironmentVariables {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetEnvironmentVariablesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetEnvironmentVariables {
             type Response = responses::GetEnvironmentVariablesResponse;
             const METHOD: &'static str = "CSS.getEnvironmentVariables";
@@ -7537,6 +8347,16 @@ pub mod css {
         impl GetMediaQueries {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetMediaQueries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetMediaQueriesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7560,6 +8380,16 @@ pub mod css {
             }
         }
 
+        impl GetPlatformFontsForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPlatformFontsForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetPlatformFontsForNode {
             type Response = responses::GetPlatformFontsForNodeResponse;
             const METHOD: &'static str = "CSS.getPlatformFontsForNode";
@@ -7577,6 +8407,16 @@ pub mod css {
                 Self {
                     style_sheet_id: style_sheet_id.into(),
                 }
+            }
+        }
+
+        impl GetStyleSheetText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetStyleSheetTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7598,6 +8438,16 @@ pub mod css {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetLayersForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetLayersForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7627,6 +8477,16 @@ pub mod css {
             }
         }
 
+        impl GetLocationForSelector {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetLocationForSelectorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetLocationForSelector {
             type Response = responses::GetLocationForSelectorResponse;
             const METHOD: &'static str = "CSS.getLocationForSelector";
@@ -7649,6 +8509,16 @@ pub mod css {
             pub fn with_node_id(mut self, node_id: impl Into<dom::types::NodeId>) -> Self {
                 self.node_id = Some(node_id.into());
                 self
+            }
+        }
+
+        impl TrackComputedStyleUpdatesForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7675,6 +8545,16 @@ pub mod css {
             }
         }
 
+        impl TrackComputedStyleUpdates {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for TrackComputedStyleUpdates {
             type Response = ();
             const METHOD: &'static str = "CSS.trackComputedStyleUpdates";
@@ -7689,6 +8569,16 @@ pub mod css {
         impl TakeComputedStyleUpdates {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl TakeComputedStyleUpdates {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::TakeComputedStyleUpdatesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7721,6 +8611,16 @@ pub mod css {
             }
         }
 
+        impl SetEffectivePropertyValueForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetEffectivePropertyValueForNode {
             type Response = ();
             const METHOD: &'static str = "CSS.setEffectivePropertyValueForNode";
@@ -7746,6 +8646,17 @@ pub mod css {
                     range: range.into(),
                     property_name: property_name.into(),
                 }
+            }
+        }
+
+        impl SetPropertyRulePropertyName {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetPropertyRulePropertyNameResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7777,6 +8688,16 @@ pub mod css {
             }
         }
 
+        impl SetKeyframeKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetKeyframeKeyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetKeyframeKey {
             type Response = responses::SetKeyframeKeyResponse;
             const METHOD: &'static str = "CSS.setKeyframeKey";
@@ -7802,6 +8723,16 @@ pub mod css {
                     range: range.into(),
                     text: text.into(),
                 }
+            }
+        }
+
+        impl SetMediaText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetMediaTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7834,6 +8765,16 @@ pub mod css {
             }
         }
 
+        impl SetContainerQueryText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetContainerQueryTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetContainerQueryText {
             type Response = responses::SetContainerQueryTextResponse;
             const METHOD: &'static str = "CSS.setContainerQueryText";
@@ -7860,6 +8801,16 @@ pub mod css {
                     range: range.into(),
                     text: text.into(),
                 }
+            }
+        }
+
+        impl SetSupportsText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetSupportsTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7892,6 +8843,16 @@ pub mod css {
             }
         }
 
+        impl SetScopeText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetScopeTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetScopeText {
             type Response = responses::SetScopeTextResponse;
             const METHOD: &'static str = "CSS.setScopeText";
@@ -7920,6 +8881,16 @@ pub mod css {
             }
         }
 
+        impl SetRuleSelector {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetRuleSelectorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetRuleSelector {
             type Response = responses::SetRuleSelectorResponse;
             const METHOD: &'static str = "CSS.setRuleSelector";
@@ -7942,6 +8913,16 @@ pub mod css {
                     style_sheet_id: style_sheet_id.into(),
                     text: text.into(),
                 }
+            }
+        }
+
+        impl SetStyleSheetText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetStyleSheetTextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -7979,6 +8960,16 @@ pub mod css {
             }
         }
 
+        impl SetStyleTexts {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetStyleTextsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetStyleTexts {
             type Response = responses::SetStyleTextsResponse;
             const METHOD: &'static str = "CSS.setStyleTexts";
@@ -7992,6 +8983,16 @@ pub mod css {
         impl StartRuleUsageTracking {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StartRuleUsageTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8011,6 +9012,16 @@ pub mod css {
             }
         }
 
+        impl StopRuleUsageTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::StopRuleUsageTrackingResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StopRuleUsageTracking {
             type Response = responses::StopRuleUsageTrackingResponse;
             const METHOD: &'static str = "CSS.stopRuleUsageTracking";
@@ -8024,6 +9035,16 @@ pub mod css {
         impl TakeCoverageDelta {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl TakeCoverageDelta {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::TakeCoverageDeltaResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8046,6 +9067,16 @@ pub mod css {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetLocalFontsEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8314,6 +9345,16 @@ pub mod cache_storage {
             }
         }
 
+        impl DeleteCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeleteCache {
             type Response = ();
             const METHOD: &'static str = "CacheStorage.deleteCache";
@@ -8335,6 +9376,16 @@ pub mod cache_storage {
                     cache_id: cache_id.into(),
                     request: request.into(),
                 }
+            }
+        }
+
+        impl DeleteEntry {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8386,6 +9437,16 @@ pub mod cache_storage {
             }
         }
 
+        impl RequestCacheNames {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestCacheNamesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RequestCacheNames {
             type Response = responses::RequestCacheNamesResponse;
             const METHOD: &'static str = "CacheStorage.requestCacheNames";
@@ -8415,6 +9476,16 @@ pub mod cache_storage {
                     request_url: request_url.into(),
                     request_headers: request_headers.into(),
                 }
+            }
+        }
+
+        impl RequestCachedResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestCachedResponseResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8463,6 +9534,16 @@ pub mod cache_storage {
             pub fn with_path_filter(mut self, path_filter: impl Into<String>) -> Self {
                 self.path_filter = Some(path_filter.into());
                 self
+            }
+        }
+
+        impl RequestEntries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestEntriesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8517,6 +9598,16 @@ pub mod cast {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Cast.enable";
@@ -8530,6 +9621,16 @@ pub mod cast {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8553,6 +9654,16 @@ pub mod cast {
             }
         }
 
+        impl SetSinkToUse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSinkToUse {
             type Response = ();
             const METHOD: &'static str = "Cast.setSinkToUse";
@@ -8570,6 +9681,16 @@ pub mod cast {
                 Self {
                     sink_name: sink_name.into(),
                 }
+            }
+        }
+
+        impl StartDesktopMirroring {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -8593,6 +9714,16 @@ pub mod cast {
             }
         }
 
+        impl StartTabMirroring {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartTabMirroring {
             type Response = ();
             const METHOD: &'static str = "Cast.startTabMirroring";
@@ -8610,6 +9741,16 @@ pub mod cast {
                 Self {
                     sink_name: sink_name.into(),
                 }
+            }
+        }
+
+        impl StopCasting {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9461,6 +10602,17 @@ pub mod dom {
             }
         }
 
+        impl CollectClassNamesFromSubtree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CollectClassNamesFromSubtreeResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CollectClassNamesFromSubtree {
             type Response = responses::CollectClassNamesFromSubtreeResponse;
             const METHOD: &'static str = "DOM.collectClassNamesFromSubtree";
@@ -9498,6 +10650,16 @@ pub mod dom {
             ) -> Self {
                 self.insert_before_node_id = Some(insert_before_node_id.into());
                 self
+            }
+        }
+
+        impl CopyTo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CopyToResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9570,6 +10732,16 @@ pub mod dom {
             }
         }
 
+        impl DescribeNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::DescribeNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DescribeNode {
             type Response = responses::DescribeNodeResponse;
             const METHOD: &'static str = "DOM.describeNode";
@@ -9630,6 +10802,16 @@ pub mod dom {
             }
         }
 
+        impl ScrollIntoViewIfNeeded {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ScrollIntoViewIfNeeded {
             type Response = ();
             const METHOD: &'static str = "DOM.scrollIntoViewIfNeeded";
@@ -9643,6 +10825,16 @@ pub mod dom {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9665,6 +10857,16 @@ pub mod dom {
                 Self {
                     search_id: search_id.into(),
                 }
+            }
+        }
+
+        impl DiscardSearchResults {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9696,6 +10898,16 @@ pub mod dom {
             ) -> Self {
                 self.include_whitespace = Some(include_whitespace.into());
                 self
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9750,6 +10962,16 @@ pub mod dom {
             }
         }
 
+        impl Focus {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Focus {
             type Response = ();
             const METHOD: &'static str = "DOM.focus";
@@ -9768,6 +10990,16 @@ pub mod dom {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetAttributes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAttributesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9819,6 +11051,16 @@ pub mod dom {
             ) -> Self {
                 self.object_id = Some(object_id.into());
                 self
+            }
+        }
+
+        impl GetBoxModel {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBoxModelResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9874,6 +11116,16 @@ pub mod dom {
             }
         }
 
+        impl GetContentQuads {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetContentQuadsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetContentQuads {
             type Response = responses::GetContentQuadsResponse;
             const METHOD: &'static str = "DOM.getContentQuads";
@@ -9907,6 +11159,16 @@ pub mod dom {
             pub fn with_pierce(mut self, pierce: impl Into<bool>) -> Self {
                 self.pierce = Some(pierce.into());
                 self
+            }
+        }
+
+        impl GetDocument {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDocumentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -9947,6 +11209,16 @@ pub mod dom {
             }
         }
 
+        impl GetFlattenedDocument {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFlattenedDocumentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetFlattenedDocument {
             type Response = responses::GetFlattenedDocumentResponse;
             const METHOD: &'static str = "DOM.getFlattenedDocument";
@@ -9981,6 +11253,16 @@ pub mod dom {
             pub fn with_pierce(mut self, pierce: impl Into<bool>) -> Self {
                 self.pierce = Some(pierce.into());
                 self
+            }
+        }
+
+        impl GetNodesForSubtreeByStyle {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetNodesForSubtreeByStyleResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10030,6 +11312,16 @@ pub mod dom {
             ) -> Self {
                 self.ignore_pointer_events_none = Some(ignore_pointer_events_none.into());
                 self
+            }
+        }
+
+        impl GetNodeForLocation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetNodeForLocationResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10095,6 +11387,16 @@ pub mod dom {
             }
         }
 
+        impl GetOuterHtml {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetOuterHtmlResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetOuterHtml {
             type Response = responses::GetOuterHtmlResponse;
             const METHOD: &'static str = "DOM.getOuterHTML";
@@ -10114,6 +11416,16 @@ pub mod dom {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetRelayoutBoundary {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetRelayoutBoundaryResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10149,6 +11461,16 @@ pub mod dom {
             }
         }
 
+        impl GetSearchResults {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSearchResultsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetSearchResults {
             type Response = responses::GetSearchResultsResponse;
             const METHOD: &'static str = "DOM.getSearchResults";
@@ -10162,6 +11484,16 @@ pub mod dom {
         impl HideHighlight {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl HideHighlight {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10181,6 +11513,16 @@ pub mod dom {
             }
         }
 
+        impl HighlightNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for HighlightNode {
             type Response = ();
             const METHOD: &'static str = "DOM.highlightNode";
@@ -10194,6 +11536,16 @@ pub mod dom {
         impl HighlightRect {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl HighlightRect {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10211,6 +11563,16 @@ pub mod dom {
         impl MarkUndoableState {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl MarkUndoableState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10253,6 +11615,16 @@ pub mod dom {
             }
         }
 
+        impl MoveTo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::MoveToResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for MoveTo {
             type Response = responses::MoveToResponse;
             const METHOD: &'static str = "DOM.moveTo";
@@ -10288,6 +11660,16 @@ pub mod dom {
             }
         }
 
+        impl PerformSearch {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::PerformSearchResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for PerformSearch {
             type Response = responses::PerformSearchResponse;
             const METHOD: &'static str = "DOM.performSearch";
@@ -10305,6 +11687,16 @@ pub mod dom {
         impl PushNodeByPathToFrontend {
             pub fn new(path: impl Into<String>) -> Self {
                 Self { path: path.into() }
+            }
+        }
+
+        impl PushNodeByPathToFrontend {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::PushNodeByPathToFrontendResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10327,6 +11719,17 @@ pub mod dom {
                 Self {
                     backend_node_ids: backend_node_ids.into(),
                 }
+            }
+        }
+
+        impl PushNodesByBackendIdsToFrontend {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::PushNodesByBackendIdsToFrontendResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10354,6 +11757,16 @@ pub mod dom {
             }
         }
 
+        impl QuerySelector {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::QuerySelectorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for QuerySelector {
             type Response = responses::QuerySelectorResponse;
             const METHOD: &'static str = "DOM.querySelector";
@@ -10378,6 +11791,16 @@ pub mod dom {
             }
         }
 
+        impl QuerySelectorAll {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::QuerySelectorAllResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for QuerySelectorAll {
             type Response = responses::QuerySelectorAllResponse;
             const METHOD: &'static str = "DOM.querySelectorAll";
@@ -10392,6 +11815,16 @@ pub mod dom {
         impl GetTopLayerElements {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetTopLayerElements {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetTopLayerElementsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10420,6 +11853,16 @@ pub mod dom {
             }
         }
 
+        impl GetElementByRelation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetElementByRelationResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetElementByRelation {
             type Response = responses::GetElementByRelationResponse;
             const METHOD: &'static str = "DOM.getElementByRelation";
@@ -10434,6 +11877,16 @@ pub mod dom {
         impl Redo {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Redo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10461,6 +11914,16 @@ pub mod dom {
             }
         }
 
+        impl RemoveAttribute {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveAttribute {
             type Response = ();
             const METHOD: &'static str = "DOM.removeAttribute";
@@ -10479,6 +11942,16 @@ pub mod dom {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl RemoveNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10521,6 +11994,16 @@ pub mod dom {
             }
         }
 
+        impl RequestChildNodes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RequestChildNodes {
             type Response = ();
             const METHOD: &'static str = "DOM.requestChildNodes";
@@ -10539,6 +12022,16 @@ pub mod dom {
                 Self {
                     object_id: object_id.into(),
                 }
+            }
+        }
+
+        impl RequestNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10602,6 +12095,16 @@ pub mod dom {
             }
         }
 
+        impl ResolveNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ResolveNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ResolveNode {
             type Response = responses::ResolveNodeResponse;
             const METHOD: &'static str = "DOM.resolveNode";
@@ -10630,6 +12133,16 @@ pub mod dom {
                     name: name.into(),
                     value: value.into(),
                 }
+            }
+        }
+
+        impl SetAttributeValue {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10663,6 +12176,16 @@ pub mod dom {
             pub fn with_name(mut self, name: impl Into<String>) -> Self {
                 self.name = Some(name.into());
                 self
+            }
+        }
+
+        impl SetAttributesAsText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10720,6 +12243,16 @@ pub mod dom {
             }
         }
 
+        impl SetFileInputFiles {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetFileInputFiles {
             type Response = ();
             const METHOD: &'static str = "DOM.setFileInputFiles";
@@ -10739,6 +12272,16 @@ pub mod dom {
                 Self {
                     enable: enable.into(),
                 }
+            }
+        }
+
+        impl SetNodeStackTracesEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10764,6 +12307,16 @@ pub mod dom {
             }
         }
 
+        impl GetNodeStackTraces {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetNodeStackTracesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetNodeStackTraces {
             type Response = responses::GetNodeStackTracesResponse;
             const METHOD: &'static str = "DOM.getNodeStackTraces";
@@ -10786,6 +12339,16 @@ pub mod dom {
             }
         }
 
+        impl GetFileInfo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFileInfoResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetFileInfo {
             type Response = responses::GetFileInfoResponse;
             const METHOD: &'static str = "DOM.getFileInfo";
@@ -10800,6 +12363,16 @@ pub mod dom {
         impl GetDetachedDomNodes {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetDetachedDomNodes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDetachedDomNodesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10822,6 +12395,16 @@ pub mod dom {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl SetInspectedNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10849,6 +12432,16 @@ pub mod dom {
             }
         }
 
+        impl SetNodeName {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetNodeNameResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetNodeName {
             type Response = responses::SetNodeNameResponse;
             const METHOD: &'static str = "DOM.setNodeName";
@@ -10870,6 +12463,16 @@ pub mod dom {
                     node_id: node_id.into(),
                     value: value.into(),
                 }
+            }
+        }
+
+        impl SetNodeValue {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10898,6 +12501,16 @@ pub mod dom {
             }
         }
 
+        impl SetOuterHtml {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetOuterHtml {
             type Response = ();
             const METHOD: &'static str = "DOM.setOuterHTML";
@@ -10912,6 +12525,16 @@ pub mod dom {
         impl Undo {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Undo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -10933,6 +12556,16 @@ pub mod dom {
                 Self {
                     frame_id: frame_id.into(),
                 }
+            }
+        }
+
+        impl GetFrameOwner {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFrameOwnerResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11006,6 +12639,16 @@ pub mod dom {
             }
         }
 
+        impl GetContainerForNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetContainerForNodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetContainerForNode {
             type Response = responses::GetContainerForNodeResponse;
             const METHOD: &'static str = "DOM.getContainerForNode";
@@ -11025,6 +12668,17 @@ pub mod dom {
                 Self {
                     node_id: node_id.into(),
                 }
+            }
+        }
+
+        impl GetQueryingDescendantsForContainer {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetQueryingDescendantsForContainerResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11059,6 +12713,16 @@ pub mod dom {
             }
         }
 
+        impl GetAnchorElement {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAnchorElementResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAnchorElement {
             type Response = responses::GetAnchorElementResponse;
             const METHOD: &'static str = "DOM.getAnchorElement";
@@ -11081,6 +12745,16 @@ pub mod dom {
                     node_id: node_id.into(),
                     enable: enable.into(),
                 }
+            }
+        }
+
+        impl ForceShowPopover {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ForceShowPopoverResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11574,6 +13248,16 @@ pub mod dom_debugger {
             }
         }
 
+        impl GetEventListeners {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetEventListenersResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetEventListeners {
             type Response = responses::GetEventListenersResponse;
             const METHOD: &'static str = "DOMDebugger.getEventListeners";
@@ -11598,6 +13282,16 @@ pub mod dom_debugger {
                     node_id: node_id.into(),
                     type_: type_.into(),
                 }
+            }
+        }
+
+        impl RemoveDomBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11632,6 +13326,16 @@ pub mod dom_debugger {
             }
         }
 
+        impl RemoveEventListenerBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveEventListenerBreakpoint {
             type Response = ();
             const METHOD: &'static str = "DOMDebugger.removeEventListenerBreakpoint";
@@ -11655,6 +13359,16 @@ pub mod dom_debugger {
             }
         }
 
+        impl RemoveInstrumentationBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveInstrumentationBreakpoint {
             type Response = ();
             const METHOD: &'static str = "DOMDebugger.removeInstrumentationBreakpoint";
@@ -11671,6 +13385,16 @@ pub mod dom_debugger {
         impl RemoveXhrBreakpoint {
             pub fn new(url: impl Into<String>) -> Self {
                 Self { url: url.into() }
+            }
+        }
+
+        impl RemoveXhrBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11693,6 +13417,16 @@ pub mod dom_debugger {
                 Self {
                     violation_types: violation_types.into(),
                 }
+            }
+        }
+
+        impl SetBreakOnCspViolation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11720,6 +13454,16 @@ pub mod dom_debugger {
                     node_id: node_id.into(),
                     type_: type_.into(),
                 }
+            }
+        }
+
+        impl SetDomBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -11754,6 +13498,16 @@ pub mod dom_debugger {
             }
         }
 
+        impl SetEventListenerBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetEventListenerBreakpoint {
             type Response = ();
             const METHOD: &'static str = "DOMDebugger.setEventListenerBreakpoint";
@@ -11777,6 +13531,16 @@ pub mod dom_debugger {
             }
         }
 
+        impl SetInstrumentationBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetInstrumentationBreakpoint {
             type Response = ();
             const METHOD: &'static str = "DOMDebugger.setInstrumentationBreakpoint";
@@ -11793,6 +13557,16 @@ pub mod dom_debugger {
         impl SetXhrBreakpoint {
             pub fn new(url: impl Into<String>) -> Self {
                 Self { url: url.into() }
+            }
+        }
+
+        impl SetXhrBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12178,6 +13952,16 @@ pub mod dom_snapshot {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "DOMSnapshot.disable";
@@ -12191,6 +13975,16 @@ pub mod dom_snapshot {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12249,6 +14043,16 @@ pub mod dom_snapshot {
             ) -> Self {
                 self.include_user_agent_shadow_tree = Some(include_user_agent_shadow_tree.into());
                 self
+            }
+        }
+
+        impl GetSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12322,6 +14126,16 @@ pub mod dom_snapshot {
             }
         }
 
+        impl CaptureSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CaptureSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CaptureSnapshot {
             type Response = responses::CaptureSnapshotResponse;
             const METHOD: &'static str = "DOMSnapshot.captureSnapshot";
@@ -12388,6 +14202,16 @@ pub mod dom_storage {
             }
         }
 
+        impl Clear {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Clear {
             type Response = ();
             const METHOD: &'static str = "DOMStorage.clear";
@@ -12404,6 +14228,16 @@ pub mod dom_storage {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "DOMStorage.disable";
@@ -12417,6 +14251,16 @@ pub mod dom_storage {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12439,6 +14283,16 @@ pub mod dom_storage {
             }
         }
 
+        impl GetDomStorageItems {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDomStorageItemsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetDomStorageItems {
             type Response = responses::GetDomStorageItemsResponse;
             const METHOD: &'static str = "DOMStorage.getDOMStorageItems";
@@ -12457,6 +14311,16 @@ pub mod dom_storage {
                     storage_id: storage_id.into(),
                     key: key.into(),
                 }
+            }
+        }
+
+        impl RemoveDomStorageItem {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12484,6 +14348,16 @@ pub mod dom_storage {
                     key: key.into(),
                     value: value.into(),
                 }
+            }
+        }
+
+        impl SetDomStorageItem {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12601,6 +14475,16 @@ pub mod device_access {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "DeviceAccess.enable";
@@ -12614,6 +14498,16 @@ pub mod device_access {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12642,6 +14536,16 @@ pub mod device_access {
             }
         }
 
+        impl SelectPrompt {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SelectPrompt {
             type Response = ();
             const METHOD: &'static str = "DeviceAccess.selectPrompt";
@@ -12657,6 +14561,16 @@ pub mod device_access {
         impl CancelPrompt {
             pub fn new(id: impl Into<types::RequestId>) -> Self {
                 Self { id: id.into() }
+            }
+        }
+
+        impl CancelPrompt {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -12707,6 +14621,16 @@ pub mod device_orientation {
             }
         }
 
+        impl ClearDeviceOrientationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearDeviceOrientationOverride {
             type Response = ();
             const METHOD: &'static str = "DeviceOrientation.clearDeviceOrientationOverride";
@@ -12731,6 +14655,16 @@ pub mod device_orientation {
                     beta: beta.into(),
                     gamma: gamma.into(),
                 }
+            }
+        }
+
+        impl SetDeviceOrientationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13195,6 +15129,16 @@ pub mod emulation {
             }
         }
 
+        impl CanEmulate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CanEmulateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CanEmulate {
             type Response = responses::CanEmulateResponse;
             const METHOD: &'static str = "Emulation.canEmulate";
@@ -13208,6 +15152,16 @@ pub mod emulation {
         impl ClearDeviceMetricsOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearDeviceMetricsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13227,6 +15181,16 @@ pub mod emulation {
             }
         }
 
+        impl ClearGeolocationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearGeolocationOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.clearGeolocationOverride";
@@ -13241,6 +15205,16 @@ pub mod emulation {
         impl ResetPageScaleFactor {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ResetPageScaleFactor {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13263,6 +15237,16 @@ pub mod emulation {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetFocusEmulationEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13292,6 +15276,16 @@ pub mod emulation {
             }
         }
 
+        impl SetAutoDarkModeOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAutoDarkModeOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setAutoDarkModeOverride";
@@ -13308,6 +15302,16 @@ pub mod emulation {
         impl SetCpuThrottlingRate {
             pub fn new(rate: impl Into<f64>) -> Self {
                 Self { rate: rate.into() }
+            }
+        }
+
+        impl SetCpuThrottlingRate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13336,6 +15340,16 @@ pub mod emulation {
             }
         }
 
+        impl SetDefaultBackgroundColorOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDefaultBackgroundColorOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setDefaultBackgroundColorOverride";
@@ -13354,6 +15368,16 @@ pub mod emulation {
                 Self {
                     insets: insets.into(),
                 }
+            }
+        }
+
+        impl SetSafeAreaInsetsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13505,6 +15529,16 @@ pub mod emulation {
             }
         }
 
+        impl SetDeviceMetricsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDeviceMetricsOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setDeviceMetricsOverride";
@@ -13526,6 +15560,16 @@ pub mod emulation {
             }
         }
 
+        impl SetDevicePostureOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDevicePostureOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setDevicePostureOverride";
@@ -13540,6 +15584,16 @@ pub mod emulation {
         impl ClearDevicePostureOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearDevicePostureOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13564,6 +15618,16 @@ pub mod emulation {
             }
         }
 
+        impl SetDisplayFeaturesOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDisplayFeaturesOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setDisplayFeaturesOverride";
@@ -13578,6 +15642,16 @@ pub mod emulation {
         impl ClearDisplayFeaturesOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearDisplayFeaturesOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13602,6 +15676,16 @@ pub mod emulation {
             }
         }
 
+        impl SetScrollbarsHidden {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetScrollbarsHidden {
             type Response = ();
             const METHOD: &'static str = "Emulation.setScrollbarsHidden";
@@ -13620,6 +15704,16 @@ pub mod emulation {
                 Self {
                     disabled: disabled.into(),
                 }
+            }
+        }
+
+        impl SetDocumentCookieDisabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13650,6 +15744,16 @@ pub mod emulation {
             pub fn with_configuration(mut self, configuration: impl Into<String>) -> Self {
                 self.configuration = Some(configuration.into());
                 self
+            }
+        }
+
+        impl SetEmitTouchEventsForMouse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13689,6 +15793,16 @@ pub mod emulation {
             }
         }
 
+        impl SetEmulatedMedia {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetEmulatedMedia {
             type Response = ();
             const METHOD: &'static str = "Emulation.setEmulatedMedia";
@@ -13707,6 +15821,16 @@ pub mod emulation {
                 Self {
                     type_: type_.into(),
                 }
+            }
+        }
+
+        impl SetEmulatedVisionDeficiency {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13731,6 +15855,16 @@ pub mod emulation {
             pub fn with_scale(mut self, scale: impl Into<f64>) -> Self {
                 self.scale = Some(scale.into());
                 self
+            }
+        }
+
+        impl SetEmulatedOsTextScale {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13815,6 +15949,16 @@ pub mod emulation {
             }
         }
 
+        impl SetGeolocationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetGeolocationOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setGeolocationOverride";
@@ -13832,6 +15976,17 @@ pub mod emulation {
                 Self {
                     type_: type_.into(),
                 }
+            }
+        }
+
+        impl GetOverriddenSensorInformation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetOverriddenSensorInformationResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13866,6 +16021,16 @@ pub mod emulation {
             }
         }
 
+        impl SetSensorOverrideEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSensorOverrideEnabled {
             type Response = ();
             const METHOD: &'static str = "Emulation.setSensorOverrideEnabled";
@@ -13889,6 +16054,16 @@ pub mod emulation {
                     type_: type_.into(),
                     reading: reading.into(),
                 }
+            }
+        }
+
+        impl SetSensorOverrideReadings {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13923,6 +16098,16 @@ pub mod emulation {
             }
         }
 
+        impl SetPressureSourceOverrideEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPressureSourceOverrideEnabled {
             type Response = ();
             const METHOD: &'static str = "Emulation.setPressureSourceOverrideEnabled";
@@ -13946,6 +16131,16 @@ pub mod emulation {
                     source: source.into(),
                     state: state.into(),
                 }
+            }
+        }
+
+        impl SetPressureStateOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -13986,6 +16181,16 @@ pub mod emulation {
             }
         }
 
+        impl SetPressureDataOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPressureDataOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setPressureDataOverride";
@@ -14013,6 +16218,16 @@ pub mod emulation {
             }
         }
 
+        impl SetIdleOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetIdleOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setIdleOverride";
@@ -14026,6 +16241,16 @@ pub mod emulation {
         impl ClearIdleOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearIdleOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14052,6 +16277,16 @@ pub mod emulation {
             }
         }
 
+        impl SetNavigatorOverrides {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetNavigatorOverrides {
             type Response = ();
             const METHOD: &'static str = "Emulation.setNavigatorOverrides";
@@ -14074,6 +16309,16 @@ pub mod emulation {
             }
         }
 
+        impl SetPageScaleFactor {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPageScaleFactor {
             type Response = ();
             const METHOD: &'static str = "Emulation.setPageScaleFactor";
@@ -14092,6 +16337,16 @@ pub mod emulation {
                 Self {
                     value: value.into(),
                 }
+            }
+        }
+
+        impl SetScriptExecutionDisabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14122,6 +16377,16 @@ pub mod emulation {
             pub fn with_max_touch_points(mut self, max_touch_points: impl Into<i64>) -> Self {
                 self.max_touch_points = Some(max_touch_points.into());
                 self
+            }
+        }
+
+        impl SetTouchEmulationEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14180,6 +16445,16 @@ pub mod emulation {
             }
         }
 
+        impl SetVirtualTimePolicy {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetVirtualTimePolicyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetVirtualTimePolicy {
             type Response = responses::SetVirtualTimePolicyResponse;
             const METHOD: &'static str = "Emulation.setVirtualTimePolicy";
@@ -14206,6 +16481,16 @@ pub mod emulation {
             }
         }
 
+        impl SetLocaleOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetLocaleOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setLocaleOverride";
@@ -14224,6 +16509,16 @@ pub mod emulation {
                 Self {
                     timezone_id: timezone_id.into(),
                 }
+            }
+        }
+
+        impl SetTimezoneOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14253,6 +16548,16 @@ pub mod emulation {
             }
         }
 
+        impl SetVisibleSize {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetVisibleSize {
             type Response = ();
             const METHOD: &'static str = "Emulation.setVisibleSize";
@@ -14271,6 +16576,16 @@ pub mod emulation {
                 Self {
                     image_types: image_types.into(),
                 }
+            }
+        }
+
+        impl SetDisabledImageTypes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14302,6 +16617,16 @@ pub mod emulation {
             }
         }
 
+        impl SetDataSaverOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDataSaverOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setDataSaverOverride";
@@ -14320,6 +16645,16 @@ pub mod emulation {
                 Self {
                     hardware_concurrency: hardware_concurrency.into(),
                 }
+            }
+        }
+
+        impl SetHardwareConcurrencyOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14375,6 +16710,16 @@ pub mod emulation {
             }
         }
 
+        impl SetUserAgentOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetUserAgentOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setUserAgentOverride";
@@ -14394,6 +16739,16 @@ pub mod emulation {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetAutomationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14419,6 +16774,16 @@ pub mod emulation {
             }
         }
 
+        impl SetSmallViewportHeightDifferenceOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSmallViewportHeightDifferenceOverride {
             type Response = ();
             const METHOD: &'static str = "Emulation.setSmallViewportHeightDifferenceOverride";
@@ -14433,6 +16798,16 @@ pub mod emulation {
         impl GetScreenInfos {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetScreenInfos {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetScreenInfosResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14529,6 +16904,16 @@ pub mod emulation {
             }
         }
 
+        impl AddScreen {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddScreenResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddScreen {
             type Response = responses::AddScreenResponse;
             const METHOD: &'static str = "Emulation.addScreen";
@@ -14547,6 +16932,16 @@ pub mod emulation {
                 Self {
                     screen_id: screen_id.into(),
                 }
+            }
+        }
+
+        impl RemoveScreen {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14600,6 +16995,16 @@ pub mod event_breakpoints {
             }
         }
 
+        impl SetInstrumentationBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetInstrumentationBreakpoint {
             type Response = ();
             const METHOD: &'static str = "EventBreakpoints.setInstrumentationBreakpoint";
@@ -14621,6 +17026,16 @@ pub mod event_breakpoints {
             }
         }
 
+        impl RemoveInstrumentationBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveInstrumentationBreakpoint {
             type Response = ();
             const METHOD: &'static str = "EventBreakpoints.removeInstrumentationBreakpoint";
@@ -14634,6 +17049,16 @@ pub mod event_breakpoints {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14731,6 +17156,16 @@ pub mod extensions {
             }
         }
 
+        impl TriggerAction {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for TriggerAction {
             type Response = ();
             const METHOD: &'static str = "Extensions.triggerAction";
@@ -14764,6 +17199,16 @@ pub mod extensions {
             }
         }
 
+        impl LoadUnpacked {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::LoadUnpackedResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for LoadUnpacked {
             type Response = responses::LoadUnpackedResponse;
             const METHOD: &'static str = "Extensions.loadUnpacked";
@@ -14780,6 +17225,16 @@ pub mod extensions {
         impl Uninstall {
             pub fn new(id: impl Into<String>) -> Self {
                 Self { id: id.into() }
+            }
+        }
+
+        impl Uninstall {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14816,6 +17271,16 @@ pub mod extensions {
             }
         }
 
+        impl GetStorageItems {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetStorageItemsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetStorageItems {
             type Response = responses::GetStorageItemsResponse;
             const METHOD: &'static str = "Extensions.getStorageItems";
@@ -14847,6 +17312,16 @@ pub mod extensions {
             }
         }
 
+        impl RemoveStorageItems {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveStorageItems {
             type Response = ();
             const METHOD: &'static str = "Extensions.removeStorageItems";
@@ -14868,6 +17343,16 @@ pub mod extensions {
                     id: id.into(),
                     storage_area: storage_area.into(),
                 }
+            }
+        }
+
+        impl ClearStorageItems {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -14899,6 +17384,16 @@ pub mod extensions {
                     storage_area: storage_area.into(),
                     values: values.into(),
                 }
+            }
+        }
+
+        impl SetStorageItems {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15085,6 +17580,16 @@ pub mod fed_cm {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "FedCm.enable";
@@ -15097,6 +17602,16 @@ pub mod fed_cm {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15121,6 +17636,16 @@ pub mod fed_cm {
             }
         }
 
+        impl SelectAccount {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SelectAccount {
             type Response = ();
             const METHOD: &'static str = "FedCm.selectAccount";
@@ -15142,6 +17667,16 @@ pub mod fed_cm {
                     dialog_id: dialog_id.into(),
                     dialog_button: dialog_button.into(),
                 }
+            }
+        }
+
+        impl ClickDialogButton {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15172,6 +17707,16 @@ pub mod fed_cm {
             }
         }
 
+        impl OpenUrl {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for OpenUrl {
             type Response = ();
             const METHOD: &'static str = "FedCm.openUrl";
@@ -15199,6 +17744,16 @@ pub mod fed_cm {
             }
         }
 
+        impl DismissDialog {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DismissDialog {
             type Response = ();
             const METHOD: &'static str = "FedCm.dismissDialog";
@@ -15212,6 +17767,16 @@ pub mod fed_cm {
         impl ResetCooldown {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ResetCooldown {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15389,6 +17954,16 @@ pub mod fetch {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Fetch.disable";
@@ -15431,6 +18006,16 @@ pub mod fetch {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Fetch.enable";
@@ -15455,6 +18040,16 @@ pub mod fetch {
                     request_id: request_id.into(),
                     error_reason: error_reason.into(),
                 }
+            }
+        }
+
+        impl FailRequest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15527,6 +18122,16 @@ pub mod fetch {
             }
         }
 
+        impl FulfillRequest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for FulfillRequest {
             type Response = ();
             const METHOD: &'static str = "Fetch.fulfillRequest";
@@ -15594,6 +18199,16 @@ pub mod fetch {
             }
         }
 
+        impl ContinueRequest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ContinueRequest {
             type Response = ();
             const METHOD: &'static str = "Fetch.continueRequest";
@@ -15618,6 +18233,16 @@ pub mod fetch {
                     request_id: request_id.into(),
                     auth_challenge_response: auth_challenge_response.into(),
                 }
+            }
+        }
+
+        impl ContinueWithAuth {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15685,6 +18310,16 @@ pub mod fetch {
             }
         }
 
+        impl ContinueResponse {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ContinueResponse {
             type Response = ();
             const METHOD: &'static str = "Fetch.continueResponse";
@@ -15706,6 +18341,16 @@ pub mod fetch {
             }
         }
 
+        impl GetResponseBody {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetResponseBodyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetResponseBody {
             type Response = responses::GetResponseBodyResponse;
             const METHOD: &'static str = "Fetch.getResponseBody";
@@ -15723,6 +18368,16 @@ pub mod fetch {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl TakeResponseBodyAsStream {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::TakeResponseBodyAsStreamResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -15873,6 +18528,16 @@ pub mod file_system {
             }
         }
 
+        impl GetDirectory {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDirectoryResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetDirectory {
             type Response = responses::GetDirectoryResponse;
             const METHOD: &'static str = "FileSystem.getDirectory";
@@ -15976,6 +18641,16 @@ pub mod headless_experimental {
             }
         }
 
+        impl BeginFrame {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::BeginFrameResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for BeginFrame {
             type Response = responses::BeginFrameResponse;
             const METHOD: &'static str = "HeadlessExperimental.beginFrame";
@@ -15993,6 +18668,16 @@ pub mod headless_experimental {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "HeadlessExperimental.disable";
@@ -16007,6 +18692,16 @@ pub mod headless_experimental {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -16074,6 +18769,16 @@ pub mod io {
             }
         }
 
+        impl Close {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Close {
             type Response = ();
             const METHOD: &'static str = "IO.close";
@@ -16113,6 +18818,16 @@ pub mod io {
             }
         }
 
+        impl Read {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ReadResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Read {
             type Response = responses::ReadResponse;
             const METHOD: &'static str = "IO.read";
@@ -16131,6 +18846,16 @@ pub mod io {
                 Self {
                     object_id: object_id.into(),
                 }
+            }
+        }
+
+        impl ResolveBlob {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ResolveBlobResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -16347,6 +19072,16 @@ pub mod indexed_db {
             }
         }
 
+        impl ClearObjectStore {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearObjectStore {
             type Response = ();
             const METHOD: &'static str = "IndexedDB.clearObjectStore";
@@ -16395,6 +19130,16 @@ pub mod indexed_db {
             ) -> Self {
                 self.storage_bucket = Some(storage_bucket.into());
                 self
+            }
+        }
+
+        impl DeleteDatabase {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -16457,6 +19202,16 @@ pub mod indexed_db {
             }
         }
 
+        impl DeleteObjectStoreEntries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeleteObjectStoreEntries {
             type Response = ();
             const METHOD: &'static str = "IndexedDB.deleteObjectStoreEntries";
@@ -16473,6 +19228,16 @@ pub mod indexed_db {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "IndexedDB.disable";
@@ -16486,6 +19251,16 @@ pub mod indexed_db {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -16572,6 +19347,16 @@ pub mod indexed_db {
             }
         }
 
+        impl RequestData {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestDataResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RequestData {
             type Response = responses::RequestDataResponse;
             const METHOD: &'static str = "IndexedDB.requestData";
@@ -16629,6 +19414,16 @@ pub mod indexed_db {
             }
         }
 
+        impl GetMetadata {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetMetadataResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetMetadata {
             type Response = responses::GetMetadataResponse;
             const METHOD: &'static str = "IndexedDB.getMetadata";
@@ -16680,6 +19475,16 @@ pub mod indexed_db {
             }
         }
 
+        impl RequestDatabase {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestDatabaseResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RequestDatabase {
             type Response = responses::RequestDatabaseResponse;
             const METHOD: &'static str = "IndexedDB.requestDatabase";
@@ -16725,6 +19530,16 @@ pub mod indexed_db {
             ) -> Self {
                 self.storage_bucket = Some(storage_bucket.into());
                 self
+            }
+        }
+
+        impl RequestDatabaseNames {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestDatabaseNamesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -16930,6 +19745,16 @@ pub mod input {
             }
         }
 
+        impl DispatchDragEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchDragEvent {
             type Response = ();
             const METHOD: &'static str = "Input.dispatchDragEvent";
@@ -17084,6 +19909,16 @@ pub mod input {
             }
         }
 
+        impl DispatchKeyEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchKeyEvent {
             type Response = ();
             const METHOD: &'static str = "Input.dispatchKeyEvent";
@@ -17101,6 +19936,16 @@ pub mod input {
         impl InsertText {
             pub fn new(text: impl Into<String>) -> Self {
                 Self { text: text.into() }
+            }
+        }
+
+        impl InsertText {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -17151,6 +19996,16 @@ pub mod input {
             pub fn with_replacement_end(mut self, replacement_end: impl Into<i64>) -> Self {
                 self.replacement_end = Some(replacement_end.into());
                 self
+            }
+        }
+
+        impl ImeSetComposition {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -17301,6 +20156,16 @@ pub mod input {
             }
         }
 
+        impl DispatchMouseEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchMouseEvent {
             type Response = ();
             const METHOD: &'static str = "Input.dispatchMouseEvent";
@@ -17346,6 +20211,16 @@ pub mod input {
             }
         }
 
+        impl DispatchTouchEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchTouchEvent {
             type Response = ();
             const METHOD: &'static str = "Input.dispatchTouchEvent";
@@ -17359,6 +20234,16 @@ pub mod input {
         impl CancelDragging {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl CancelDragging {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -17443,6 +20328,16 @@ pub mod input {
             }
         }
 
+        impl EmulateTouchFromMouseEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for EmulateTouchFromMouseEvent {
             type Response = ();
             const METHOD: &'static str = "Input.emulateTouchFromMouseEvent";
@@ -17464,6 +20359,16 @@ pub mod input {
             }
         }
 
+        impl SetIgnoreInputEvents {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetIgnoreInputEvents {
             type Response = ();
             const METHOD: &'static str = "Input.setIgnoreInputEvents";
@@ -17482,6 +20387,16 @@ pub mod input {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetInterceptDrags {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -17531,6 +20446,16 @@ pub mod input {
             ) -> Self {
                 self.gesture_source_type = Some(gesture_source_type.into());
                 self
+            }
+        }
+
+        impl SynthesizePinchGesture {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -17655,6 +20580,16 @@ pub mod input {
             }
         }
 
+        impl SynthesizeScrollGesture {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SynthesizeScrollGesture {
             type Response = ();
             const METHOD: &'static str = "Input.synthesizeScrollGesture";
@@ -17710,6 +20645,16 @@ pub mod input {
             }
         }
 
+        impl SynthesizeTapGesture {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SynthesizeTapGesture {
             type Response = ();
             const METHOD: &'static str = "Input.synthesizeTapGesture";
@@ -17757,6 +20702,16 @@ pub mod inspector {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Inspector.disable";
@@ -17770,6 +20725,16 @@ pub mod inspector {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18016,6 +20981,16 @@ pub mod layer_tree {
             }
         }
 
+        impl CompositingReasons {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CompositingReasonsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CompositingReasons {
             type Response = responses::CompositingReasonsResponse;
             const METHOD: &'static str = "LayerTree.compositingReasons";
@@ -18032,6 +21007,16 @@ pub mod layer_tree {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "LayerTree.disable";
@@ -18045,6 +21030,16 @@ pub mod layer_tree {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18069,6 +21064,16 @@ pub mod layer_tree {
             }
         }
 
+        impl LoadSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::LoadSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for LoadSnapshot {
             type Response = responses::LoadSnapshotResponse;
             const METHOD: &'static str = "LayerTree.loadSnapshot";
@@ -18087,6 +21092,16 @@ pub mod layer_tree {
                 Self {
                     layer_id: layer_id.into(),
                 }
+            }
+        }
+
+        impl MakeSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::MakeSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18137,6 +21152,16 @@ pub mod layer_tree {
             }
         }
 
+        impl ProfileSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ProfileSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ProfileSnapshot {
             type Response = responses::ProfileSnapshotResponse;
             const METHOD: &'static str = "LayerTree.profileSnapshot";
@@ -18155,6 +21180,16 @@ pub mod layer_tree {
                 Self {
                     snapshot_id: snapshot_id.into(),
                 }
+            }
+        }
+
+        impl ReleaseSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18206,6 +21241,16 @@ pub mod layer_tree {
             }
         }
 
+        impl ReplaySnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ReplaySnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReplaySnapshot {
             type Response = responses::ReplaySnapshotResponse;
             const METHOD: &'static str = "LayerTree.replaySnapshot";
@@ -18224,6 +21269,16 @@ pub mod layer_tree {
                 Self {
                     snapshot_id: snapshot_id.into(),
                 }
+            }
+        }
+
+        impl SnapshotCommandLog {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SnapshotCommandLogResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18340,6 +21395,16 @@ pub mod log {
             }
         }
 
+        impl Clear {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Clear {
             type Response = ();
             const METHOD: &'static str = "Log.clear";
@@ -18356,6 +21421,16 @@ pub mod log {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Log.disable";
@@ -18369,6 +21444,16 @@ pub mod log {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18393,6 +21478,16 @@ pub mod log {
             }
         }
 
+        impl StartViolationsReport {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartViolationsReport {
             type Response = ();
             const METHOD: &'static str = "Log.startViolationsReport";
@@ -18406,6 +21501,16 @@ pub mod log {
         impl StopViolationsReport {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopViolationsReport {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18523,6 +21628,16 @@ pub mod media {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Media.enable";
@@ -18536,6 +21651,16 @@ pub mod media {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18766,6 +21891,16 @@ pub mod memory {
             }
         }
 
+        impl GetDomCounters {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDomCountersResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetDomCounters {
             type Response = responses::GetDomCountersResponse;
             const METHOD: &'static str = "Memory.getDOMCounters";
@@ -18779,6 +21914,17 @@ pub mod memory {
         impl GetDomCountersForLeakDetection {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetDomCountersForLeakDetection {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDomCountersForLeakDetectionResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18798,6 +21944,16 @@ pub mod memory {
             }
         }
 
+        impl PrepareForLeakDetection {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for PrepareForLeakDetection {
             type Response = ();
             const METHOD: &'static str = "Memory.prepareForLeakDetection";
@@ -18811,6 +21967,16 @@ pub mod memory {
         impl ForciblyPurgeJavaScriptMemory {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ForciblyPurgeJavaScriptMemory {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18835,6 +22001,16 @@ pub mod memory {
             }
         }
 
+        impl SetPressureNotificationsSuppressed {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPressureNotificationsSuppressed {
             type Response = ();
             const METHOD: &'static str = "Memory.setPressureNotificationsSuppressed";
@@ -18853,6 +22029,16 @@ pub mod memory {
                 Self {
                     level: level.into(),
                 }
+            }
+        }
+
+        impl SimulatePressureNotification {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18895,6 +22081,16 @@ pub mod memory {
             }
         }
 
+        impl StartSampling {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartSampling {
             type Response = ();
             const METHOD: &'static str = "Memory.startSampling";
@@ -18908,6 +22104,16 @@ pub mod memory {
         impl StopSampling {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopSampling {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -18927,6 +22133,16 @@ pub mod memory {
             }
         }
 
+        impl GetAllTimeSamplingProfile {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAllTimeSamplingProfileResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAllTimeSamplingProfile {
             type Response = responses::GetAllTimeSamplingProfileResponse;
             const METHOD: &'static str = "Memory.getAllTimeSamplingProfile";
@@ -18943,6 +22159,16 @@ pub mod memory {
             }
         }
 
+        impl GetBrowserSamplingProfile {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBrowserSamplingProfileResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetBrowserSamplingProfile {
             type Response = responses::GetBrowserSamplingProfileResponse;
             const METHOD: &'static str = "Memory.getBrowserSamplingProfile";
@@ -18956,6 +22182,16 @@ pub mod memory {
         impl GetSamplingProfile {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetSamplingProfile {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSamplingProfileResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -21988,6 +25224,16 @@ pub mod network {
             }
         }
 
+        impl SetAcceptedEncodings {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAcceptedEncodings {
             type Response = ();
             const METHOD: &'static str = "Network.setAcceptedEncodings";
@@ -22002,6 +25248,16 @@ pub mod network {
         impl ClearAcceptedEncodingsOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearAcceptedEncodingsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22022,6 +25278,16 @@ pub mod network {
             }
         }
 
+        impl CanClearBrowserCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CanClearBrowserCacheResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CanClearBrowserCache {
             type Response = responses::CanClearBrowserCacheResponse;
             const METHOD: &'static str = "Network.canClearBrowserCache";
@@ -22036,6 +25302,16 @@ pub mod network {
         impl CanClearBrowserCookies {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl CanClearBrowserCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CanClearBrowserCookiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22056,6 +25332,17 @@ pub mod network {
             }
         }
 
+        impl CanEmulateNetworkConditions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CanEmulateNetworkConditionsResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CanEmulateNetworkConditions {
             type Response = responses::CanEmulateNetworkConditionsResponse;
             const METHOD: &'static str = "Network.canEmulateNetworkConditions";
@@ -22072,6 +25359,16 @@ pub mod network {
             }
         }
 
+        impl ClearBrowserCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearBrowserCache {
             type Response = ();
             const METHOD: &'static str = "Network.clearBrowserCache";
@@ -22085,6 +25382,16 @@ pub mod network {
         impl ClearBrowserCookies {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearBrowserCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22179,6 +25486,16 @@ pub mod network {
             }
         }
 
+        impl ContinueInterceptedRequest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ContinueInterceptedRequest {
             type Response = ();
             const METHOD: &'static str = "Network.continueInterceptedRequest";
@@ -22240,6 +25557,16 @@ pub mod network {
             }
         }
 
+        impl DeleteCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeleteCookies {
             type Response = ();
             const METHOD: &'static str = "Network.deleteCookies";
@@ -22253,6 +25580,16 @@ pub mod network {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22334,6 +25671,16 @@ pub mod network {
             }
         }
 
+        impl EmulateNetworkConditions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for EmulateNetworkConditions {
             type Response = ();
             const METHOD: &'static str = "Network.emulateNetworkConditions";
@@ -22359,6 +25706,17 @@ pub mod network {
                     offline: offline.into(),
                     matched_network_conditions: matched_network_conditions.into(),
                 }
+            }
+        }
+
+        impl EmulateNetworkConditionsByRule {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::EmulateNetworkConditionsByRuleResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22407,6 +25765,16 @@ pub mod network {
             ) -> Self {
                 self.connection_type = Some(connection_type.into());
                 self
+            }
+        }
+
+        impl OverrideNetworkState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22489,6 +25857,16 @@ pub mod network {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Network.enable";
@@ -22532,6 +25910,16 @@ pub mod network {
             }
         }
 
+        impl ConfigureDurableMessages {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ConfigureDurableMessages {
             type Response = ();
             const METHOD: &'static str = "Network.configureDurableMessages";
@@ -22546,6 +25934,16 @@ pub mod network {
         impl GetAllCookies {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetAllCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAllCookiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22568,6 +25966,16 @@ pub mod network {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl GetCertificate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCertificateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22596,6 +26004,16 @@ pub mod network {
             }
         }
 
+        impl GetCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCookiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetCookies {
             type Response = responses::GetCookiesResponse;
             const METHOD: &'static str = "Network.getCookies";
@@ -22617,6 +26035,16 @@ pub mod network {
             }
         }
 
+        impl GetResponseBody {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetResponseBodyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetResponseBody {
             type Response = responses::GetResponseBodyResponse;
             const METHOD: &'static str = "Network.getResponseBody";
@@ -22635,6 +26063,16 @@ pub mod network {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl GetRequestPostData {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetRequestPostDataResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22660,6 +26098,17 @@ pub mod network {
             }
         }
 
+        impl GetResponseBodyForInterception {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetResponseBodyForInterceptionResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetResponseBodyForInterception {
             type Response = responses::GetResponseBodyForInterceptionResponse;
             const METHOD: &'static str = "Network.getResponseBodyForInterception";
@@ -22678,6 +26127,17 @@ pub mod network {
                 Self {
                     interception_id: interception_id.into(),
                 }
+            }
+        }
+
+        impl TakeResponseBodyForInterceptionAsStream {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::TakeResponseBodyForInterceptionAsStreamResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22700,6 +26160,16 @@ pub mod network {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl ReplayXhr {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22746,6 +26216,16 @@ pub mod network {
             }
         }
 
+        impl SearchInResponseBody {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SearchInResponseBodyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SearchInResponseBody {
             type Response = responses::SearchInResponseBodyResponse;
             const METHOD: &'static str = "Network.searchInResponseBody";
@@ -22787,6 +26267,16 @@ pub mod network {
             }
         }
 
+        impl SetBlockedUrLs {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBlockedUrLs {
             type Response = ();
             const METHOD: &'static str = "Network.setBlockedURLs";
@@ -22808,6 +26298,16 @@ pub mod network {
             }
         }
 
+        impl SetBypassServiceWorker {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBypassServiceWorker {
             type Response = ();
             const METHOD: &'static str = "Network.setBypassServiceWorker";
@@ -22826,6 +26326,16 @@ pub mod network {
                 Self {
                     cache_disabled: cache_disabled.into(),
                 }
+            }
+        }
+
+        impl SetCacheDisabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -22962,6 +26472,16 @@ pub mod network {
             }
         }
 
+        impl SetCookie {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetCookieResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetCookie {
             type Response = responses::SetCookieResponse;
             const METHOD: &'static str = "Network.setCookie";
@@ -22983,6 +26503,16 @@ pub mod network {
             }
         }
 
+        impl SetCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetCookies {
             type Response = ();
             const METHOD: &'static str = "Network.setCookies";
@@ -23001,6 +26531,16 @@ pub mod network {
                 Self {
                     headers: headers.into(),
                 }
+            }
+        }
+
+        impl SetExtraHttpHeaders {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -23026,6 +26566,16 @@ pub mod network {
             }
         }
 
+        impl SetAttachDebugStack {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAttachDebugStack {
             type Response = ();
             const METHOD: &'static str = "Network.setAttachDebugStack";
@@ -23046,6 +26596,16 @@ pub mod network {
                 Self {
                     patterns: patterns.into(),
                 }
+            }
+        }
+
+        impl SetRequestInterception {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -23101,6 +26661,16 @@ pub mod network {
             }
         }
 
+        impl SetUserAgentOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetUserAgentOverride {
             type Response = ();
             const METHOD: &'static str = "Network.setUserAgentOverride";
@@ -23120,6 +26690,16 @@ pub mod network {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl StreamResourceContent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::StreamResourceContentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -23149,6 +26729,17 @@ pub mod network {
             }
         }
 
+        impl GetSecurityIsolationStatus {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSecurityIsolationStatusResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetSecurityIsolationStatus {
             type Response = responses::GetSecurityIsolationStatusResponse;
             const METHOD: &'static str = "Network.getSecurityIsolationStatus";
@@ -23168,6 +26759,16 @@ pub mod network {
                 Self {
                     enable: enable.into(),
                 }
+            }
+        }
+
+        impl EnableReportingApi {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -23193,6 +26794,16 @@ pub mod network {
             }
         }
 
+        impl EnableDeviceBoundSessions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for EnableDeviceBoundSessions {
             type Response = ();
             const METHOD: &'static str = "Network.enableDeviceBoundSessions";
@@ -23212,6 +26823,16 @@ pub mod network {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl FetchSchemefulSite {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::FetchSchemefulSiteResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -23252,6 +26873,16 @@ pub mod network {
             }
         }
 
+        impl LoadNetworkResource {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::LoadNetworkResourceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for LoadNetworkResource {
             type Response = responses::LoadNetworkResourceResponse;
             const METHOD: &'static str = "Network.loadNetworkResource";
@@ -23283,6 +26914,16 @@ pub mod network {
                     disable_third_party_cookie_heuristics: disable_third_party_cookie_heuristics
                         .into(),
                 }
+            }
+        }
+
+        impl SetCookieControls {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -24727,6 +28368,16 @@ pub mod overlay {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Overlay.disable";
@@ -24740,6 +28391,16 @@ pub mod overlay {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -24806,6 +28467,16 @@ pub mod overlay {
             }
         }
 
+        impl GetHighlightObjectForTest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetHighlightObjectForTestResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetHighlightObjectForTest {
             type Response = responses::GetHighlightObjectForTestResponse;
             const METHOD: &'static str = "Overlay.getHighlightObjectForTest";
@@ -24824,6 +28495,17 @@ pub mod overlay {
                 Self {
                     node_ids: node_ids.into(),
                 }
+            }
+        }
+
+        impl GetGridHighlightObjectsForTest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetGridHighlightObjectsForTestResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -24848,6 +28530,17 @@ pub mod overlay {
             }
         }
 
+        impl GetSourceOrderHighlightObjectForTest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSourceOrderHighlightObjectForTestResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetSourceOrderHighlightObjectForTest {
             type Response = responses::GetSourceOrderHighlightObjectForTestResponse;
             const METHOD: &'static str = "Overlay.getSourceOrderHighlightObjectForTest";
@@ -24861,6 +28554,16 @@ pub mod overlay {
         impl HideHighlight {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl HideHighlight {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -24907,6 +28610,16 @@ pub mod overlay {
             ) -> Self {
                 self.content_outline_color = Some(content_outline_color.into());
                 self
+            }
+        }
+
+        impl HighlightFrame {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -24973,6 +28686,16 @@ pub mod overlay {
             }
         }
 
+        impl HighlightNode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for HighlightNode {
             type Response = ();
             const METHOD: &'static str = "Overlay.highlightNode";
@@ -25012,6 +28735,16 @@ pub mod overlay {
             ) -> Self {
                 self.outline_color = Some(outline_color.into());
                 self
+            }
+        }
+
+        impl HighlightQuad {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25071,6 +28804,16 @@ pub mod overlay {
             }
         }
 
+        impl HighlightRect {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for HighlightRect {
             type Response = ();
             const METHOD: &'static str = "Overlay.highlightRect";
@@ -25125,6 +28868,16 @@ pub mod overlay {
             }
         }
 
+        impl HighlightSourceOrder {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for HighlightSourceOrder {
             type Response = ();
             const METHOD: &'static str = "Overlay.highlightSourceOrder";
@@ -25158,6 +28911,16 @@ pub mod overlay {
             }
         }
 
+        impl SetInspectMode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetInspectMode {
             type Response = ();
             const METHOD: &'static str = "Overlay.setInspectMode";
@@ -25174,6 +28937,16 @@ pub mod overlay {
         impl SetShowAdHighlights {
             pub fn new(show: impl Into<bool>) -> Self {
                 Self { show: show.into() }
+            }
+        }
+
+        impl SetShowAdHighlights {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25201,6 +28974,16 @@ pub mod overlay {
             }
         }
 
+        impl SetPausedInDebuggerMessage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPausedInDebuggerMessage {
             type Response = ();
             const METHOD: &'static str = "Overlay.setPausedInDebuggerMessage";
@@ -25220,6 +29003,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowDebugBorders {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowDebugBorders {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowDebugBorders";
@@ -25236,6 +29029,16 @@ pub mod overlay {
         impl SetShowFpsCounter {
             pub fn new(show: impl Into<bool>) -> Self {
                 Self { show: show.into() }
+            }
+        }
+
+        impl SetShowFpsCounter {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25262,6 +29065,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowGridOverlays {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowGridOverlays {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowGridOverlays";
@@ -25281,6 +29094,16 @@ pub mod overlay {
                 Self {
                     flex_node_highlight_configs: flex_node_highlight_configs.into(),
                 }
+            }
+        }
+
+        impl SetShowFlexOverlays {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25306,6 +29129,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowScrollSnapOverlays {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowScrollSnapOverlays {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowScrollSnapOverlays";
@@ -25325,6 +29158,16 @@ pub mod overlay {
                 Self {
                     container_query_highlight_configs: container_query_highlight_configs.into(),
                 }
+            }
+        }
+
+        impl SetShowContainerQueryOverlays {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25349,6 +29192,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowPaintRects {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowPaintRects {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowPaintRects";
@@ -25370,6 +29223,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowLayoutShiftRegions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowLayoutShiftRegions {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowLayoutShiftRegions";
@@ -25386,6 +29249,16 @@ pub mod overlay {
         impl SetShowScrollBottleneckRects {
             pub fn new(show: impl Into<bool>) -> Self {
                 Self { show: show.into() }
+            }
+        }
+
+        impl SetShowScrollBottleneckRects {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25409,6 +29282,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowHitTestBorders {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowHitTestBorders {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowHitTestBorders";
@@ -25428,6 +29311,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowWebVitals {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowWebVitals {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowWebVitals";
@@ -25444,6 +29337,16 @@ pub mod overlay {
         impl SetShowViewportSizeOnResize {
             pub fn new(show: impl Into<bool>) -> Self {
                 Self { show: show.into() }
+            }
+        }
+
+        impl SetShowViewportSizeOnResize {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25475,6 +29378,16 @@ pub mod overlay {
             }
         }
 
+        impl SetShowHinge {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetShowHinge {
             type Response = ();
             const METHOD: &'static str = "Overlay.setShowHinge";
@@ -25497,6 +29410,16 @@ pub mod overlay {
                 Self {
                     isolated_element_highlight_configs: isolated_element_highlight_configs.into(),
                 }
+            }
+        }
+
+        impl SetShowIsolatedElements {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25527,6 +29450,16 @@ pub mod overlay {
             ) -> Self {
                 self.window_controls_overlay_config = Some(window_controls_overlay_config.into());
                 self
+            }
+        }
+
+        impl SetShowWindowControlsOverlay {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25704,6 +29637,16 @@ pub mod pwa {
             }
         }
 
+        impl GetOsAppState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetOsAppStateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetOsAppState {
             type Response = responses::GetOsAppStateResponse;
             const METHOD: &'static str = "PWA.getOsAppState";
@@ -25736,6 +29679,16 @@ pub mod pwa {
             }
         }
 
+        impl Install {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Install {
             type Response = ();
             const METHOD: &'static str = "PWA.install";
@@ -25753,6 +29706,16 @@ pub mod pwa {
                 Self {
                     manifest_id: manifest_id.into(),
                 }
+            }
+        }
+
+        impl Uninstall {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25784,6 +29747,16 @@ pub mod pwa {
             }
         }
 
+        impl Launch {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::LaunchResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Launch {
             type Response = responses::LaunchResponse;
             const METHOD: &'static str = "PWA.launch";
@@ -25806,6 +29779,16 @@ pub mod pwa {
             }
         }
 
+        impl LaunchFilesInApp {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::LaunchFilesInAppResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for LaunchFilesInApp {
             type Response = responses::LaunchFilesInAppResponse;
             const METHOD: &'static str = "PWA.launchFilesInApp";
@@ -25823,6 +29806,16 @@ pub mod pwa {
                 Self {
                     manifest_id: manifest_id.into(),
                 }
+            }
+        }
+
+        impl OpenCurrentPageInApp {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -25863,6 +29856,16 @@ pub mod pwa {
             ) -> Self {
                 self.display_mode = Some(display_mode.into());
                 self
+            }
+        }
+
+        impl ChangeAppUserSettings {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28518,6 +32521,16 @@ pub mod page {
             }
         }
 
+        impl AddScriptToEvaluateOnLoad {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddScriptToEvaluateOnLoadResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddScriptToEvaluateOnLoad {
             type Response = responses::AddScriptToEvaluateOnLoadResponse;
             const METHOD: &'static str = "Page.addScriptToEvaluateOnLoad";
@@ -28572,6 +32585,17 @@ pub mod page {
             }
         }
 
+        impl AddScriptToEvaluateOnNewDocument {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddScriptToEvaluateOnNewDocumentResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddScriptToEvaluateOnNewDocument {
             type Response = responses::AddScriptToEvaluateOnNewDocumentResponse;
             const METHOD: &'static str = "Page.addScriptToEvaluateOnNewDocument";
@@ -28585,6 +32609,16 @@ pub mod page {
         impl BringToFront {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl BringToFront {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28666,6 +32700,16 @@ pub mod page {
             }
         }
 
+        impl CaptureScreenshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CaptureScreenshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CaptureScreenshot {
             type Response = responses::CaptureScreenshotResponse;
             const METHOD: &'static str = "Page.captureScreenshot";
@@ -28692,6 +32736,16 @@ pub mod page {
             }
         }
 
+        impl CaptureSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CaptureSnapshotResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CaptureSnapshot {
             type Response = responses::CaptureSnapshotResponse;
             const METHOD: &'static str = "Page.captureSnapshot";
@@ -28707,6 +32761,16 @@ pub mod page {
         impl ClearDeviceMetricsOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearDeviceMetricsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28728,6 +32792,16 @@ pub mod page {
             }
         }
 
+        impl ClearDeviceOrientationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearDeviceOrientationOverride {
             type Response = ();
             const METHOD: &'static str = "Page.clearDeviceOrientationOverride";
@@ -28742,6 +32816,16 @@ pub mod page {
         impl ClearGeolocationOverride {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearGeolocationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28787,6 +32871,16 @@ pub mod page {
             }
         }
 
+        impl CreateIsolatedWorld {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CreateIsolatedWorldResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CreateIsolatedWorld {
             type Response = responses::CreateIsolatedWorldResponse;
             const METHOD: &'static str = "Page.createIsolatedWorld";
@@ -28813,6 +32907,16 @@ pub mod page {
             }
         }
 
+        impl DeleteCookie {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeleteCookie {
             type Response = ();
             const METHOD: &'static str = "Page.deleteCookie";
@@ -28826,6 +32930,16 @@ pub mod page {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28861,6 +32975,16 @@ pub mod page {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Page.enable";
@@ -28885,6 +33009,16 @@ pub mod page {
             }
         }
 
+        impl GetAppManifest {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAppManifestResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAppManifest {
             type Response = responses::GetAppManifestResponse;
             const METHOD: &'static str = "Page.getAppManifest";
@@ -28898,6 +33032,16 @@ pub mod page {
         impl GetInstallabilityErrors {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetInstallabilityErrors {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetInstallabilityErrorsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28919,6 +33063,16 @@ pub mod page {
             }
         }
 
+        impl GetManifestIcons {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetManifestIconsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetManifestIcons {
             type Response = responses::GetManifestIconsResponse;
             const METHOD: &'static str = "Page.getManifestIcons";
@@ -28933,6 +33087,16 @@ pub mod page {
         impl GetAppId {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetAppId {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAppIdResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28956,6 +33120,16 @@ pub mod page {
             }
         }
 
+        impl GetAdScriptAncestry {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAdScriptAncestryResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAdScriptAncestry {
             type Response = responses::GetAdScriptAncestryResponse;
             const METHOD: &'static str = "Page.getAdScriptAncestry";
@@ -28969,6 +33143,16 @@ pub mod page {
         impl GetFrameTree {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetFrameTree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFrameTreeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -28988,6 +33172,16 @@ pub mod page {
             }
         }
 
+        impl GetLayoutMetrics {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetLayoutMetricsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetLayoutMetrics {
             type Response = responses::GetLayoutMetricsResponse;
             const METHOD: &'static str = "Page.getLayoutMetrics";
@@ -29004,6 +33198,16 @@ pub mod page {
             }
         }
 
+        impl GetNavigationHistory {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetNavigationHistoryResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetNavigationHistory {
             type Response = responses::GetNavigationHistoryResponse;
             const METHOD: &'static str = "Page.getNavigationHistory";
@@ -29017,6 +33221,16 @@ pub mod page {
         impl ResetNavigationHistory {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ResetNavigationHistory {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29045,6 +33259,16 @@ pub mod page {
             }
         }
 
+        impl GetResourceContent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetResourceContentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetResourceContent {
             type Response = responses::GetResourceContentResponse;
             const METHOD: &'static str = "Page.getResourceContent";
@@ -29059,6 +33283,16 @@ pub mod page {
         impl GetResourceTree {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetResourceTree {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetResourceTreeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29089,6 +33323,16 @@ pub mod page {
             pub fn with_prompt_text(mut self, prompt_text: impl Into<String>) -> Self {
                 self.prompt_text = Some(prompt_text.into());
                 self
+            }
+        }
+
+        impl HandleJavaScriptDialog {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29156,6 +33400,16 @@ pub mod page {
             }
         }
 
+        impl Navigate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::NavigateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Navigate {
             type Response = responses::NavigateResponse;
             const METHOD: &'static str = "Page.navigate";
@@ -29174,6 +33428,16 @@ pub mod page {
                 Self {
                     entry_id: entry_id.into(),
                 }
+            }
+        }
+
+        impl NavigateToHistoryEntry {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29365,6 +33629,16 @@ pub mod page {
             }
         }
 
+        impl PrintToPdf {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::PrintToPdfResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for PrintToPdf {
             type Response = responses::PrintToPdfResponse;
             const METHOD: &'static str = "Page.printToPDF";
@@ -29417,6 +33691,16 @@ pub mod page {
             }
         }
 
+        impl Reload {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Reload {
             type Response = ();
             const METHOD: &'static str = "Page.reload";
@@ -29436,6 +33720,16 @@ pub mod page {
                 Self {
                     identifier: identifier.into(),
                 }
+            }
+        }
+
+        impl RemoveScriptToEvaluateOnLoad {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29459,6 +33753,16 @@ pub mod page {
             }
         }
 
+        impl RemoveScriptToEvaluateOnNewDocument {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveScriptToEvaluateOnNewDocument {
             type Response = ();
             const METHOD: &'static str = "Page.removeScriptToEvaluateOnNewDocument";
@@ -29478,6 +33782,16 @@ pub mod page {
                 Self {
                     session_id: session_id.into(),
                 }
+            }
+        }
+
+        impl ScreencastFrameAck {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29531,6 +33845,16 @@ pub mod page {
             }
         }
 
+        impl SearchInResource {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SearchInResourceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SearchInResource {
             type Response = responses::SearchInResourceResponse;
             const METHOD: &'static str = "Page.searchInResource";
@@ -29550,6 +33874,16 @@ pub mod page {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetAdBlockingEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29574,6 +33908,16 @@ pub mod page {
             }
         }
 
+        impl SetBypassCsp {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBypassCsp {
             type Response = ();
             const METHOD: &'static str = "Page.setBypassCSP";
@@ -29595,6 +33939,16 @@ pub mod page {
             }
         }
 
+        impl GetPermissionsPolicyState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPermissionsPolicyStateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetPermissionsPolicyState {
             type Response = responses::GetPermissionsPolicyStateResponse;
             const METHOD: &'static str = "Page.getPermissionsPolicyState";
@@ -29613,6 +33967,16 @@ pub mod page {
                 Self {
                     frame_id: frame_id.into(),
                 }
+            }
+        }
+
+        impl GetOriginTrials {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetOriginTrialsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29731,6 +34095,16 @@ pub mod page {
             }
         }
 
+        impl SetDeviceMetricsOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDeviceMetricsOverride {
             type Response = ();
             const METHOD: &'static str = "Page.setDeviceMetricsOverride";
@@ -29757,6 +34131,16 @@ pub mod page {
                     beta: beta.into(),
                     gamma: gamma.into(),
                 }
+            }
+        }
+
+        impl SetDeviceOrientationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29794,6 +34178,16 @@ pub mod page {
             }
         }
 
+        impl SetFontFamilies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetFontFamilies {
             type Response = ();
             const METHOD: &'static str = "Page.setFontFamilies";
@@ -29813,6 +34207,16 @@ pub mod page {
                 Self {
                     font_sizes: font_sizes.into(),
                 }
+            }
+        }
+
+        impl SetFontSizes {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29837,6 +34241,16 @@ pub mod page {
                     frame_id: frame_id.into(),
                     html: html.into(),
                 }
+            }
+        }
+
+        impl SetDocumentContent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29869,6 +34283,16 @@ pub mod page {
             pub fn with_download_path(mut self, download_path: impl Into<String>) -> Self {
                 self.download_path = Some(download_path.into());
                 self
+            }
+        }
+
+        impl SetDownloadBehavior {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29918,6 +34342,16 @@ pub mod page {
             }
         }
 
+        impl SetGeolocationOverride {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetGeolocationOverride {
             type Response = ();
             const METHOD: &'static str = "Page.setGeolocationOverride";
@@ -29936,6 +34370,16 @@ pub mod page {
                 Self {
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetLifecycleEventsEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -29968,6 +34412,16 @@ pub mod page {
             pub fn with_configuration(mut self, configuration: impl Into<String>) -> Self {
                 self.configuration = Some(configuration.into());
                 self
+            }
+        }
+
+        impl SetTouchEmulationEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30035,6 +34489,16 @@ pub mod page {
             }
         }
 
+        impl StartScreencast {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartScreencast {
             type Response = ();
             const METHOD: &'static str = "Page.startScreencast";
@@ -30048,6 +34512,16 @@ pub mod page {
         impl StopLoading {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopLoading {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30068,6 +34542,16 @@ pub mod page {
             }
         }
 
+        impl Crash {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Crash {
             type Response = ();
             const METHOD: &'static str = "Page.crash";
@@ -30081,6 +34565,16 @@ pub mod page {
         impl Close {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Close {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30106,6 +34600,16 @@ pub mod page {
             }
         }
 
+        impl SetWebLifecycleState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetWebLifecycleState {
             type Response = ();
             const METHOD: &'static str = "Page.setWebLifecycleState";
@@ -30120,6 +34624,16 @@ pub mod page {
         impl StopScreencast {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopScreencast {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30141,6 +34655,16 @@ pub mod page {
                 Self {
                     scripts: scripts.into(),
                 }
+            }
+        }
+
+        impl ProduceCompilationCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30168,6 +34692,16 @@ pub mod page {
             }
         }
 
+        impl AddCompilationCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddCompilationCache {
             type Response = ();
             const METHOD: &'static str = "Page.addCompilationCache";
@@ -30182,6 +34716,16 @@ pub mod page {
         impl ClearCompilationCache {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl ClearCompilationCache {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30204,6 +34748,16 @@ pub mod page {
             }
         }
 
+        impl SetSpcTransactionMode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSpcTransactionMode {
             type Response = ();
             const METHOD: &'static str = "Page.setSPCTransactionMode";
@@ -30220,6 +34774,16 @@ pub mod page {
         impl SetRphRegistrationMode {
             pub fn new(mode: impl Into<String>) -> Self {
                 Self { mode: mode.into() }
+            }
+        }
+
+        impl SetRphRegistrationMode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30254,6 +34818,16 @@ pub mod page {
             }
         }
 
+        impl GenerateTestReport {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GenerateTestReport {
             type Response = ();
             const METHOD: &'static str = "Page.generateTestReport";
@@ -30268,6 +34842,16 @@ pub mod page {
         impl WaitForDebugger {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl WaitForDebugger {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30301,6 +34885,16 @@ pub mod page {
             }
         }
 
+        impl SetInterceptFileChooserDialog {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetInterceptFileChooserDialog {
             type Response = ();
             const METHOD: &'static str = "Page.setInterceptFileChooserDialog";
@@ -30319,6 +34913,16 @@ pub mod page {
                 Self {
                     is_allowed: is_allowed.into(),
                 }
+            }
+        }
+
+        impl SetPrerenderingAllowed {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30350,6 +34954,16 @@ pub mod page {
             ) -> Self {
                 self.include_actionable_information = Some(include_actionable_information.into());
                 self
+            }
+        }
+
+        impl GetAnnotatedPageContent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetAnnotatedPageContentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -30952,6 +35566,16 @@ pub mod performance {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Performance.disable";
@@ -30974,6 +35598,16 @@ pub mod performance {
             pub fn with_time_domain(mut self, time_domain: impl Into<String>) -> Self {
                 self.time_domain = Some(time_domain.into());
                 self
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -31000,6 +35634,16 @@ pub mod performance {
             }
         }
 
+        impl SetTimeDomain {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetTimeDomain {
             type Response = ();
             const METHOD: &'static str = "Performance.setTimeDomain";
@@ -31013,6 +35657,16 @@ pub mod performance {
         impl GetMetrics {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetMetrics {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetMetricsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -31131,6 +35785,16 @@ pub mod performance_timeline {
                 Self {
                     event_types: event_types.into(),
                 }
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -31994,6 +36658,16 @@ pub mod preload {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "Preload.enable";
@@ -32006,6 +36680,16 @@ pub mod preload {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32402,6 +37086,16 @@ pub mod security {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Security.disable";
@@ -32415,6 +37109,16 @@ pub mod security {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32436,6 +37140,16 @@ pub mod security {
                 Self {
                     ignore: ignore.into(),
                 }
+            }
+        }
+
+        impl SetIgnoreCertificateErrors {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32467,6 +37181,16 @@ pub mod security {
             }
         }
 
+        impl HandleCertificateError {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for HandleCertificateError {
             type Response = ();
             const METHOD: &'static str = "Security.handleCertificateError";
@@ -32486,6 +37210,16 @@ pub mod security {
                 Self {
                     override_: override_.into(),
                 }
+            }
+        }
+
+        impl SetOverrideCertificateErrors {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32731,6 +37465,16 @@ pub mod serviceworker {
             }
         }
 
+        impl DeliverPushMessage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeliverPushMessage {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.deliverPushMessage";
@@ -32743,6 +37487,16 @@ pub mod serviceworker {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32776,6 +37530,16 @@ pub mod serviceworker {
             }
         }
 
+        impl DispatchSyncEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchSyncEvent {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.dispatchSyncEvent";
@@ -32803,6 +37567,16 @@ pub mod serviceworker {
             }
         }
 
+        impl DispatchPeriodicSyncEvent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DispatchPeriodicSyncEvent {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.dispatchPeriodicSyncEvent";
@@ -32815,6 +37589,16 @@ pub mod serviceworker {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32834,6 +37618,16 @@ pub mod serviceworker {
                 Self {
                     force_update_on_page_load: force_update_on_page_load.into(),
                 }
+            }
+        }
+
+        impl SetForceUpdateOnPageLoad {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32857,6 +37651,16 @@ pub mod serviceworker {
             }
         }
 
+        impl SkipWaiting {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SkipWaiting {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.skipWaiting";
@@ -32877,6 +37681,16 @@ pub mod serviceworker {
             }
         }
 
+        impl StartWorker {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartWorker {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.startWorker";
@@ -32889,6 +37703,16 @@ pub mod serviceworker {
         impl StopAllWorkers {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopAllWorkers {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32908,6 +37732,16 @@ pub mod serviceworker {
                 Self {
                     version_id: version_id.into(),
                 }
+            }
+        }
+
+        impl StopWorker {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -32931,6 +37765,16 @@ pub mod serviceworker {
             }
         }
 
+        impl Unregister {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Unregister {
             type Response = ();
             const METHOD: &'static str = "ServiceWorker.unregister";
@@ -32948,6 +37792,16 @@ pub mod serviceworker {
                 Self {
                     scope_url: scope_url.into(),
                 }
+            }
+        }
+
+        impl UpdateRegistration {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33375,6 +38229,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.enable";
@@ -33388,6 +38252,16 @@ pub mod smart_card_emulation {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33413,6 +38287,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl ReportEstablishContextResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReportEstablishContextResult {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.reportEstablishContextResult";
@@ -33430,6 +38314,16 @@ pub mod smart_card_emulation {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl ReportReleaseContextResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33452,6 +38346,16 @@ pub mod smart_card_emulation {
                     request_id: request_id.into(),
                     readers: readers.into(),
                 }
+            }
+        }
+
+        impl ReportListReadersResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33480,6 +38384,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl ReportGetStatusChangeResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReportGetStatusChangeResult {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.reportGetStatusChangeResult";
@@ -33502,6 +38416,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl ReportBeginTransactionResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReportBeginTransactionResult {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.reportBeginTransactionResult";
@@ -33519,6 +38443,16 @@ pub mod smart_card_emulation {
                 Self {
                     request_id: request_id.into(),
                 }
+            }
+        }
+
+        impl ReportPlainResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33555,6 +38489,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl ReportConnectResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReportConnectResult {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.reportConnectResult";
@@ -33574,6 +38518,16 @@ pub mod smart_card_emulation {
                     request_id: request_id.into(),
                     data: data.into(),
                 }
+            }
+        }
+
+        impl ReportDataResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -33616,6 +38570,16 @@ pub mod smart_card_emulation {
             }
         }
 
+        impl ReportStatusResult {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReportStatusResult {
             type Response = ();
             const METHOD: &'static str = "SmartCardEmulation.reportStatusResult";
@@ -33638,6 +38602,16 @@ pub mod smart_card_emulation {
                     request_id: request_id.into(),
                     result_code: result_code.into(),
                 }
+            }
+        }
+
+        impl ReportError {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35147,6 +40121,16 @@ pub mod storage {
             }
         }
 
+        impl GetStorageKeyForFrame {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetStorageKeyForFrameResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetStorageKeyForFrame {
             type Response = responses::GetStorageKeyForFrameResponse;
             const METHOD: &'static str = "Storage.getStorageKeyForFrame";
@@ -35169,6 +40153,16 @@ pub mod storage {
             pub fn with_frame_id(mut self, frame_id: impl Into<page::types::FrameId>) -> Self {
                 self.frame_id = Some(frame_id.into());
                 self
+            }
+        }
+
+        impl GetStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetStorageKeyResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35196,6 +40190,16 @@ pub mod storage {
             }
         }
 
+        impl ClearDataForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearDataForOrigin {
             type Response = ();
             const METHOD: &'static str = "Storage.clearDataForOrigin";
@@ -35217,6 +40221,16 @@ pub mod storage {
                     storage_key: storage_key.into(),
                     storage_types: storage_types.into(),
                 }
+            }
+        }
+
+        impl ClearDataForStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35247,6 +40261,16 @@ pub mod storage {
             ) -> Self {
                 self.browser_context_id = Some(browser_context_id.into());
                 self
+            }
+        }
+
+        impl GetCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCookiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35283,6 +40307,16 @@ pub mod storage {
             }
         }
 
+        impl SetCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetCookies {
             type Response = ();
             const METHOD: &'static str = "Storage.setCookies";
@@ -35313,6 +40347,16 @@ pub mod storage {
             }
         }
 
+        impl ClearCookies {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearCookies {
             type Response = ();
             const METHOD: &'static str = "Storage.clearCookies";
@@ -35331,6 +40375,16 @@ pub mod storage {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl GetUsageAndQuota {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetUsageAndQuotaResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35365,6 +40419,16 @@ pub mod storage {
             }
         }
 
+        impl OverrideQuotaForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for OverrideQuotaForOrigin {
             type Response = ();
             const METHOD: &'static str = "Storage.overrideQuotaForOrigin";
@@ -35383,6 +40447,16 @@ pub mod storage {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl TrackCacheStorageForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35407,6 +40481,16 @@ pub mod storage {
             }
         }
 
+        impl TrackCacheStorageForStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for TrackCacheStorageForStorageKey {
             type Response = ();
             const METHOD: &'static str = "Storage.trackCacheStorageForStorageKey";
@@ -35425,6 +40509,16 @@ pub mod storage {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl TrackIndexedDbForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35449,6 +40543,16 @@ pub mod storage {
             }
         }
 
+        impl TrackIndexedDbForStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for TrackIndexedDbForStorageKey {
             type Response = ();
             const METHOD: &'static str = "Storage.trackIndexedDBForStorageKey";
@@ -35467,6 +40571,16 @@ pub mod storage {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl UntrackCacheStorageForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35491,6 +40605,16 @@ pub mod storage {
             }
         }
 
+        impl UntrackCacheStorageForStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for UntrackCacheStorageForStorageKey {
             type Response = ();
             const METHOD: &'static str = "Storage.untrackCacheStorageForStorageKey";
@@ -35509,6 +40633,16 @@ pub mod storage {
                 Self {
                     origin: origin.into(),
                 }
+            }
+        }
+
+        impl UntrackIndexedDbForOrigin {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35533,6 +40667,16 @@ pub mod storage {
             }
         }
 
+        impl UntrackIndexedDbForStorageKey {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for UntrackIndexedDbForStorageKey {
             type Response = ();
             const METHOD: &'static str = "Storage.untrackIndexedDBForStorageKey";
@@ -35547,6 +40691,16 @@ pub mod storage {
         impl GetTrustTokens {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetTrustTokens {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetTrustTokensResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35568,6 +40722,16 @@ pub mod storage {
                 Self {
                     issuer_origin: issuer_origin.into(),
                 }
+            }
+        }
+
+        impl ClearTrustTokens {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::ClearTrustTokensResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35594,6 +40758,16 @@ pub mod storage {
             }
         }
 
+        impl GetInterestGroupDetails {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetInterestGroupDetailsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetInterestGroupDetails {
             type Response = responses::GetInterestGroupDetailsResponse;
             const METHOD: &'static str = "Storage.getInterestGroupDetails";
@@ -35612,6 +40786,16 @@ pub mod storage {
                 Self {
                     enable: enable.into(),
                 }
+            }
+        }
+
+        impl SetInterestGroupTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35636,6 +40820,16 @@ pub mod storage {
             }
         }
 
+        impl SetInterestGroupAuctionTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetInterestGroupAuctionTracking {
             type Response = ();
             const METHOD: &'static str = "Storage.setInterestGroupAuctionTracking";
@@ -35657,6 +40851,16 @@ pub mod storage {
             }
         }
 
+        impl GetSharedStorageMetadata {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSharedStorageMetadataResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetSharedStorageMetadata {
             type Response = responses::GetSharedStorageMetadataResponse;
             const METHOD: &'static str = "Storage.getSharedStorageMetadata";
@@ -35675,6 +40879,16 @@ pub mod storage {
                 Self {
                     owner_origin: owner_origin.into(),
                 }
+            }
+        }
+
+        impl GetSharedStorageEntries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSharedStorageEntriesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35716,6 +40930,16 @@ pub mod storage {
             }
         }
 
+        impl SetSharedStorageEntry {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSharedStorageEntry {
             type Response = ();
             const METHOD: &'static str = "Storage.setSharedStorageEntry";
@@ -35736,6 +40960,16 @@ pub mod storage {
                     owner_origin: owner_origin.into(),
                     key: key.into(),
                 }
+            }
+        }
+
+        impl DeleteSharedStorageEntry {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35760,6 +40994,16 @@ pub mod storage {
             }
         }
 
+        impl ClearSharedStorageEntries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearSharedStorageEntries {
             type Response = ();
             const METHOD: &'static str = "Storage.clearSharedStorageEntries";
@@ -35781,6 +41025,16 @@ pub mod storage {
             }
         }
 
+        impl ResetSharedStorageBudget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ResetSharedStorageBudget {
             type Response = ();
             const METHOD: &'static str = "Storage.resetSharedStorageBudget";
@@ -35799,6 +41053,16 @@ pub mod storage {
                 Self {
                     enable: enable.into(),
                 }
+            }
+        }
+
+        impl SetSharedStorageTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35825,6 +41089,16 @@ pub mod storage {
             }
         }
 
+        impl SetStorageBucketTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetStorageBucketTracking {
             type Response = ();
             const METHOD: &'static str = "Storage.setStorageBucketTracking";
@@ -35846,6 +41120,16 @@ pub mod storage {
             }
         }
 
+        impl DeleteStorageBucket {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DeleteStorageBucket {
             type Response = ();
             const METHOD: &'static str = "Storage.deleteStorageBucket";
@@ -35860,6 +41144,17 @@ pub mod storage {
         impl RunBounceTrackingMitigations {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl RunBounceTrackingMitigations {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RunBounceTrackingMitigationsResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35885,6 +41180,16 @@ pub mod storage {
             }
         }
 
+        impl SetAttributionReportingLocalTestingMode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAttributionReportingLocalTestingMode {
             type Response = ();
             const METHOD: &'static str = "Storage.setAttributionReportingLocalTestingMode";
@@ -35906,6 +41211,16 @@ pub mod storage {
             }
         }
 
+        impl SetAttributionReportingTracking {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAttributionReportingTracking {
             type Response = ();
             const METHOD: &'static str = "Storage.setAttributionReportingTracking";
@@ -35923,6 +41238,17 @@ pub mod storage {
             }
         }
 
+        impl SendPendingAttributionReports {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SendPendingAttributionReportsResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SendPendingAttributionReports {
             type Response = responses::SendPendingAttributionReportsResponse;
             const METHOD: &'static str = "Storage.sendPendingAttributionReports";
@@ -35937,6 +41263,16 @@ pub mod storage {
         impl GetRelatedWebsiteSets {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetRelatedWebsiteSets {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetRelatedWebsiteSetsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -35968,6 +41304,19 @@ pub mod storage {
             }
         }
 
+        impl GetAffectedUrlsForThirdPartyCookieMetadata {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<
+                responses::GetAffectedUrlsForThirdPartyCookieMetadataResponse,
+                crate::CdpError,
+            > {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetAffectedUrlsForThirdPartyCookieMetadata {
             type Response = responses::GetAffectedUrlsForThirdPartyCookieMetadataResponse;
             const METHOD: &'static str = "Storage.getAffectedUrlsForThirdPartyCookieMetadata";
@@ -35992,6 +41341,16 @@ pub mod storage {
                     name: name.into(),
                     hashes: hashes.into(),
                 }
+            }
+        }
+
+        impl SetProtectedAudienceKAnonymity {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -36533,6 +41892,16 @@ pub mod system_info {
             }
         }
 
+        impl GetInfo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetInfoResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetInfo {
             type Response = responses::GetInfoResponse;
             const METHOD: &'static str = "SystemInfo.getInfo";
@@ -36553,6 +41922,16 @@ pub mod system_info {
             }
         }
 
+        impl GetFeatureState {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetFeatureStateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetFeatureState {
             type Response = responses::GetFeatureStateResponse;
             const METHOD: &'static str = "SystemInfo.getFeatureState";
@@ -36566,6 +41945,16 @@ pub mod system_info {
         impl GetProcessInfo {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetProcessInfo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetProcessInfoResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -36783,6 +42172,16 @@ pub mod target {
             }
         }
 
+        impl ActivateTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ActivateTarget {
             type Response = ();
             const METHOD: &'static str = "Target.activateTarget";
@@ -36812,6 +42211,16 @@ pub mod target {
             }
         }
 
+        impl AttachToTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AttachToTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AttachToTarget {
             type Response = responses::AttachToTargetResponse;
             const METHOD: &'static str = "Target.attachToTarget";
@@ -36826,6 +42235,16 @@ pub mod target {
         impl AttachToBrowserTarget {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl AttachToBrowserTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AttachToBrowserTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -36846,6 +42265,16 @@ pub mod target {
                 Self {
                     target_id: target_id.into(),
                 }
+            }
+        }
+
+        impl CloseTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CloseTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -36888,6 +42317,16 @@ pub mod target {
             ) -> Self {
                 self.inherit_permissions = Some(inherit_permissions.into());
                 self
+            }
+        }
+
+        impl ExposeDevToolsProtocol {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -36953,6 +42392,16 @@ pub mod target {
             }
         }
 
+        impl CreateBrowserContext {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CreateBrowserContextResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CreateBrowserContext {
             type Response = responses::CreateBrowserContextResponse;
             const METHOD: &'static str = "Target.createBrowserContext";
@@ -36966,6 +42415,16 @@ pub mod target {
         impl GetBrowserContexts {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetBrowserContexts {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBrowserContextsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37114,6 +42573,16 @@ pub mod target {
             }
         }
 
+        impl CreateTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CreateTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CreateTarget {
             type Response = responses::CreateTargetResponse;
             const METHOD: &'static str = "Target.createTarget";
@@ -37151,6 +42620,16 @@ pub mod target {
             }
         }
 
+        impl DetachFromTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DetachFromTarget {
             type Response = ();
             const METHOD: &'static str = "Target.detachFromTarget";
@@ -37168,6 +42647,16 @@ pub mod target {
                 Self {
                     browser_context_id: browser_context_id.into(),
                 }
+            }
+        }
+
+        impl DisposeBrowserContext {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37196,6 +42685,16 @@ pub mod target {
             }
         }
 
+        impl GetTargetInfo {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetTargetInfoResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetTargetInfo {
             type Response = responses::GetTargetInfoResponse;
             const METHOD: &'static str = "Target.getTargetInfo";
@@ -37219,6 +42718,16 @@ pub mod target {
             pub fn with_filter(mut self, filter: impl Into<types::TargetFilter>) -> Self {
                 self.filter = Some(filter.into());
                 self
+            }
+        }
+
+        impl GetTargets {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetTargetsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37259,6 +42768,16 @@ pub mod target {
             pub fn with_target_id(mut self, target_id: impl Into<types::TargetID>) -> Self {
                 self.target_id = Some(target_id.into());
                 self
+            }
+        }
+
+        impl SendMessageToTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37309,6 +42828,16 @@ pub mod target {
             }
         }
 
+        impl SetAutoAttach {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetAutoAttach {
             type Response = ();
             const METHOD: &'static str = "Target.setAutoAttach";
@@ -37346,6 +42875,16 @@ pub mod target {
             }
         }
 
+        impl AutoAttachRelated {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AutoAttachRelated {
             type Response = ();
             const METHOD: &'static str = "Target.autoAttachRelated";
@@ -37377,6 +42916,16 @@ pub mod target {
             }
         }
 
+        impl SetDiscoverTargets {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetDiscoverTargets {
             type Response = ();
             const METHOD: &'static str = "Target.setDiscoverTargets";
@@ -37399,6 +42948,16 @@ pub mod target {
             }
         }
 
+        impl SetRemoteLocations {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetRemoteLocations {
             type Response = ();
             const METHOD: &'static str = "Target.setRemoteLocations";
@@ -37418,6 +42977,16 @@ pub mod target {
                 Self {
                     target_id: target_id.into(),
                 }
+            }
+        }
+
+        impl GetDevToolsTarget {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDevToolsTargetResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37449,6 +43018,16 @@ pub mod target {
             pub fn with_panel_id(mut self, panel_id: impl Into<String>) -> Self {
                 self.panel_id = Some(panel_id.into());
                 self
+            }
+        }
+
+        impl OpenDevTools {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::OpenDevToolsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37609,6 +43188,16 @@ pub mod tethering {
             }
         }
 
+        impl Bind {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Bind {
             type Response = ();
             const METHOD: &'static str = "Tethering.bind";
@@ -37625,6 +43214,16 @@ pub mod tethering {
         impl Unbind {
             pub fn new(port: impl Into<i64>) -> Self {
                 Self { port: port.into() }
+            }
+        }
+
+        impl Unbind {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37875,6 +43474,16 @@ pub mod tracing {
             }
         }
 
+        impl End {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for End {
             type Response = ();
             const METHOD: &'static str = "Tracing.end";
@@ -37892,6 +43501,16 @@ pub mod tracing {
             }
         }
 
+        impl GetCategories {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCategoriesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetCategories {
             type Response = responses::GetCategoriesResponse;
             const METHOD: &'static str = "Tracing.getCategories";
@@ -37906,6 +43525,16 @@ pub mod tracing {
         impl GetTrackEventDescriptor {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetTrackEventDescriptor {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetTrackEventDescriptorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37928,6 +43557,16 @@ pub mod tracing {
                 Self {
                     sync_id: sync_id.into(),
                 }
+            }
+        }
+
+        impl RecordClockSyncMarker {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -37968,6 +43607,16 @@ pub mod tracing {
             ) -> Self {
                 self.level_of_detail = Some(level_of_detail.into());
                 self
+            }
+        }
+
+        impl RequestMemoryDump {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RequestMemoryDumpResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38089,6 +43738,16 @@ pub mod tracing {
             ) -> Self {
                 self.tracing_backend = Some(tracing_backend.into());
                 self
+            }
+        }
+
+        impl Start {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38423,6 +44082,16 @@ pub mod web_audio {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "WebAudio.enable";
@@ -38436,6 +44105,16 @@ pub mod web_audio {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38456,6 +44135,16 @@ pub mod web_audio {
                 Self {
                     context_id: context_id.into(),
                 }
+            }
+        }
+
+        impl GetRealtimeData {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetRealtimeDataResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38909,6 +44598,16 @@ pub mod web_authn {
             }
         }
 
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Enable {
             type Response = ();
             const METHOD: &'static str = "WebAuthn.enable";
@@ -38922,6 +44621,16 @@ pub mod web_authn {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38942,6 +44651,16 @@ pub mod web_authn {
                 Self {
                     options: options.into(),
                 }
+            }
+        }
+
+        impl AddVirtualAuthenticator {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AddVirtualAuthenticatorResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -38994,6 +44713,16 @@ pub mod web_authn {
             }
         }
 
+        impl SetResponseOverrideBits {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetResponseOverrideBits {
             type Response = ();
             const METHOD: &'static str = "WebAuthn.setResponseOverrideBits";
@@ -39011,6 +44740,16 @@ pub mod web_authn {
                 Self {
                     authenticator_id: authenticator_id.into(),
                 }
+            }
+        }
+
+        impl RemoveVirtualAuthenticator {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39039,6 +44778,16 @@ pub mod web_authn {
             }
         }
 
+        impl AddCredential {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddCredential {
             type Response = ();
             const METHOD: &'static str = "WebAuthn.addCredential";
@@ -39064,6 +44813,16 @@ pub mod web_authn {
             }
         }
 
+        impl GetCredential {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCredentialResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetCredential {
             type Response = responses::GetCredentialResponse;
             const METHOD: &'static str = "WebAuthn.getCredential";
@@ -39081,6 +44840,16 @@ pub mod web_authn {
                 Self {
                     authenticator_id: authenticator_id.into(),
                 }
+            }
+        }
+
+        impl GetCredentials {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetCredentialsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39109,6 +44878,16 @@ pub mod web_authn {
             }
         }
 
+        impl RemoveCredential {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RemoveCredential {
             type Response = ();
             const METHOD: &'static str = "WebAuthn.removeCredential";
@@ -39126,6 +44905,16 @@ pub mod web_authn {
                 Self {
                     authenticator_id: authenticator_id.into(),
                 }
+            }
+        }
+
+        impl ClearCredentials {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39154,6 +44943,16 @@ pub mod web_authn {
             }
         }
 
+        impl SetUserVerified {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetUserVerified {
             type Response = ();
             const METHOD: &'static str = "WebAuthn.setUserVerified";
@@ -39176,6 +44975,16 @@ pub mod web_authn {
                     authenticator_id: authenticator_id.into(),
                     enabled: enabled.into(),
                 }
+            }
+        }
+
+        impl SetAutomaticPresenceSimulation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39217,6 +45026,16 @@ pub mod web_authn {
             pub fn with_backup_state(mut self, backup_state: impl Into<bool>) -> Self {
                 self.backup_state = Some(backup_state.into());
                 self
+            }
+        }
+
+        impl SetCredentialProperties {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39342,6 +45161,16 @@ pub mod console {
             }
         }
 
+        impl ClearMessages {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ClearMessages {
             type Response = ();
             const METHOD: &'static str = "Console.clearMessages";
@@ -39358,6 +45187,16 @@ pub mod console {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Console.disable";
@@ -39371,6 +45210,16 @@ pub mod console {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39758,6 +45607,16 @@ pub mod debugger {
             }
         }
 
+        impl ContinueToLocation {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ContinueToLocation {
             type Response = ();
             const METHOD: &'static str = "Debugger.continueToLocation";
@@ -39771,6 +45630,16 @@ pub mod debugger {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39802,6 +45671,16 @@ pub mod debugger {
             ) -> Self {
                 self.max_scripts_cache_size = Some(max_scripts_cache_size.into());
                 self
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::EnableResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39904,6 +45783,16 @@ pub mod debugger {
             }
         }
 
+        impl EvaluateOnCallFrame {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::EvaluateOnCallFrameResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for EvaluateOnCallFrame {
             type Response = responses::EvaluateOnCallFrameResponse;
             const METHOD: &'static str = "Debugger.evaluateOnCallFrame";
@@ -39946,6 +45835,16 @@ pub mod debugger {
             }
         }
 
+        impl GetPossibleBreakpoints {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPossibleBreakpointsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetPossibleBreakpoints {
             type Response = responses::GetPossibleBreakpointsResponse;
             const METHOD: &'static str = "Debugger.getPossibleBreakpoints";
@@ -39964,6 +45863,16 @@ pub mod debugger {
                 Self {
                     script_id: script_id.into(),
                 }
+            }
+        }
+
+        impl GetScriptSource {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetScriptSourceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -39988,6 +45897,16 @@ pub mod debugger {
             }
         }
 
+        impl DisassembleWasmModule {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::DisassembleWasmModuleResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DisassembleWasmModule {
             type Response = responses::DisassembleWasmModuleResponse;
             const METHOD: &'static str = "Debugger.disassembleWasmModule";
@@ -40006,6 +45925,16 @@ pub mod debugger {
                 Self {
                     stream_id: stream_id.into(),
                 }
+            }
+        }
+
+        impl NextWasmDisassemblyChunk {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::NextWasmDisassemblyChunkResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40031,6 +45960,16 @@ pub mod debugger {
             }
         }
 
+        impl GetWasmBytecode {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetWasmBytecodeResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetWasmBytecode {
             type Response = responses::GetWasmBytecodeResponse;
             const METHOD: &'static str = "Debugger.getWasmBytecode";
@@ -40052,6 +45991,16 @@ pub mod debugger {
             }
         }
 
+        impl GetStackTrace {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetStackTraceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetStackTrace {
             type Response = responses::GetStackTraceResponse;
             const METHOD: &'static str = "Debugger.getStackTrace";
@@ -40065,6 +46014,16 @@ pub mod debugger {
         impl Pause {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Pause {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40090,6 +46049,16 @@ pub mod debugger {
             }
         }
 
+        impl PauseOnAsyncCall {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for PauseOnAsyncCall {
             type Response = ();
             const METHOD: &'static str = "Debugger.pauseOnAsyncCall";
@@ -40107,6 +46076,16 @@ pub mod debugger {
                 Self {
                     breakpoint_id: breakpoint_id.into(),
                 }
+            }
+        }
+
+        impl RemoveBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40141,6 +46120,16 @@ pub mod debugger {
             }
         }
 
+        impl RestartFrame {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RestartFrameResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RestartFrame {
             type Response = responses::RestartFrameResponse;
             const METHOD: &'static str = "Debugger.restartFrame";
@@ -40168,6 +46157,16 @@ pub mod debugger {
             ) -> Self {
                 self.terminate_on_resume = Some(terminate_on_resume.into());
                 self
+            }
+        }
+
+        impl Resume {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40216,6 +46215,16 @@ pub mod debugger {
             }
         }
 
+        impl SearchInContent {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SearchInContentResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SearchInContent {
             type Response = responses::SearchInContentResponse;
             const METHOD: &'static str = "Debugger.searchInContent";
@@ -40234,6 +46243,16 @@ pub mod debugger {
                 Self {
                     max_depth: max_depth.into(),
                 }
+            }
+        }
+
+        impl SetAsyncCallStackDepth {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40256,6 +46275,16 @@ pub mod debugger {
                 Self {
                     unique_ids: unique_ids.into(),
                 }
+            }
+        }
+
+        impl SetBlackboxExecutionContexts {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40290,6 +46319,16 @@ pub mod debugger {
             }
         }
 
+        impl SetBlackboxPatterns {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBlackboxPatterns {
             type Response = ();
             const METHOD: &'static str = "Debugger.setBlackboxPatterns";
@@ -40314,6 +46353,16 @@ pub mod debugger {
                     script_id: script_id.into(),
                     positions: positions.into(),
                 }
+            }
+        }
+
+        impl SetBlackboxedRanges {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40347,6 +46396,16 @@ pub mod debugger {
             }
         }
 
+        impl SetBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetBreakpointResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBreakpoint {
             type Response = responses::SetBreakpointResponse;
             const METHOD: &'static str = "Debugger.setBreakpoint";
@@ -40365,6 +46424,17 @@ pub mod debugger {
                 Self {
                     instrumentation: instrumentation.into(),
                 }
+            }
+        }
+
+        impl SetInstrumentationBreakpoint {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetInstrumentationBreakpointResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40434,6 +46504,16 @@ pub mod debugger {
             }
         }
 
+        impl SetBreakpointByUrl {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetBreakpointByUrlResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBreakpointByUrl {
             type Response = responses::SetBreakpointByUrlResponse;
             const METHOD: &'static str = "Debugger.setBreakpointByUrl";
@@ -40465,6 +46545,17 @@ pub mod debugger {
             }
         }
 
+        impl SetBreakpointOnFunctionCall {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetBreakpointOnFunctionCallResponse, crate::CdpError>
+            {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetBreakpointOnFunctionCall {
             type Response = responses::SetBreakpointOnFunctionCallResponse;
             const METHOD: &'static str = "Debugger.setBreakpointOnFunctionCall";
@@ -40483,6 +46574,16 @@ pub mod debugger {
                 Self {
                     active: active.into(),
                 }
+            }
+        }
+
+        impl SetBreakpointsActive {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40507,6 +46608,16 @@ pub mod debugger {
             }
         }
 
+        impl SetPauseOnExceptions {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetPauseOnExceptions {
             type Response = ();
             const METHOD: &'static str = "Debugger.setPauseOnExceptions";
@@ -40526,6 +46637,16 @@ pub mod debugger {
                 Self {
                     new_value: new_value.into(),
                 }
+            }
+        }
+
+        impl SetReturnValue {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40578,6 +46699,16 @@ pub mod debugger {
             }
         }
 
+        impl SetScriptSource {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::SetScriptSourceResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetScriptSource {
             type Response = responses::SetScriptSourceResponse;
             const METHOD: &'static str = "Debugger.setScriptSource";
@@ -40594,6 +46725,16 @@ pub mod debugger {
         impl SetSkipAllPauses {
             pub fn new(skip: impl Into<bool>) -> Self {
                 Self { skip: skip.into() }
+            }
+        }
+
+        impl SetSkipAllPauses {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40629,6 +46770,16 @@ pub mod debugger {
                     new_value: new_value.into(),
                     call_frame_id: call_frame_id.into(),
                 }
+            }
+        }
+
+        impl SetVariableValue {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40676,6 +46827,16 @@ pub mod debugger {
             }
         }
 
+        impl StepInto {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StepInto {
             type Response = ();
             const METHOD: &'static str = "Debugger.stepInto";
@@ -40689,6 +46850,16 @@ pub mod debugger {
         impl StepOut {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StepOut {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -40718,6 +46889,16 @@ pub mod debugger {
             ) -> Self {
                 self.skip_list = Some(skip_list.into());
                 self
+            }
+        }
+
+        impl StepOver {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41019,6 +47200,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl AddInspectedHeapObject {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddInspectedHeapObject {
             type Response = ();
             const METHOD: &'static str = "HeapProfiler.addInspectedHeapObject";
@@ -41031,6 +47222,16 @@ pub mod heap_profiler {
         impl CollectGarbage {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl CollectGarbage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41049,6 +47250,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "HeapProfiler.disable";
@@ -41061,6 +47272,16 @@ pub mod heap_profiler {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41081,6 +47302,16 @@ pub mod heap_profiler {
                 Self {
                     object_id: object_id.into(),
                 }
+            }
+        }
+
+        impl GetHeapObjectId {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetHeapObjectIdResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41112,6 +47343,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl GetObjectByHeapObjectId {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetObjectByHeapObjectIdResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetObjectByHeapObjectId {
             type Response = responses::GetObjectByHeapObjectIdResponse;
             const METHOD: &'static str = "HeapProfiler.getObjectByHeapObjectId";
@@ -41124,6 +47365,16 @@ pub mod heap_profiler {
         impl GetSamplingProfile {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetSamplingProfile {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetSamplingProfileResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41190,6 +47441,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl StartSampling {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartSampling {
             type Response = ();
             const METHOD: &'static str = "HeapProfiler.startSampling";
@@ -41215,6 +47476,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl StartTrackingHeapObjects {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartTrackingHeapObjects {
             type Response = ();
             const METHOD: &'static str = "HeapProfiler.startTrackingHeapObjects";
@@ -41227,6 +47498,16 @@ pub mod heap_profiler {
         impl StopSampling {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl StopSampling {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::StopSamplingResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41291,6 +47572,16 @@ pub mod heap_profiler {
             }
         }
 
+        impl StopTrackingHeapObjects {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StopTrackingHeapObjects {
             type Response = ();
             const METHOD: &'static str = "HeapProfiler.stopTrackingHeapObjects";
@@ -41349,6 +47640,16 @@ pub mod heap_profiler {
             pub fn with_expose_internals(mut self, expose_internals: impl Into<bool>) -> Self {
                 self.expose_internals = Some(expose_internals.into());
                 self
+            }
+        }
+
+        impl TakeHeapSnapshot {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41586,6 +47887,16 @@ pub mod profiler {
             }
         }
 
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Disable {
             type Response = ();
             const METHOD: &'static str = "Profiler.disable";
@@ -41598,6 +47909,16 @@ pub mod profiler {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41614,6 +47935,16 @@ pub mod profiler {
         impl GetBestEffortCoverage {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetBestEffortCoverage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetBestEffortCoverageResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41638,6 +47969,16 @@ pub mod profiler {
             }
         }
 
+        impl SetSamplingInterval {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetSamplingInterval {
             type Response = ();
             const METHOD: &'static str = "Profiler.setSamplingInterval";
@@ -41650,6 +47991,16 @@ pub mod profiler {
         impl Start {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Start {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41701,6 +48052,16 @@ pub mod profiler {
             }
         }
 
+        impl StartPreciseCoverage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::StartPreciseCoverageResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StartPreciseCoverage {
             type Response = responses::StartPreciseCoverageResponse;
             const METHOD: &'static str = "Profiler.startPreciseCoverage";
@@ -41713,6 +48074,16 @@ pub mod profiler {
         impl Stop {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Stop {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::StopResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -41732,6 +48103,16 @@ pub mod profiler {
             }
         }
 
+        impl StopPreciseCoverage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for StopPreciseCoverage {
             type Response = ();
             const METHOD: &'static str = "Profiler.stopPreciseCoverage";
@@ -41745,6 +48126,16 @@ pub mod profiler {
         impl TakePreciseCoverage {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl TakePreciseCoverage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::TakePreciseCoverageResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42294,6 +48685,16 @@ pub mod runtime {
             }
         }
 
+        impl AwaitPromise {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::AwaitPromiseResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AwaitPromise {
             type Response = responses::AwaitPromiseResponse;
             const METHOD: &'static str = "Runtime.awaitPromise";
@@ -42439,6 +48840,16 @@ pub mod runtime {
             }
         }
 
+        impl CallFunctionOn {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CallFunctionOnResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CallFunctionOn {
             type Response = responses::CallFunctionOnResponse;
             const METHOD: &'static str = "Runtime.callFunctionOn";
@@ -42483,6 +48894,16 @@ pub mod runtime {
             }
         }
 
+        impl CompileScript {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::CompileScriptResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for CompileScript {
             type Response = responses::CompileScriptResponse;
             const METHOD: &'static str = "Runtime.compileScript";
@@ -42496,6 +48917,16 @@ pub mod runtime {
         impl Disable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Disable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42515,6 +48946,16 @@ pub mod runtime {
             }
         }
 
+        impl DiscardConsoleEntries {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for DiscardConsoleEntries {
             type Response = ();
             const METHOD: &'static str = "Runtime.discardConsoleEntries";
@@ -42528,6 +48969,16 @@ pub mod runtime {
         impl Enable {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl Enable {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42713,6 +49164,16 @@ pub mod runtime {
             }
         }
 
+        impl Evaluate {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::EvaluateResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for Evaluate {
             type Response = responses::EvaluateResponse;
             const METHOD: &'static str = "Runtime.evaluate";
@@ -42730,6 +49191,16 @@ pub mod runtime {
             }
         }
 
+        impl GetIsolateId {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetIsolateIdResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetIsolateId {
             type Response = responses::GetIsolateIdResponse;
             const METHOD: &'static str = "Runtime.getIsolateId";
@@ -42744,6 +49215,16 @@ pub mod runtime {
         impl GetHeapUsage {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetHeapUsage {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetHeapUsageResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42813,6 +49294,16 @@ pub mod runtime {
             }
         }
 
+        impl GetProperties {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetPropertiesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for GetProperties {
             type Response = responses::GetPropertiesResponse;
             const METHOD: &'static str = "Runtime.getProperties";
@@ -42840,6 +49331,16 @@ pub mod runtime {
             ) -> Self {
                 self.execution_context_id = Some(execution_context_id.into());
                 self
+            }
+        }
+
+        impl GlobalLexicalScopeNames {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GlobalLexicalScopeNamesResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42872,6 +49373,16 @@ pub mod runtime {
             }
         }
 
+        impl QueryObjects {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::QueryObjectsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for QueryObjects {
             type Response = responses::QueryObjectsResponse;
             const METHOD: &'static str = "Runtime.queryObjects";
@@ -42890,6 +49401,16 @@ pub mod runtime {
                 Self {
                     object_id: object_id.into(),
                 }
+            }
+        }
+
+        impl ReleaseObject {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -42914,6 +49435,16 @@ pub mod runtime {
             }
         }
 
+        impl ReleaseObjectGroup {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for ReleaseObjectGroup {
             type Response = ();
             const METHOD: &'static str = "Runtime.releaseObjectGroup";
@@ -42927,6 +49458,16 @@ pub mod runtime {
         impl RunIfWaitingForDebugger {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl RunIfWaitingForDebugger {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -43021,6 +49562,16 @@ pub mod runtime {
             }
         }
 
+        impl RunScript {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::RunScriptResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for RunScript {
             type Response = responses::RunScriptResponse;
             const METHOD: &'static str = "Runtime.runScript";
@@ -43039,6 +49590,16 @@ pub mod runtime {
                 Self {
                     max_depth: max_depth.into(),
                 }
+            }
+        }
+
+        impl SetAsyncCallStackDepth {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -43062,6 +49623,16 @@ pub mod runtime {
             }
         }
 
+        impl SetCustomObjectFormatterEnabled {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetCustomObjectFormatterEnabled {
             type Response = ();
             const METHOD: &'static str = "Runtime.setCustomObjectFormatterEnabled";
@@ -43080,6 +49651,16 @@ pub mod runtime {
             }
         }
 
+        impl SetMaxCallStackSizeToCapture {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for SetMaxCallStackSizeToCapture {
             type Response = ();
             const METHOD: &'static str = "Runtime.setMaxCallStackSizeToCapture";
@@ -43094,6 +49675,16 @@ pub mod runtime {
         impl TerminateExecution {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl TerminateExecution {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -43143,6 +49734,16 @@ pub mod runtime {
             }
         }
 
+        impl AddBinding {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
+            }
+        }
+
         impl Method for AddBinding {
             type Response = ();
             const METHOD: &'static str = "Runtime.addBinding";
@@ -43158,6 +49759,16 @@ pub mod runtime {
         impl RemoveBinding {
             pub fn new(name: impl Into<String>) -> Self {
                 Self { name: name.into() }
+            }
+        }
+
+        impl RemoveBinding {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<(), crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -43180,6 +49791,16 @@ pub mod runtime {
                 Self {
                     error_object_id: error_object_id.into(),
                 }
+            }
+        }
+
+        impl GetExceptionDetails {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetExceptionDetailsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 
@@ -43390,6 +50011,16 @@ pub mod schema {
         impl GetDomains {
             pub fn new() -> Self {
                 Self {}
+            }
+        }
+
+        impl GetDomains {
+            pub async fn send(
+                self,
+                cdp: &CDP,
+                session_id: Option<&str>,
+            ) -> Result<responses::GetDomainsResponse, crate::CdpError> {
+                cdp.send(self, session_id).await
             }
         }
 

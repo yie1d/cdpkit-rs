@@ -1,5 +1,5 @@
 // JavaScript evaluation example: Execute JavaScript and get results
-use cdpkit::{page, runtime, target, Method, CDP};
+use cdpkit::{page, runtime, target, CDP};
 use futures::StreamExt;
 
 #[tokio::main]
