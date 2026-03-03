@@ -105,6 +105,56 @@ impl CDPInner {
         serde_json::from_value(response).map_err(Into::into)
     }
 
+    /// Send a raw CDP command with a dynamic method name and JSON params.
+    ///
+    /// Unlike `send_command`, this does not require a compile-time `Method` type.
+    /// Returns the raw JSON response value.
+    pub async fn send_raw(
+        &self,
+        method: &str,
+        params: Value,
+        session_id: Option<&str>,
+    ) -> Result<Value, CdpError> {
+        let id = self.next_id.fetch_add(1, Ordering::Relaxed);
+        let (tx, rx) = oneshot::channel();
+
+        self.pending.write().await.insert(id, tx);
+
+        let mut msg = serde_json::json!({
+            "id": id,
+            "method": method,
+            "params": params,
+        });
+
+        if let Some(sid) = session_id {
+            msg["sessionId"] = serde_json::json!(sid);
+        }
+
+        debug!(
+            id = id,
+            method = method,
+            session_id = session_id,
+            "Sending raw command"
+        );
+        trace!("Raw command payload: {}", msg);
+
+        self.tx
+            .try_send(Message::Text(msg.to_string().into()))
+            .map_err(|e| match e {
+                mpsc::error::TrySendError::Closed(_) => CdpError::ConnectionClosed,
+                mpsc::error::TrySendError::Full(_) => {
+                    CdpError::ConnectionFailed("Send channel full".into())
+                }
+            })?;
+
+        let response = rx.await.map_err(|_| CdpError::ChannelClosed)??;
+
+        debug!(id = id, method = method, "Received raw response");
+        trace!("Raw response payload: {}", response);
+
+        Ok(response)
+    }
+
     pub fn event_stream<T>(&self, event_name: &str) -> Pin<Box<dyn Stream<Item = T> + Send>>
     where
         T: DeserializeOwned + Send + 'static,

@@ -11,6 +11,7 @@
 - 🔄 **自动生成绑定** - 从官方 CDP 规范自动生成，始终保持最新
 - 🪶 **轻量级** - 最小化依赖，专注于协议通信
 - 🔌 **灵活连接** - 连接到已运行的浏览器实例，无需管理进程
+- 🧩 **动态命令** - 不需要类型绑定时，可按方法名发送任意 CDP 命令
 
 ## 快速开始
 
@@ -127,6 +128,14 @@ let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
     .send(&cdp, Some(&session))
     .await?;
+
+// 不需要类型绑定时，按方法名动态发送命令
+let result = cdp.send_raw(
+    "Page.navigate",
+    serde_json::json!({"url": "https://example.com"}),
+    Some(&session),
+).await?;
+println!("Frame ID: {}", result["frameId"]);
 ```
 
 ### 强大的事件处理
@@ -136,7 +145,7 @@ let result = runtime::methods::Evaluate::new("document.title")
 ```rust
 use futures::StreamExt;
 
-// 订阅多个事件
+// 订阅类型化事件
 let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
 let mut console_events = runtime::events::ConsoleAPICalled::subscribe(&cdp);
 
@@ -146,6 +155,12 @@ let mut combined = futures::stream::select(load_events, console_events);
 // 过滤和处理
 while let Some(event) = combined.next().await {
     // 处理事件
+}
+
+// 或按事件名动态订阅
+let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
+while let Some(event) = requests.next().await {
+    println!("请求: {}", event["params"]["request"]["url"]);
 }
 ```
 
