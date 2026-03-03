@@ -76,6 +76,50 @@ impl CDP {
         self.inner.send_command(cmd, session_id).await
     }
 
+    /// Send a raw CDP command with a dynamic method name and JSON params.
+    ///
+    /// This is useful for sending arbitrary CDP commands that don't have
+    /// a corresponding typed `Method` implementation.
+    ///
+    /// # Arguments
+    /// * `method` - The CDP method name (e.g., "Page.navigate")
+    /// * `params` - The method parameters as a JSON value
+    /// * `session_id` - Optional CDP session ID for targeting a specific session
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use cdpkit::CDP;
+    /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
+    /// let cdp = CDP::connect("localhost:9222").await?;
+    /// let result = cdp.send_raw("Page.navigate", serde_json::json!({"url": "https://example.com"}), None).await?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub async fn send_raw(
+        &self,
+        method: &str,
+        params: serde_json::Value,
+        session_id: Option<&str>,
+    ) -> Result<serde_json::Value, CdpError> {
+        self.inner.send_raw(method, params, session_id).await
+    }
+
+    /// Subscribe to CDP events by event name.
+    ///
+    /// Returns a stream of deserialized event objects.
+    ///
+    /// # Arguments
+    /// * `event_name` - The CDP event name (e.g., "Network.requestWillBeSent")
+    pub fn event_stream<T>(
+        &self,
+        event_name: &str,
+    ) -> std::pin::Pin<Box<dyn futures::Stream<Item = T> + Send>>
+    where
+        T: serde::de::DeserializeOwned + Send + 'static,
+    {
+        self.inner.event_stream(event_name)
+    }
+
     /// Get the CDP protocol version this library was built with
     pub fn version() -> &'static str {
         CDP_VERSION

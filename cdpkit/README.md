@@ -13,6 +13,7 @@ Type-safe Rust [Chrome DevTools Protocol (CDP)](https://chromedevtools.github.io
 - 🔄 **Auto-generated bindings** - Generated from official CDP specification, always up-to-date
 - 🪶 **Lightweight** - Minimal dependencies, focused on protocol communication
 - 🔌 **Flexible connection** - Connect to running browser instances without process management
+- 🧩 **Dynamic commands** - Send arbitrary CDP commands by name when typed bindings aren't needed
 
 ## Quick Start
 
@@ -129,6 +130,14 @@ let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
     .send(&cdp, Some(&session))
     .await?;
+
+// Send arbitrary commands dynamically when typed bindings aren't needed
+let result = cdp.send_raw(
+    "Page.navigate",
+    serde_json::json!({"url": "https://example.com"}),
+    Some(&session),
+).await?;
+println!("Frame ID: {}", result["frameId"]);
 ```
 
 ### Powerful Event Handling
@@ -138,7 +147,7 @@ Stream-based event system with composition, filtering, and multiplexing:
 ```rust
 use futures::StreamExt;
 
-// Subscribe to multiple events
+// Subscribe to typed events
 let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
 let mut nav_events = page::events::FrameNavigated::subscribe(&cdp);
 
@@ -148,6 +157,12 @@ let mut combined = futures::stream::select(load_events, nav_events);
 // Filter and process
 while let Some(event) = combined.next().await {
     // Handle events
+}
+
+// Or subscribe by event name for dynamic use cases
+let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
+while let Some(event) = requests.next().await {
+    println!("Request: {}", event["params"]["request"]["url"]);
 }
 ```
 
