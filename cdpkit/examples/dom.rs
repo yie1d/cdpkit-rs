@@ -10,40 +10,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create and attach to page
     let result = target::methods::CreateTarget::new("about:blank")
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
     let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    let session = attach.session_id;
+    let session = cdp.session(attach.session_id);
 
     // Enable domains
-    page::methods::Enable::new()
-        .send(&cdp, Some(&session))
-        .await?;
-    dom::methods::Enable::new()
-        .send(&cdp, Some(&session))
-        .await?;
+    page::methods::Enable::new().send(&session).await?;
+    dom::methods::Enable::new().send(&session).await?;
 
     // Navigate and wait for load
-    let mut events = page::events::LoadEventFired::subscribe(&cdp);
+    let mut events = page::events::LoadEventFired::subscribe(&session);
     println!("Navigating to https://example.com");
     page::methods::Navigate::new("https://example.com")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
     events.next().await;
     println!("Page loaded");
 
     // Get document
-    let doc = dom::methods::GetDocument::new()
-        .send(&cdp, Some(&session))
-        .await?;
+    let doc = dom::methods::GetDocument::new().send(&session).await?;
     println!("Document node ID: {}", doc.root.node_id);
 
     // Query selector for h1
     let result = dom::methods::QuerySelector::new(doc.root.node_id, "h1")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
 
     if result.node_id > 0 {
@@ -52,7 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Query all paragraphs
     let result = dom::methods::QuerySelectorAll::new(doc.root.node_id, "p")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
     println!("Found {} paragraph elements", result.node_ids.len());
 

@@ -13,41 +13,77 @@
 - 🔌 **灵活连接** - 连接到已运行的浏览器实例，无需管理进程
 - 🧩 **动态命令** - 不需要类型绑定时，可按方法名发送任意 CDP 命令
 
+## 前置条件
+
+启动 Chrome 并开启远程调试端口：
+
+```bash
+# macOS
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+
+# Linux
+google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+
+# Windows
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir=%TEMP%\cdp-profile
+
+# 无头模式（无 UI）
+chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+```
+
+> **注意：** 如果 Chrome 已经在运行，`--remote-debugging-port` 参数会被忽略（Chrome 会合并到已有实例）。使用 `--user-data-dir` 可以强制启动独立实例，或者先关闭所有 Chrome 窗口/进程再启动。
+
+## 核心概念
+
+- **CDP** — 浏览器级别连接。用于浏览器命令（创建/关闭标签页）。
+- **Session** — 页面级别会话，绑定到特定标签页。用于页面命令（导航、DOM、网络）。
+- **OwnedSession** — 与 `Session` 类似但拥有连接（`Send + 'static`）。需要在 `tokio::spawn` 中使用时，用 `cdp.owned_session(id)` 创建。
+- **Sender trait** — `CDP` 和 `Session` 都实现了 `Sender`。传 `&cdp` 执行浏览器命令，传 `&session` 执行页面命令。
+- **Enable** — CDP 要求先启用域（如 `page::methods::Enable`）才能接收该域的事件。
+- **`with_flatten(true)`** — 附加到 target 时，flatten 模式让 session 事件直接在主连接上传递（事件订阅正常工作的前提）。
+- **事件订阅顺序** — 必须在触发动作之前订阅事件，否则事件可能丢失。
+- **事件通道** — 每个订阅有 1024 个事件的缓冲区。消费者处理过慢时，多余事件会被丢弃并记录警告日志。
+
 ## 快速开始
 
 ```rust
-use cdpkit::{CDP, Method, page, target};
+use cdpkit::{CDP, page, target};
 use futures::StreamExt;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 连接到 Chrome
     let cdp = CDP::connect("localhost:9222").await?;
-    
-    // 创建新页面
+
+    // 创建新页面（浏览器级别命令 → 传 &cdp）
     let result = target::methods::CreateTarget::new("https://example.com")
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    
+
     // 附加到页面
     let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    
-    let session = attach.session_id;
-    
-    // 导航并监听事件
-    page::methods::Enable::new().send(&cdp, Some(&session)).await?;
+
+    // 创建 session 用于页面级别命令
+    let session = cdp.session(attach.session_id);
+
+    // 启用页面域（页面级别 → 传 &session）
+    page::methods::Enable::new().send(&session).await?;
+
+    // 先订阅事件，再触发产生事件的操作
+    let mut events = page::events::LoadEventFired::subscribe(&session);
+
     page::methods::Navigate::new("https://rust-lang.org")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
-    
-    let mut events = page::events::LoadEventFired::subscribe(&cdp);
+
+    // 等待事件
     if let Some(event) = events.next().await {
         println!("页面加载完成，时间戳: {}", event.timestamp);
     }
-    
+
     Ok(())
 }
 ```
@@ -56,7 +92,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.2"
+cdpkit = "0.3"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -110,10 +146,11 @@ cdpkit 提供对 CDP 的直接访问，让你完全控制浏览器行为：
 
 ```rust
 // 直接发送 CDP 命令，支持所有参数
+let session = cdp.session(session_id);
 page::methods::Navigate::new("https://example.com")
     .with_referrer("https://google.com")
     .with_transition_type(page::types::TransitionType::Link)
-    .send(&cdp, Some(&session))
+    .send(&session)
     .await?;
 
 // 使用 FromStr 从字符串解析枚举值
@@ -126,14 +163,13 @@ let s: &str = page::types::TransitionType::Link.as_ref(); // "link"
 // 访问完整的返回数据
 let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
-    .send(&cdp, Some(&session))
+    .send(&session)
     .await?;
 
 // 不需要类型绑定时，按方法名动态发送命令
-let result = cdp.send_raw(
+let result = session.send_raw(
     "Page.navigate",
     serde_json::json!({"url": "https://example.com"}),
-    Some(&session),
 ).await?;
 println!("Frame ID: {}", result["frameId"]);
 ```
@@ -145,22 +181,27 @@ println!("Frame ID: {}", result["frameId"]);
 ```rust
 use futures::StreamExt;
 
-// 订阅类型化事件
-let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
-let mut console_events = runtime::events::ConsoleAPICalled::subscribe(&cdp);
+// 订阅类型化事件（按 session 过滤）
+let mut load_events = page::events::LoadEventFired::subscribe(&session);
+let mut nav_events = page::events::FrameNavigated::subscribe(&session);
 
-// 使用 Stream 组合器
-let mut combined = futures::stream::select(load_events, console_events);
-
-// 过滤和处理
-while let Some(event) = combined.next().await {
-    // 处理事件
+// 使用 tokio::select! 处理多个事件流
+loop {
+    tokio::select! {
+        Some(event) = load_events.next() => {
+            println!("页面加载: {}", event.timestamp);
+        }
+        Some(event) = nav_events.next() => {
+            println!("导航到: {:?}", event.frame.url);
+        }
+        else => break,
+    }
 }
 
 // 或按事件名动态订阅
 let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
 while let Some(event) = requests.next().await {
-    println!("请求: {}", event["params"]["request"]["url"]);
+    println!("请求: {}", event["request"]["url"]);
 }
 ```
 
@@ -173,7 +214,7 @@ while let Some(event) = requests.next().await {
 let cmd = page::methods::Navigate::new("https://example.com");
 
 // ✅ 类型检查：返回值
-let result = cmd.send(&cdp, Some(&session)).await?;
+let result = cmd.send(&session).await?;
 let frame_id: String = result.frame_id;  // 类型已知
 
 // ❌ 编译错误：缺少参数

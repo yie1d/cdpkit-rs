@@ -115,7 +115,13 @@ impl TypeRef {
     /// Generate Rust type reference.
     /// `from_types_submod`: true when generating code inside the `types` submodule (same-domain refs are plain names),
     /// false when generating inside `methods`/`events` submodules (same-domain refs need `types::` prefix).
-    pub fn to_rust_type(&self, domain: &str, all_types: &HashMap<String, String>, from_types_submod: bool) -> String {
+    #[allow(clippy::only_used_in_recursion)]
+    pub fn to_rust_type(
+        &self,
+        domain: &str,
+        all_types: &HashMap<String, String>,
+        from_types_submod: bool,
+    ) -> String {
         match self {
             TypeRef::Simple { type_, items } => match type_.as_str() {
                 "string" => "String".to_string(),
@@ -124,7 +130,10 @@ impl TypeRef {
                 "boolean" => "bool".to_string(),
                 "array" => {
                     if let Some(items) = items {
-                        format!("Vec<{}>", items.to_rust_type(domain, all_types, from_types_submod))
+                        format!(
+                            "Vec<{}>",
+                            items.to_rust_type(domain, all_types, from_types_submod)
+                        )
                     } else {
                         "Vec<serde_json::Value>".to_string()
                     }
