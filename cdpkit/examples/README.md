@@ -8,14 +8,16 @@ Launch Chrome with remote debugging enabled:
 
 ```bash
 # Linux/Mac
-google-chrome --remote-debugging-port=9222
+google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 
 # Windows
-chrome.exe --remote-debugging-port=9222
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir=%TEMP%\cdp-profile
 
 # Headless mode
-google-chrome --headless --remote-debugging-port=9222
+google-chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 ```
+
+> **Important:** If Chrome is already running, `--remote-debugging-port` will be ignored (Chrome merges into the existing instance). Use `--user-data-dir` to force a separate instance, or close all Chrome windows/processes first.
 
 ## Running Examples
 

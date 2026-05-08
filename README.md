@@ -15,41 +15,77 @@ Type-safe Rust [Chrome DevTools Protocol (CDP)](https://chromedevtools.github.io
 - 🔌 **Flexible connection** - Connect to running browser instances without process management
 - 🧩 **Dynamic commands** - Send arbitrary CDP commands by name when typed bindings aren't needed
 
+## Prerequisites
+
+Start Chrome with remote debugging enabled:
+
+```bash
+# macOS
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+
+# Linux
+google-chrome --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+
+# Windows
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --remote-debugging-port=9222 --user-data-dir=%TEMP%\cdp-profile
+
+# Headless mode (no UI)
+chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
+```
+
+> **Important:** If Chrome is already running, `--remote-debugging-port` will be ignored (Chrome merges into the existing instance). Use `--user-data-dir` to force a separate instance, or close all Chrome windows/processes first.
+
+## Key Concepts
+
+- **CDP** — A browser-level connection. Use it for browser commands (create/close targets).
+- **Session** — A page-level handle bound to a specific tab. Use it for page commands (navigate, DOM, network).
+- **OwnedSession** — Like `Session` but owns the connection (`Send + 'static`). Use `cdp.owned_session(id)` when you need to pass it into `tokio::spawn`.
+- **Sender trait** — Both `CDP` and `Session` implement `Sender`. Pass `&cdp` for browser commands, `&session` for page commands.
+- **Enable** — CDP requires you to enable a domain (e.g., `page::methods::Enable`) before its events are delivered.
+- **`with_flatten(true)`** — When attaching to a target, flatten mode delivers session events directly on the main connection (required for event subscriptions to work).
+- **Event ordering** — Always subscribe to events *before* triggering the action that produces them, otherwise events may be lost.
+- **Event channel** — Each subscription has a buffer of 1024 events. If the consumer is too slow, excess events are dropped with a warning log.
+
 ## Quick Start
 
 ```rust
-use cdpkit::{CDP, Method, page, target};
+use cdpkit::{CDP, page, target};
 use futures::StreamExt;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Connect to Chrome
     let cdp = CDP::connect("localhost:9222").await?;
-    
-    // Create a new page
+
+    // Create a new page (browser-level command → pass &cdp)
     let result = target::methods::CreateTarget::new("https://example.com")
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    
+
     // Attach to the page
     let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    
-    let session = attach.session_id;
-    
-    // Navigate and listen to events
-    page::methods::Enable::new().send(&cdp, Some(&session)).await?;
+
+    // Create a session for page-level commands
+    let session = cdp.session(attach.session_id);
+
+    // Enable page domain and navigate (page-level → pass &session)
+    page::methods::Enable::new().send(&session).await?;
+
+    // Subscribe BEFORE triggering the action that produces events
+    let mut events = page::events::LoadEventFired::subscribe(&session);
+
     page::methods::Navigate::new("https://rust-lang.org")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
-    
-    let mut events = page::events::LoadEventFired::subscribe(&cdp);
+
+    // Wait for the event
     if let Some(event) = events.next().await {
         println!("Page loaded at {}", event.timestamp);
     }
-    
+
     Ok(())
 }
 ```
@@ -58,7 +94,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.2"
+cdpkit = "0.3"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -112,10 +148,11 @@ cdpkit provides direct access to CDP, giving you full control over browser behav
 
 ```rust
 // Send CDP commands directly with all parameters
+let session = cdp.session(session_id);
 page::methods::Navigate::new("https://example.com")
     .with_referrer("https://google.com")
     .with_transition_type(page::types::TransitionType::Link)
-    .send(&cdp, Some(&session))
+    .send(&session)
     .await?;
 
 // Parse enum values from strings using FromStr
@@ -128,14 +165,13 @@ let s: &str = page::types::TransitionType::Link.as_ref(); // "link"
 // Access complete return data
 let result = runtime::methods::Evaluate::new("document.title")
     .with_return_by_value(true)
-    .send(&cdp, Some(&session))
+    .send(&session)
     .await?;
 
 // Send arbitrary commands dynamically when typed bindings aren't needed
-let result = cdp.send_raw(
+let result = session.send_raw(
     "Page.navigate",
     serde_json::json!({"url": "https://example.com"}),
-    Some(&session),
 ).await?;
 println!("Frame ID: {}", result["frameId"]);
 ```
@@ -147,22 +183,27 @@ Stream-based event system with composition, filtering, and multiplexing:
 ```rust
 use futures::StreamExt;
 
-// Subscribe to typed events
-let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
-let mut nav_events = page::events::FrameNavigated::subscribe(&cdp);
+// Subscribe to typed events (session-filtered)
+let mut load_events = page::events::LoadEventFired::subscribe(&session);
+let mut nav_events = page::events::FrameNavigated::subscribe(&session);
 
-// Use stream combinators
-let mut combined = futures::stream::select(load_events, nav_events);
-
-// Filter and process
-while let Some(event) = combined.next().await {
-    // Handle events
+// Handle multiple event streams with tokio::select!
+loop {
+    tokio::select! {
+        Some(event) = load_events.next() => {
+            println!("Page loaded at {}", event.timestamp);
+        }
+        Some(event) = nav_events.next() => {
+            println!("Navigated to {:?}", event.frame.url);
+        }
+        else => break,
+    }
 }
 
 // Or subscribe by event name for dynamic use cases
 let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
 while let Some(event) = requests.next().await {
-    println!("Request: {}", event["params"]["request"]["url"]);
+    println!("Request: {}", event["request"]["url"]);
 }
 ```
 
@@ -175,7 +216,7 @@ All CDP operations are type-checked, catching errors at compile time:
 let cmd = page::methods::Navigate::new("https://example.com");
 
 // ✅ Type-checked: return values
-let result = cmd.send(&cdp, Some(&session)).await?;
+let result = cmd.send(&session).await?;
 let frame_id: String = result.frame_id;  // Type is known
 
 // ❌ Compile error: missing parameter

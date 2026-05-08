@@ -10,31 +10,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create and attach to page
     let result = target::methods::CreateTarget::new("about:blank")
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
     let attach = target::methods::AttachToTarget::new(result.target_id)
         .with_flatten(true)
-        .send(&cdp, None)
+        .send(&cdp)
         .await?;
-    let session = attach.session_id;
+    let session = cdp.session(attach.session_id);
 
     // Enable domains
-    page::methods::Enable::new()
-        .send(&cdp, Some(&session))
-        .await?;
-    network::methods::Enable::new()
-        .send(&cdp, Some(&session))
-        .await?;
+    page::methods::Enable::new().send(&session).await?;
+    network::methods::Enable::new().send(&session).await?;
 
-    // Subscribe to network events
-    let mut request_events = network::events::RequestWillBeSent::subscribe(&cdp);
-    let mut response_events = network::events::ResponseReceived::subscribe(&cdp);
-    let mut load_events = page::events::LoadEventFired::subscribe(&cdp);
+    // Subscribe to network events (session-filtered)
+    let mut request_events = network::events::RequestWillBeSent::subscribe(&session);
+    let mut response_events = network::events::ResponseReceived::subscribe(&session);
+    let mut load_events = page::events::LoadEventFired::subscribe(&session);
 
     // Navigate
     println!("Navigating to https://example.com");
     page::methods::Navigate::new("https://example.com")
-        .send(&cdp, Some(&session))
+        .send(&session)
         .await?;
 
     // Monitor network activity
