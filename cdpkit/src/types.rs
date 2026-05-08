@@ -1,7 +1,7 @@
 use serde::{de::DeserializeOwned, Serialize};
 
 /// Trait for CDP methods (commands)
-pub trait Method: Serialize {
+pub trait Method: Serialize + Send {
     /// Response type for this method
     type Response: DeserializeOwned;
 
