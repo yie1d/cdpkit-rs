@@ -35,6 +35,8 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 
 > **Important:** If Chrome is already running, `--remote-debugging-port` will be ignored (Chrome merges into the existing instance). Use `--user-data-dir` to force a separate instance, or close all Chrome windows/processes first.
 
+> **Using your existing logged-in Chrome?** Chrome 136+ supports a toggle that lets you connect to your real profile without launching a new instance. See **[Connecting to Your Existing Chrome](../docs/connect-existing-chrome.md)**.
+
 ## Quick Start
 
 ```rust
@@ -91,6 +93,7 @@ futures = "0.3"
 
 - **[Examples](examples/)** - Working code examples
 - **[API Reference](https://docs.rs/cdpkit)** - Full API documentation
+- **[Connect to Existing Chrome](../docs/connect-existing-chrome.md)** - Use your logged-in Chrome profile (Chrome 136+)
 
 ## Why cdpkit?
 

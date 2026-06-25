@@ -33,6 +33,8 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 
 > **注意：** 如果 Chrome 已经在运行，`--remote-debugging-port` 参数会被忽略（Chrome 会合并到已有实例）。使用 `--user-data-dir` 可以强制启动独立实例，或者先关闭所有 Chrome 窗口/进程再启动。
 
+> **想直接控制已登录的 Chrome？** Chrome 136+ 支持通过一个开关复用真实 profile，无需新起实例。详见 **[接管已登录的 Chrome](connect-existing-chrome.zh.md)**。
+
 ## 核心概念
 
 - **CDP** — 浏览器级别连接。用于浏览器命令（创建/关闭标签页）。
@@ -100,6 +102,7 @@ futures = "0.3"
 ## 文档
 
 - **[示例代码](../cdpkit/examples/)** - 可运行的代码示例
+- **[接管已登录的 Chrome](connect-existing-chrome.zh.md)** - 复用已登录 Chrome（Chrome 136+）
 
 ## 代码生成
 
