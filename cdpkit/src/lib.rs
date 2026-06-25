@@ -18,6 +18,9 @@ use inner::CDPInner;
 use std::sync::Arc;
 use std::time::Duration;
 
+/// Default timeout for the WebSocket handshake during connection (30 seconds).
+pub const DEFAULT_CONNECT_TIMEOUT: Duration = Duration::from_secs(30);
+
 /// Type alias for CDP event streams returned by `subscribe()`.
 pub type EventStream<T> = std::pin::Pin<Box<dyn futures::Stream<Item = T> + Send>>;
 
@@ -168,6 +171,7 @@ impl CDP {
     /// Connect to Chrome by host and port (most common usage).
     ///
     /// Automatically discovers the WebSocket URL from Chrome's debugging endpoint.
+    /// Uses a default WebSocket handshake timeout of 30 seconds.
     ///
     /// # Example
     /// ```no_run
@@ -178,16 +182,55 @@ impl CDP {
     /// # }
     /// ```
     pub async fn connect(host: &str) -> Result<Self, CdpError> {
+        Self::connect_with_timeout(host, DEFAULT_CONNECT_TIMEOUT).await
+    }
+
+    /// Connect to Chrome by host and port with a custom WebSocket handshake timeout.
+    ///
+    /// The `timeout` controls how long to wait for the WebSocket handshake to complete.
+    /// The HTTP discovery phase (`/json/version`) has its own independent 10s timeout.
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use cdpkit::CDP;
+    /// # use std::time::Duration;
+    /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
+    /// let cdp = CDP::connect_with_timeout("localhost:9222", Duration::from_secs(10)).await?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub async fn connect_with_timeout(host: &str, timeout: Duration) -> Result<Self, CdpError> {
         if host.starts_with("ws://") || host.starts_with("wss://") {
-            return Self::connect_ws(host).await;
+            return Self::connect_ws_with_timeout(host, timeout).await;
         }
         let ws_url = discover_ws_url(host).await?;
-        Self::connect_ws(&ws_url).await
+        Self::connect_ws_with_timeout(&ws_url, timeout).await
     }
 
     /// Connect directly using a WebSocket URL (advanced usage).
+    ///
+    /// Uses a default WebSocket handshake timeout of 30 seconds.
     pub async fn connect_ws(url: &str) -> Result<Self, CdpError> {
-        let inner = CDPInner::connect(url).await?;
+        Self::connect_ws_with_timeout(url, DEFAULT_CONNECT_TIMEOUT).await
+    }
+
+    /// Connect directly using a WebSocket URL with a custom handshake timeout.
+    ///
+    /// The `timeout` controls how long to wait for the WebSocket handshake to complete.
+    /// If the handshake does not finish within the given duration, returns
+    /// [`CdpError::ConnectionFailed`] with a timeout message.
+    ///
+    /// # Example
+    /// ```no_run
+    /// # use cdpkit::CDP;
+    /// # use std::time::Duration;
+    /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
+    /// let cdp = CDP::connect_ws_with_timeout("ws://127.0.0.1:9222/devtools/browser/xxx", Duration::from_secs(5)).await?;
+    /// # Ok(())
+    /// # }
+    /// ```
+    pub async fn connect_ws_with_timeout(url: &str, timeout: Duration) -> Result<Self, CdpError> {
+        let inner = CDPInner::connect(url, timeout).await?;
         Ok(Self { inner })
     }
 

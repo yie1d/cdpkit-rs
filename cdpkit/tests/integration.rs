@@ -541,6 +541,36 @@ async fn session_event_stream_filters_by_session_id() {
 }
 
 #[tokio::test]
+async fn connect_timeout_triggers() {
+    // Bind a TCP listener but never perform WebSocket upgrade — the client
+    // should time out waiting for the handshake to complete.
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+
+    // Accept TCP but do nothing (no WS upgrade, no data)
+    tokio::spawn(async move {
+        let (_stream, _) = listener.accept().await.unwrap();
+        // Hold the connection open without sending anything
+        tokio::time::sleep(Duration::from_secs(60)).await;
+    });
+
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let result = CDP::connect_ws_with_timeout(&url, Duration::from_millis(500)).await;
+
+    match result {
+        Err(CdpError::ConnectionFailed(msg)) => {
+            assert!(
+                msg.contains("timed out"),
+                "Expected 'timed out' in error message, got: {}",
+                msg
+            );
+        }
+        Ok(_) => panic!("Expected connection to time out, but it succeeded"),
+        Err(e) => panic!("Expected ConnectionFailed with timeout message, got: {:?}", e),
+    }
+}
+
+#[tokio::test]
 async fn command_timeout_triggers() {
     let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
     let addr = listener.local_addr().unwrap();

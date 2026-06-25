@@ -28,6 +28,8 @@ session.send_raw("Method", params).await?;  // via Sender trait
 ```
 
 ### Added
+- `CDP::connect_with_timeout(target, Duration)` and `CDP::connect_ws_with_timeout(url, Duration)` — connect with explicit WebSocket handshake timeout
+- `DEFAULT_CONNECT_TIMEOUT` constant (30s) — applied automatically by `CDP::connect` / `CDP::connect_ws`; previously those calls could hang indefinitely on unreachable endpoints
 - `Sender` trait (sealed) — unified interface with `send_cmd`, `send_raw`, `event_stream`
 - `EventStream<T>` type alias for event stream return types
 - `Session<'a>` — borrowed session bound to a target

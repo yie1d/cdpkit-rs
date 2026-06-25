@@ -37,9 +37,17 @@ pub(crate) struct CDPInner {
 }
 
 impl CDPInner {
-    pub async fn connect(url: &str) -> Result<Arc<Self>, CdpError> {
+    pub async fn connect(url: &str, connect_timeout: Duration) -> Result<Arc<Self>, CdpError> {
         info!("Connecting to CDP at {}", url);
-        let (ws, _) = connect_async(url).await?;
+
+        let (ws, _) = tokio::time::timeout(connect_timeout, connect_async(url))
+            .await
+            .map_err(|_| {
+                CdpError::ConnectionFailed(format!(
+                    "WebSocket handshake timed out after {connect_timeout:?}"
+                ))
+            })??;
+
         info!("Connected to CDP successfully");
 
         let (tx, rx) = mpsc::channel(WS_SEND_CAPACITY);
