@@ -18,6 +18,18 @@ use inner::CDPInner;
 use std::sync::Arc;
 use std::time::Duration;
 
+/// Reason why the CDP connection was closed.
+#[non_exhaustive]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum CloseReason {
+    /// Graceful close initiated by the client
+    Normal,
+    /// Remote end closed the connection
+    Remote,
+    /// Connection lost due to an error
+    Error(String),
+}
+
 /// Default timeout for the WebSocket handshake during connection (30 seconds).
 pub const DEFAULT_CONNECT_TIMEOUT: Duration = Duration::from_secs(30);
 
@@ -135,6 +147,18 @@ impl Clone for CDP {
     }
 }
 
+impl Drop for CDP {
+    fn drop(&mut self) {
+        // When the last CDP handle is dropped, trigger connection shutdown
+        // so the background message loop task doesn't leak the WebSocket.
+        if Arc::strong_count(&self.inner) == 1 {
+            // Last handle — send a close frame non-blocking.
+            // If the channel is already closed or the loop already exited, ignore the error.
+            self.inner.try_close();
+        }
+    }
+}
+
 /// A CDP session bound to a specific target (borrowed).
 ///
 /// Created via [`CDP::session()`]. Cannot be sent across `tokio::spawn` boundaries.
@@ -218,7 +242,7 @@ impl CDP {
     ///
     /// The `timeout` controls how long to wait for the WebSocket handshake to complete.
     /// If the handshake does not finish within the given duration, returns
-    /// [`CdpError::ConnectionFailed`] with a timeout message.
+    /// [`CdpError::HandshakeTimeout`].
     ///
     /// # Example
     /// ```no_run
@@ -269,6 +293,11 @@ impl CDP {
     pub fn set_command_timeout(&self, timeout: Duration) {
         self.inner.set_command_timeout(timeout);
     }
+
+    /// Get the reason why the connection was closed, if it has been closed.
+    pub fn close_reason(&self) -> Option<CloseReason> {
+        self.inner.close_reason()
+    }
 }
 
 /// Discover WebSocket URL from Chrome's remote debugging endpoint
@@ -277,11 +306,7 @@ async fn discover_ws_url(host: &str) -> Result<String, CdpError> {
 
     tokio::time::timeout(DISCOVER_TIMEOUT, discover_ws_url_inner(host))
         .await
-        .map_err(|_| {
-            CdpError::ConnectionFailed(
-                "Timed out connecting to Chrome. Make sure Chrome is running with --remote-debugging-port".to_string(),
-            )
-        })?
+        .map_err(|_| CdpError::DiscoveryTimeout)?
 }
 
 async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
@@ -308,7 +333,7 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
 
     let stream = TcpStream::connect(&addr)
         .await
-        .map_err(|e| CdpError::ConnectionFailed(e.to_string()))?;
+        .map_err(|e| CdpError::Io(e.to_string()))?;
 
     let (reader, mut writer) = stream.into_split();
 
@@ -319,7 +344,7 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
     writer
         .write_all(request.as_bytes())
         .await
-        .map_err(|e| CdpError::ConnectionFailed(e.to_string()))?;
+        .map_err(|e| CdpError::Io(e.to_string()))?;
 
     let mut reader = BufReader::new(reader);
     let mut content_length: usize = 0;
@@ -332,7 +357,7 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
         reader
             .read_line(&mut line)
             .await
-            .map_err(|e| CdpError::ConnectionFailed(e.to_string()))?;
+            .map_err(|e| CdpError::Io(e.to_string()))?;
 
         if line == "\r\n" || line.is_empty() {
             break;
@@ -340,25 +365,27 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
 
         header_count += 1;
         if header_count > MAX_HEADER_LINES {
-            return Err(CdpError::ConnectionFailed(
+            return Err(CdpError::InvalidDiscoveryResponse(
                 "Too many HTTP headers in response".to_string(),
             ));
         }
 
         if line.len() > 8192 {
-            return Err(CdpError::ConnectionFailed(
+            return Err(CdpError::InvalidDiscoveryResponse(
                 "HTTP header line too long".to_string(),
             ));
         }
 
         if !status_checked {
             status_checked = true;
-            if let Some(status) = line.split_whitespace().nth(1) {
-                if status != "200" {
-                    return Err(CdpError::ConnectionFailed(format!(
-                        "Chrome returned HTTP {}. Make sure Chrome is running with --remote-debugging-port",
-                        status
-                    )));
+            if let Some(status_str) = line.split_whitespace().nth(1) {
+                if status_str != "200" {
+                    let code = status_str.parse::<u16>().map_err(|_| {
+                        CdpError::InvalidDiscoveryResponse(
+                            "Invalid HTTP status line".to_string(),
+                        )
+                    })?;
+                    return Err(CdpError::HttpStatus(code));
                 }
             }
             continue;
@@ -367,20 +394,20 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
         let lower = line.to_ascii_lowercase();
         if let Some(val) = lower.strip_prefix("content-length:") {
             content_length = val.trim().parse().map_err(|e| {
-                CdpError::ConnectionFailed(format!("Invalid Content-Length: {}", e))
+                CdpError::InvalidDiscoveryResponse(format!("Invalid Content-Length: {}", e))
             })?;
         }
     }
 
     if content_length == 0 {
-        return Err(CdpError::ConnectionFailed(
-            "No Content-Length in response. The server may not support HTTP/1.1 or is not a Chrome debugging endpoint".to_string(),
+        return Err(CdpError::InvalidDiscoveryResponse(
+            "No Content-Length in response".to_string(),
         ));
     }
 
     if content_length > MAX_CONTENT_LENGTH {
-        return Err(CdpError::ConnectionFailed(format!(
-            "Response too large ({} bytes). Expected a small JSON response from Chrome",
+        return Err(CdpError::InvalidDiscoveryResponse(format!(
+            "Response too large ({} bytes)",
             content_length
         )));
     }
@@ -389,17 +416,17 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
     reader
         .read_exact(&mut body)
         .await
-        .map_err(|e| CdpError::ConnectionFailed(e.to_string()))?;
+        .map_err(|e| CdpError::Io(e.to_string()))?;
 
-    let json: Value =
-        serde_json::from_slice(&body).map_err(|e| CdpError::ConnectionFailed(e.to_string()))?;
+    let json: Value = serde_json::from_slice(&body)
+        .map_err(|e| CdpError::InvalidDiscoveryResponse(format!("Failed to parse JSON: {}", e)))?;
 
     json.get("webSocketDebuggerUrl")
         .and_then(|v| v.as_str())
         .map(|s| s.to_string())
         .ok_or_else(|| {
-            CdpError::ConnectionFailed(
-                "No webSocketDebuggerUrl found in Chrome's response. Make sure Chrome is running with --remote-debugging-port".to_string(),
+            CdpError::InvalidDiscoveryResponse(
+                "No webSocketDebuggerUrl found in response".to_string(),
             )
         })
 }

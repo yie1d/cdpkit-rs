@@ -31,6 +31,7 @@ pub(crate) struct CDPInner {
     next_id: AtomicU64,
     closed: AtomicBool,
     command_timeout_ms: AtomicU64,
+    close_reason: std::sync::Mutex<Option<crate::CloseReason>>,
 }
 
 impl CDPInner {
@@ -39,11 +40,7 @@ impl CDPInner {
 
         let (ws, _) = tokio::time::timeout(connect_timeout, connect_async(url))
             .await
-            .map_err(|_| {
-                CdpError::ConnectionFailed(format!(
-                    "WebSocket handshake timed out after {connect_timeout:?}"
-                ))
-            })??;
+            .map_err(|_| CdpError::HandshakeTimeout)??;
 
         info!("Connected to CDP successfully");
 
@@ -56,6 +53,7 @@ impl CDPInner {
             next_id: AtomicU64::new(1),
             closed: AtomicBool::new(false),
             command_timeout_ms: AtomicU64::new(DEFAULT_COMMAND_TIMEOUT.as_millis() as u64),
+            close_reason: std::sync::Mutex::new(None),
         });
 
         let inner_clone = inner.clone();
@@ -70,6 +68,7 @@ impl CDPInner {
         if self.closed.swap(true, Ordering::AcqRel) {
             return;
         }
+        // close_reason is set by the message loop based on exit path
         let _ = self.tx.send(Message::Close(None)).await;
     }
 
@@ -80,6 +79,19 @@ impl CDPInner {
     pub fn set_command_timeout(&self, timeout: Duration) {
         self.command_timeout_ms
             .store(timeout.as_millis() as u64, Ordering::Relaxed);
+    }
+
+    pub fn close_reason(&self) -> Option<crate::CloseReason> {
+        self.close_reason.lock().unwrap_or_else(|e| e.into_inner()).clone()
+    }
+
+    /// Non-blocking close attempt used by `Drop for CDP`.
+    /// Sends a Close frame if the channel is still open; ignores errors.
+    pub(crate) fn try_close(&self) {
+        if self.closed.swap(true, Ordering::AcqRel) {
+            return;
+        }
+        let _ = self.tx.try_send(Message::Close(None));
     }
 
     fn command_timeout(&self) -> Duration {
@@ -210,6 +222,7 @@ impl CDPInner {
 
     async fn message_loop(&self, mut ws: WsStream, mut rx: mpsc::Receiver<Message>) {
         debug!("Starting message loop");
+        let exit_reason: Option<crate::CloseReason>;
         loop {
             tokio::select! {
                 msg = ws.next() => {
@@ -224,15 +237,18 @@ impl CDPInner {
                         }
                         Some(Ok(Message::Close(frame))) => {
                             info!("WebSocket closed: {:?}", frame);
+                            exit_reason = Some(crate::CloseReason::Remote);
                             let _ = ws.close(None).await;
                             break;
                         }
                         None => {
                             warn!("WebSocket stream ended");
+                            exit_reason = Some(crate::CloseReason::Remote);
                             break;
                         }
                         Some(Err(e)) => {
                             error!("WebSocket error: {}", e);
+                            exit_reason = Some(crate::CloseReason::Error(e.to_string()));
                             break;
                         }
                         _ => {}
@@ -243,11 +259,13 @@ impl CDPInner {
                         Some(msg) => {
                             if let Err(e) = ws.send(msg).await {
                                 error!("Failed to send message: {}", e);
+                                exit_reason = Some(crate::CloseReason::Error(e.to_string()));
                                 break;
                             }
                         }
                         None => {
                             debug!("All senders dropped, shutting down");
+                            exit_reason = Some(crate::CloseReason::Normal);
                             break;
                         }
                     }
@@ -256,7 +274,21 @@ impl CDPInner {
         }
 
         debug!("Message loop ended, cleaning up");
+
+        // If `closed` is already true, it means close() (or try_close()) was called by the user
+        // before the loop exited — treat the exit as Normal regardless of the WS-level outcome.
+        let user_initiated = self.closed.load(Ordering::Acquire);
         self.closed.store(true, Ordering::Release);
+
+        // Record close reason
+        if let Some(reason) = exit_reason {
+            let effective = if user_initiated {
+                crate::CloseReason::Normal
+            } else {
+                reason
+            };
+            *self.close_reason.lock().unwrap_or_else(|e| e.into_inner()) = Some(effective);
+        }
 
         let mut pending = self.pending.lock().await;
         for (_, tx) in pending.drain() {

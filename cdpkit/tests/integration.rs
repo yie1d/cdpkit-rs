@@ -1,4 +1,4 @@
-use cdpkit::{CdpError, Method, Sender, CDP};
+use cdpkit::{CdpError, CloseReason, Method, Sender, CDP};
 use futures::StreamExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -424,14 +424,8 @@ async fn discover_ws_url_integration() {
     // Should fail at WebSocket stage (not HTTP parsing stage)
     match result {
         Err(CdpError::WebSocket(_)) => {} // expected: HTTP worked, WS handshake failed
-        Err(CdpError::ConnectionFailed(msg)) => {
-            // Also acceptable if connection is refused on WS attempt
-            assert!(
-                !msg.contains("No Content-Length") && !msg.contains("No webSocketDebuggerUrl"),
-                "HTTP parsing failed unexpectedly: {}",
-                msg
-            );
-        }
+        Err(CdpError::HandshakeTimeout) => {} // Also acceptable: WS handshake timed out
+        Err(CdpError::Io(_)) => {}        // Also acceptable: connection refused on WS attempt
         Ok(_) => panic!("Should not succeed without a real WebSocket server"),
         Err(e) => panic!("Unexpected error type: {:?}", e),
     }
@@ -558,15 +552,9 @@ async fn connect_timeout_triggers() {
     let result = CDP::connect_ws_with_timeout(&url, Duration::from_millis(500)).await;
 
     match result {
-        Err(CdpError::ConnectionFailed(msg)) => {
-            assert!(
-                msg.contains("timed out"),
-                "Expected 'timed out' in error message, got: {}",
-                msg
-            );
-        }
+        Err(CdpError::HandshakeTimeout) => {} // expected: WS handshake timed out
         Ok(_) => panic!("Expected connection to time out, but it succeeded"),
-        Err(e) => panic!("Expected ConnectionFailed with timeout message, got: {:?}", e),
+        Err(e) => panic!("Expected HandshakeTimeout, got: {:?}", e),
     }
 }
 
@@ -598,4 +586,64 @@ async fn command_timeout_triggers() {
     .unwrap_err();
 
     assert!(matches!(err, CdpError::Timeout));
+}
+
+#[tokio::test]
+async fn close_reason_normal_after_client_close() {
+    let (addr, _server) = start_mock_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    // Before close, close_reason should be None
+    assert!(cdp.close_reason().is_none());
+
+    cdp.close().await;
+
+    // Give the message loop a moment to process the close
+    tokio::time::sleep(Duration::from_millis(50)).await;
+
+    let reason = cdp.close_reason().expect("close_reason should be Some after close");
+    assert!(
+        matches!(reason, CloseReason::Normal),
+        "Expected CloseReason::Normal, got: {:?}",
+        reason
+    );
+}
+
+#[tokio::test]
+async fn close_reason_remote_after_server_close() {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+
+    tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, _read) = ws.split();
+
+        use futures::SinkExt;
+        // Wait briefly then close from server side
+        tokio::time::sleep(Duration::from_millis(50)).await;
+        let _ = write.send(Message::Close(None)).await;
+    });
+
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    // Before the server closes, close_reason should be None
+    assert!(cdp.close_reason().is_none());
+
+    // Wait for the server-initiated close to propagate
+    tokio::time::sleep(Duration::from_millis(200)).await;
+
+    assert!(cdp.is_closed(), "Connection should be marked closed");
+
+    let reason = cdp
+        .close_reason()
+        .expect("close_reason should be Some after remote close");
+    assert!(
+        matches!(reason, CloseReason::Remote),
+        "Expected CloseReason::Remote, got: {:?}",
+        reason
+    );
 }
