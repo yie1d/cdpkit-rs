@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1] - 2026-06-26
+
+### Added
+- `CDP::connect_with_timeout(target, Duration)` and `CDP::connect_ws_with_timeout(url, Duration)` — connect with explicit WebSocket handshake timeout
+- `DEFAULT_CONNECT_TIMEOUT` constant (30s) — applied automatically by `CDP::connect` / `CDP::connect_ws`; previously those calls could hang indefinitely on unreachable endpoints
+- Guide for connecting to an existing logged-in Chrome instance (Chrome 136+ toggle mode): `docs/connect-existing-chrome.md` / `docs/connect-existing-chrome.zh.md`
+
 ## [0.3.0] - 2026-05-08
 
 ### Breaking Changes
