@@ -21,27 +21,56 @@ pub fn generate_code(protocols: &[Protocol]) -> String {
         let mut y = 1970i64;
         let mut remaining = days as i64;
         loop {
-            let days_in_year = if y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) { 366 } else { 365 };
-            if remaining < days_in_year { break; }
+            let days_in_year = if y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) {
+                366
+            } else {
+                365
+            };
+            if remaining < days_in_year {
+                break;
+            }
             remaining -= days_in_year;
             y += 1;
         }
         let leap = y % 4 == 0 && (y % 100 != 0 || y % 400 == 0);
-        let month_days = [31, if leap { 29 } else { 28 }, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        let month_days = [
+            31,
+            if leap { 29 } else { 28 },
+            31,
+            30,
+            31,
+            30,
+            31,
+            31,
+            30,
+            31,
+            30,
+            31,
+        ];
         let mut m = 0usize;
         for &md in &month_days {
-            if remaining < md { break; }
+            if remaining < md {
+                break;
+            }
             remaining -= md;
             m += 1;
         }
-        format!("{:04}-{:02}-{:02} {:02}:{:02}:{:02} UTC", y, m + 1, remaining + 1, hours, minutes, seconds)
+        format!(
+            "{:04}-{:02}-{:02} {:02}:{:02}:{:02} UTC",
+            y,
+            m + 1,
+            remaining + 1,
+            hours,
+            minutes,
+            seconds
+        )
     };
     output.push_str("// Auto-generated from Chrome DevTools Protocol\n");
     output.push_str(&format!("// Generated at: {}\n", now));
     output.push_str("// DO NOT EDIT MANUALLY  OvO\n\n");
     output.push_str("#![allow(dead_code, unused_imports, clippy::all)]\n\n");
     output.push_str("use serde::{Deserialize, Serialize};\n");
-    output.push_str("use crate::{Method, CDP};\n\n");
+    output.push_str("use crate::Method;\n\n");
 
     if let Some(protocol) = protocols.first() {
         output.push_str("/// CDP Protocol version (major.minor)\n");
@@ -170,7 +199,9 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
     }
 
     if !type_def.enum_.is_empty() {
-        output.push_str("        #[derive(Debug, Clone, Serialize, Deserialize)]\n");
+        output.push_str(
+            "        #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]\n",
+        );
         output.push_str(&format!("        pub enum {} {{\n", type_name));
         for variant in &type_def.enum_ {
             output.push_str(&format!("            #[serde(rename = \"{}\")]\n", variant));
@@ -193,7 +224,10 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
         output.push_str("            }\n");
         output.push_str("        }\n");
 
-        output.push_str(&format!("        impl std::str::FromStr for {} {{\n", type_name));
+        output.push_str(&format!(
+            "        impl std::str::FromStr for {} {{\n",
+            type_name
+        ));
         output.push_str("            type Err = String;\n");
         output.push_str("            fn from_str(s: &str) -> Result<Self, Self::Err> {\n");
         output.push_str("                match s {\n");
@@ -206,6 +240,18 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
         }
         output.push_str("                    _ => Err(s.to_string()),\n");
         output.push_str("                }\n");
+        output.push_str("            }\n");
+        output.push_str("        }\n");
+
+        // Display impl delegates to AsRef<str>
+        output.push_str(&format!(
+            "        impl std::fmt::Display for {} {{\n",
+            type_name
+        ));
+        output.push_str(
+            "            fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {\n",
+        );
+        output.push_str("                f.write_str(self.as_ref())\n");
         output.push_str("            }\n");
         output.push_str("        }\n");
     } else if !type_def.properties.is_empty() {
@@ -223,13 +269,15 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
                 output.push_str("            #[deprecated]\n");
             }
             if prop.optional {
-                output.push_str(
-                    "            #[serde(skip_serializing_if = \"Option::is_none\")]\n",
-                );
+                output
+                    .push_str("            #[serde(skip_serializing_if = \"Option::is_none\")]\n");
             }
             let field_name = sanitize_field_name(&prop.name.to_snake_case());
             if needs_serde_rename(&prop.name, &field_name) {
-                output.push_str(&format!("            #[serde(rename = \"{}\")]\n", prop.name));
+                output.push_str(&format!(
+                    "            #[serde(rename = \"{}\")]\n",
+                    prop.name
+                ));
             }
             let rust_type = prop.type_ref.to_rust_type(domain, type_map, true);
             let rust_type = if rust_type == *type_name {
@@ -242,7 +290,10 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
             } else {
                 rust_type
             };
-            output.push_str(&format!("            pub {}: {},\n", field_name, field_type));
+            output.push_str(&format!(
+                "            pub {}: {},\n",
+                field_name, field_type
+            ));
         }
         output.push_str("        }\n");
     } else {
@@ -267,7 +318,10 @@ fn generate_type(type_def: &TypeDef, domain: &str, type_map: &HashMap<String, St
         } else {
             "String".to_string()
         };
-        output.push_str(&format!("        pub type {} = {};\n", type_name, rust_type));
+        output.push_str(&format!(
+            "        pub type {} = {};\n",
+            type_name, rust_type
+        ));
     }
 
     output
@@ -296,7 +350,10 @@ fn generate_response(
         }
         let field_name = sanitize_field_name(&ret.name.to_snake_case());
         if needs_serde_rename(&ret.name, &field_name) {
-            output.push_str(&format!("            #[serde(rename = \"{}\")]\n", ret.name));
+            output.push_str(&format!(
+                "            #[serde(rename = \"{}\")]\n",
+                ret.name
+            ));
         }
         let rust_type = ret.type_ref.to_rust_type(domain, type_map, false);
         let field_type = if ret.optional || ret.experimental {
@@ -304,18 +361,17 @@ fn generate_response(
         } else {
             rust_type
         };
-        output.push_str(&format!("            pub {}: {},\n", field_name, field_type));
+        output.push_str(&format!(
+            "            pub {}: {},\n",
+            field_name, field_type
+        ));
     }
     output.push_str("        }\n");
 
     output
 }
 
-fn generate_command(
-    command: &Command,
-    domain: &str,
-    type_map: &HashMap<String, String>,
-) -> String {
+fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, String>) -> String {
     let mut output = String::new();
     let struct_name = command.name.to_pascal_case();
     let method_name = format!("{}.{}", domain, command.name);
@@ -326,10 +382,17 @@ fn generate_command(
     if command.experimental {
         output.push_str("        /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.\n");
     }
+    let required_params: Vec<_> = command.parameters.iter().filter(|p| !p.optional).collect();
+    let has_no_required = required_params.is_empty();
+
     if command.deprecated {
         output.push_str("        #[deprecated]\n");
     }
-    output.push_str("        #[derive(Debug, Clone, Serialize)]\n");
+    if has_no_required {
+        output.push_str("        #[derive(Debug, Clone, Default, Serialize)]\n");
+    } else {
+        output.push_str("        #[derive(Debug, Clone, Serialize)]\n");
+    }
     output.push_str("        #[serde(rename_all = \"camelCase\")]\n");
     output.push_str(&format!("        pub struct {} {{\n", struct_name));
 
@@ -344,13 +407,14 @@ fn generate_command(
             output.push_str("            #[deprecated]\n");
         }
         if param.optional {
-            output.push_str(
-                "            #[serde(skip_serializing_if = \"Option::is_none\")]\n",
-            );
+            output.push_str("            #[serde(skip_serializing_if = \"Option::is_none\")]\n");
         }
         let field_name = sanitize_field_name(&param.name.to_snake_case());
         if needs_serde_rename(&param.name, &field_name) {
-            output.push_str(&format!("            #[serde(rename = \"{}\")]\n", param.name));
+            output.push_str(&format!(
+                "            #[serde(rename = \"{}\")]\n",
+                param.name
+            ));
         }
         let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
         let field_type = if param.optional {
@@ -358,7 +422,10 @@ fn generate_command(
         } else {
             rust_type
         };
-        output.push_str(&format!("            {}: {},\n", field_name, field_type));
+        output.push_str(&format!(
+            "            pub {}: {},\n",
+            field_name, field_type
+        ));
     }
 
     output.push_str("        }\n\n");
@@ -366,8 +433,7 @@ fn generate_command(
     // Constructor and builder methods
     output.push_str(&format!("        impl {} {{\n", struct_name));
 
-    let required_params: Vec<_> = command.parameters.iter().filter(|p| !p.optional).collect();
-    if required_params.is_empty() {
+    if has_no_required {
         output.push_str("            pub fn new() -> Self {\n");
         output.push_str("                Self {\n");
         for param in &command.parameters {
@@ -384,19 +450,26 @@ fn generate_command(
             }
             let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
             let field_name = sanitize_field_name(&param.name.to_snake_case());
-            output.push_str(&format!("{}: impl Into<{}>", field_name, rust_type));
+            if rust_type == "String" {
+                output.push_str(&format!("{}: impl Into<{}>", field_name, rust_type));
+            } else {
+                output.push_str(&format!("{}: {}", field_name, rust_type));
+            }
         }
         output.push_str(") -> Self {\n");
         output.push_str("                Self {\n");
         for param in &command.parameters {
             let field_name = sanitize_field_name(&param.name.to_snake_case());
+            let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
             if param.optional {
                 output.push_str(&format!("                    {}: None,\n", field_name));
-            } else {
+            } else if rust_type == "String" {
                 output.push_str(&format!(
                     "                    {}: {}.into(),\n",
                     field_name, field_name
                 ));
+            } else {
+                output.push_str(&format!("                    {},\n", field_name));
             }
         }
         output.push_str("                }\n");
@@ -407,19 +480,28 @@ fn generate_command(
         let field_name = sanitize_field_name(&param.name.to_snake_case());
         let with_name = format!("with_{}", field_name);
         let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
-        output.push_str(&format!(
-            "\n            pub fn {}(mut self, {}: impl Into<{}>) -> Self {{\n",
-            with_name, field_name, rust_type
-        ));
-        output.push_str(&format!(
-            "                self.{} = Some({}.into());\n",
-            field_name, field_name
-        ));
+        if rust_type == "String" {
+            output.push_str(&format!(
+                "\n            pub fn {}(mut self, {}: impl Into<{}>) -> Self {{\n",
+                with_name, field_name, rust_type
+            ));
+            output.push_str(&format!(
+                "                self.{} = Some({}.into());\n",
+                field_name, field_name
+            ));
+        } else {
+            output.push_str(&format!(
+                "\n            pub fn {}(mut self, {}: {}) -> Self {{\n",
+                with_name, field_name, rust_type
+            ));
+            output.push_str(&format!(
+                "                self.{} = Some({});\n",
+                field_name, field_name
+            ));
+        }
         output.push_str("                self\n");
         output.push_str("            }\n");
     }
-
-    output.push_str("        }\n\n");
 
     // Method trait implementation
     let result_type = if command.returns.is_empty() {
@@ -427,6 +509,15 @@ fn generate_command(
     } else {
         format!("responses::{}Response", struct_name)
     };
+
+    // send method in the same impl block
+    output.push_str(&format!(
+        "            pub async fn send(self, target: &(impl crate::Sender + Sync)) -> Result<{}, crate::CdpError> {{\n",
+        result_type
+    ));
+    output.push_str("                target.send_cmd(self).await\n");
+    output.push_str("            }\n");
+    output.push_str("        }\n\n");
 
     output.push_str(&format!("        impl Method for {} {{\n", struct_name));
     output.push_str(&format!("            type Response = {};\n", result_type));
@@ -469,7 +560,10 @@ fn generate_event(event: &Event, domain: &str, type_map: &HashMap<String, String
         }
         let field_name = sanitize_field_name(&param.name.to_snake_case());
         if needs_serde_rename(&param.name, &field_name) {
-            output.push_str(&format!("            #[serde(rename = \"{}\")]\n", param.name));
+            output.push_str(&format!(
+                "            #[serde(rename = \"{}\")]\n",
+                param.name
+            ));
         }
         let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
         let field_type = if param.optional {
@@ -477,15 +571,18 @@ fn generate_event(event: &Event, domain: &str, type_map: &HashMap<String, String
         } else {
             rust_type
         };
-        output.push_str(&format!("            pub {}: {},\n", field_name, field_type));
+        output.push_str(&format!(
+            "            pub {}: {},\n",
+            field_name, field_type
+        ));
     }
 
     output.push_str("        }\n\n");
 
     output.push_str(&format!("        impl {} {{\n", struct_name));
-    output.push_str("            pub fn subscribe(cdp: &CDP) -> std::pin::Pin<Box<dyn futures::stream::Stream<Item = Self> + Send>> {\n");
+    output.push_str("            pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {\n");
     output.push_str(&format!(
-        "                cdp.inner.event_stream(\"{}\")\n",
+        "                target.event_stream(\"{}\")\n",
         method_name
     ));
     output.push_str("            }\n");

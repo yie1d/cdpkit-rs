@@ -19,6 +19,9 @@ pub enum CdpError {
 
     #[error("Connection failed: {0}")]
     ConnectionFailed(String),
+
+    #[error("Command timed out")]
+    Timeout,
 }
 
 impl CdpError {
