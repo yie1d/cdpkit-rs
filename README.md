@@ -46,7 +46,7 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **Enable** — CDP requires you to enable a domain (e.g., `page::methods::Enable`) before its events are delivered.
 - **`with_flatten(true)`** — When attaching to a target, flatten mode delivers session events directly on the main connection (required for event subscriptions to work).
 - **Event ordering** — Always subscribe to events *before* triggering the action that produces them, otherwise events may be lost.
-- **Event channel** — Each subscription has a buffer of 1024 events. If the consumer is too slow, excess events are dropped with a warning log.
+- **Event channel** — Each subscription uses an unbounded channel. Event channels are unbounded — if your handler contains slow I/O, use `tokio::spawn` to process events off the stream loop, otherwise memory may grow unboundedly under high event rates.
 
 ## Quick Start
 

@@ -21,9 +21,6 @@ type WsStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
 /// Channel capacity for outgoing WebSocket messages
 const WS_SEND_CAPACITY: usize = 256;
 
-/// Channel capacity for event listeners
-const EVENT_CHANNEL_CAPACITY: usize = 1024;
-
 /// Default timeout for CDP commands
 const DEFAULT_COMMAND_TIMEOUT: Duration = Duration::from_secs(30);
 
@@ -181,7 +178,7 @@ impl CDPInner {
     where
         T: DeserializeOwned + Send + 'static,
     {
-        let (tx, rx) = mpsc::channel(EVENT_CHANNEL_CAPACITY);
+        let (tx, rx) = mpsc::unbounded_channel();
         let event_name: Arc<str> = event_name.into();
 
         debug!(event = %event_name, "Subscribing to event");
@@ -194,7 +191,7 @@ impl CDPInner {
             })
             .add_listener(&event_name, session_id, tx);
 
-        let rx_stream = tokio_stream::wrappers::ReceiverStream::new(rx);
+        let rx_stream = tokio_stream::wrappers::UnboundedReceiverStream::new(rx);
 
         Box::pin(rx_stream.filter_map(move |v| {
             let event_name = Arc::clone(&event_name);

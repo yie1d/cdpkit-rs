@@ -44,7 +44,7 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **Enable** — CDP 要求先启用域（如 `page::methods::Enable`）才能接收该域的事件。
 - **`with_flatten(true)`** — 附加到 target 时，flatten 模式让 session 事件直接在主连接上传递（事件订阅正常工作的前提）。
 - **事件订阅顺序** — 必须在触发动作之前订阅事件，否则事件可能丢失。
-- **事件通道** — 每个订阅有 1024 个事件的缓冲区。消费者处理过慢时，多余事件会被丢弃并记录警告日志。
+- **事件通道** — 每个订阅使用无界通道。事件通道无界——如果事件处理逻辑含有 I/O 或耗时操作，请用 `tokio::spawn` 将处理移出流消费循环，否则在高频事件下内存会持续增长。
 
 ## 快速开始
 

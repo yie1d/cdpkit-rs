@@ -118,6 +118,8 @@ println!("Frame ID: {}", result["frameId"]);
 
 ### Powerful Event Handling
 
+Event channels are unbounded — if your handler contains slow I/O, use `tokio::spawn` to process events off the stream loop, otherwise memory may grow unboundedly under high event rates.
+
 ```rust
 use futures::StreamExt;
 

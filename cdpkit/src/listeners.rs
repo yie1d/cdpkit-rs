@@ -1,12 +1,11 @@
 use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::sync::mpsc::Sender;
-use tracing::warn;
+use tokio::sync::mpsc::UnboundedSender;
 
 struct Listener {
     session_id: Option<String>,
-    sender: Sender<Arc<Value>>,
+    sender: UnboundedSender<Arc<Value>>,
 }
 
 pub(crate) struct EventListeners {
@@ -24,7 +23,7 @@ impl EventListeners {
         &mut self,
         event_name: &str,
         session_id: Option<String>,
-        sender: Sender<Arc<Value>>,
+        sender: UnboundedSender<Arc<Value>>,
     ) {
         self.listeners
             .entry(event_name.to_string())
@@ -45,14 +44,8 @@ impl EventListeners {
                     return true;
                 }
 
-                match listener.sender.try_send(event.clone()) {
-                    Ok(()) => true,
-                    Err(tokio::sync::mpsc::error::TrySendError::Full(_)) => {
-                        warn!(event = event_name, "Event channel full, dropping event");
-                        true
-                    }
-                    Err(tokio::sync::mpsc::error::TrySendError::Closed(_)) => false,
-                }
+                // UnboundedSender::send only fails when the receiver is dropped
+                listener.sender.send(event.clone()).is_ok()
             });
         }
     }
@@ -71,8 +64,8 @@ mod tests {
     #[test]
     fn dispatch_to_multiple_listeners() {
         let mut listeners = EventListeners::new();
-        let (tx1, mut rx1) = mpsc::channel(16);
-        let (tx2, mut rx2) = mpsc::channel(16);
+        let (tx1, mut rx1) = mpsc::unbounded_channel();
+        let (tx2, mut rx2) = mpsc::unbounded_channel();
 
         listeners.add_listener("Test.event", None, tx1);
         listeners.add_listener("Test.event", None, tx2);
@@ -87,8 +80,8 @@ mod tests {
     #[test]
     fn closed_listener_removed() {
         let mut listeners = EventListeners::new();
-        let (tx1, mut rx1) = mpsc::channel(16);
-        let (tx2, rx2_dropped) = mpsc::channel::<Arc<Value>>(16);
+        let (tx1, mut rx1) = mpsc::unbounded_channel();
+        let (tx2, rx2_dropped) = mpsc::unbounded_channel::<Arc<Value>>();
 
         listeners.add_listener("Test.event", None, tx1);
         listeners.add_listener("Test.event", None, tx2);
@@ -106,19 +99,19 @@ mod tests {
     }
 
     #[test]
-    fn full_channel_keeps_listener() {
+    fn unbounded_channel_buffers_all_events() {
         let mut listeners = EventListeners::new();
-        let (tx, mut rx) = mpsc::channel(1);
+        let (tx, mut rx) = mpsc::unbounded_channel();
         listeners.add_listener("Test.event", None, tx);
 
-        listeners.dispatch("Test.event", None, Arc::new(json!(1)));
-        listeners.dispatch("Test.event", None, Arc::new(json!(2)));
+        // Unbounded channel never drops events
+        for i in 0..100 {
+            listeners.dispatch("Test.event", None, Arc::new(json!(i)));
+        }
 
-        assert_eq!(*rx.try_recv().unwrap(), json!(1));
-        assert!(rx.try_recv().is_err());
-
-        listeners.dispatch("Test.event", None, Arc::new(json!(3)));
-        assert_eq!(*rx.try_recv().unwrap(), json!(3));
+        for i in 0..100 {
+            assert_eq!(*rx.try_recv().unwrap(), json!(i));
+        }
     }
 
     #[test]
@@ -130,8 +123,8 @@ mod tests {
     #[test]
     fn session_filter_only_matching() {
         let mut listeners = EventListeners::new();
-        let (tx1, mut rx1) = mpsc::channel(16);
-        let (tx2, mut rx2) = mpsc::channel(16);
+        let (tx1, mut rx1) = mpsc::unbounded_channel();
+        let (tx2, mut rx2) = mpsc::unbounded_channel();
 
         listeners.add_listener("Test.event", Some("session-A".into()), tx1);
         listeners.add_listener("Test.event", Some("session-B".into()), tx2);
@@ -145,7 +138,7 @@ mod tests {
     #[test]
     fn none_session_listener_receives_all() {
         let mut listeners = EventListeners::new();
-        let (tx, mut rx) = mpsc::channel(16);
+        let (tx, mut rx) = mpsc::unbounded_channel();
 
         listeners.add_listener("Test.event", None, tx);
 

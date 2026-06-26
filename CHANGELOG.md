@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.2] - 2026-06-26
+
+### Changed
+- Event channels are now unbounded — events are never silently dropped under backpressure. Previously a bounded channel of 1024 slots per subscription would drop events when full. Slow consumers should use `tokio::spawn` to process events off the stream loop to avoid unbounded memory growth.
+
 ## [0.3.1] - 2026-06-26
 
 ### Added
