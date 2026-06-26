@@ -1,5 +1,5 @@
 // Auto-generated from Chrome DevTools Protocol
-// Generated at: 2026-05-08 02:06:06 UTC
+// Generated at: 2026-06-26 06:49:13 UTC
 // DO NOT EDIT MANUALLY  OvO
 
 #![allow(dead_code, unused_imports, clippy::all)]
@@ -39823,7 +39823,7 @@ pub mod target {
             pub fn new(target_id: types::TargetID) -> Self {
                 Self {
                     target_id,
-                    flatten: None,
+                    flatten: Some(true),
                 }
             }
 
@@ -40373,7 +40373,7 @@ pub mod target {
                 Self {
                     auto_attach,
                     wait_for_debugger_on_start,
-                    flatten: None,
+                    flatten: Some(true),
                     filter: None,
                 }
             }

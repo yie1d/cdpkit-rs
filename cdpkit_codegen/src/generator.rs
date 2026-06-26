@@ -371,6 +371,18 @@ fn generate_response(
     output
 }
 
+/// Returns a custom default value for specific optional fields that should not default to `None`.
+///
+/// cdpkit only implements flatten mode for session message routing, so `flatten` must be `true`
+/// for `AttachToTarget` and `SetAutoAttach` to avoid silent failures.
+fn field_default_override(domain: &str, command_name: &str, field_name: &str) -> Option<&'static str> {
+    match (domain, command_name, field_name) {
+        ("Target", "attachToTarget", "flatten") => Some("Some(true)"),
+        ("Target", "setAutoAttach", "flatten") => Some("Some(true)"),
+        _ => None,
+    }
+}
+
 fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, String>) -> String {
     let mut output = String::new();
     let struct_name = command.name.to_pascal_case();
@@ -438,7 +450,9 @@ fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, 
         output.push_str("                Self {\n");
         for param in &command.parameters {
             let field_name = sanitize_field_name(&param.name.to_snake_case());
-            output.push_str(&format!("                    {}: None,\n", field_name));
+            let default_val = field_default_override(domain, &command.name, &param.name)
+                .unwrap_or("None");
+            output.push_str(&format!("                    {}: {},\n", field_name, default_val));
         }
         output.push_str("                }\n");
         output.push_str("            }\n");
@@ -462,7 +476,9 @@ fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, 
             let field_name = sanitize_field_name(&param.name.to_snake_case());
             let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
             if param.optional {
-                output.push_str(&format!("                    {}: None,\n", field_name));
+                let default_val = field_default_override(domain, &command.name, &param.name)
+                    .unwrap_or("None");
+                output.push_str(&format!("                    {}: {},\n", field_name, default_val));
             } else if rust_type == "String" {
                 output.push_str(&format!(
                     "                    {}: {}.into(),\n",
