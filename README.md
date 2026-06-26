@@ -44,9 +44,11 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **OwnedSession** — Like `Session` but owns the connection (`Send + 'static`). Use `cdp.owned_session(id)` when you need to pass it into `tokio::spawn`.
 - **Sender trait** — Both `CDP` and `Session` implement `Sender`. Pass `&cdp` for browser commands, `&session` for page commands.
 - **Enable** — CDP requires you to enable a domain (e.g., `page::methods::Enable`) before its events are delivered.
-- **`with_flatten(true)`** — When attaching to a target, flatten mode delivers session events directly on the main connection (required for event subscriptions to work).
+- **flatten mode** — `AttachToTarget` defaults to `flatten: true` (required for session events to work). Passing `with_flatten(false)` is unsupported — cdpkit only implements flatten mode.
 - **Event ordering** — Always subscribe to events *before* triggering the action that produces them, otherwise events may be lost.
 - **Event channel** — Each subscription uses an unbounded channel. Event channels are unbounded — if your handler contains slow I/O, use `tokio::spawn` to process events off the stream loop, otherwise memory may grow unboundedly under high event rates.
+- **Connection errors** — `CdpError` has specific variants for each failure phase: `Io`, `DiscoveryTimeout`, `HandshakeTimeout`, `HttpStatus`, `InvalidDiscoveryResponse`. Use `err.is_connection_failed()` or `err.is_timeout()` for broad checks.
+- **CloseReason** — `CDP::close_reason()` returns why the connection ended (`Normal` / `Remote` / `Error`). The connection is also closed automatically when all `CDP` handles are dropped.
 
 ## Quick Start
 
@@ -66,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Attach to the page
     let attach = target::methods::AttachToTarget::new(result.target_id)
-        .with_flatten(true)
+        // flatten mode is the default (required for session events)
         .send(&cdp)
         .await?;
 

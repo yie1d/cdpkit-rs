@@ -1,5 +1,45 @@
 # Changelog
 
+## [0.4.0] - 2026-06-26
+
+### Breaking Changes
+
+- `CdpError::ConnectionFailed(String)` removed — replaced by specific variants:
+  - `CdpError::Io(String)` — TCP connect / I/O errors
+  - `CdpError::DiscoveryTimeout` — HTTP `/json/version` discovery timed out
+  - `CdpError::HandshakeTimeout` — WebSocket handshake timed out
+  - `CdpError::HttpStatus(u16)` — Chrome returned non-200 HTTP status
+  - `CdpError::InvalidDiscoveryResponse(String)` — malformed discovery response
+- `CdpError` is now `#[non_exhaustive]` — `match` arms require a `_` wildcard
+- `CloseReason` is now `#[non_exhaustive]`
+- `AttachToTarget::new()` and `SetAutoAttach::new()` now default `flatten` to `Some(true)` — previously `None` (non-flatten mode, which cdpkit does not support)
+
+### Added
+
+- `CloseReason` enum (`Normal` / `Remote` / `Error(String)`) and `CDP::close_reason()` — inspect why a connection ended
+- `CdpError::is_timeout()` — returns `true` for `Timeout`, `DiscoveryTimeout`, `HandshakeTimeout`
+- `CdpError::is_connection_failed()` — returns `true` for all connection-phase errors
+
+### Migration from 0.3.x
+
+```rust
+// Before
+match err {
+    CdpError::ConnectionFailed(msg) if msg.contains("timed out") => { /* retry */ }
+    CdpError::ConnectionFailed(_) => { /* config error */ }
+    _ => {}
+}
+
+// After
+match err {
+    e if e.is_timeout() => { /* retry */ }
+    CdpError::HttpStatus(code) => { /* Chrome returned HTTP {code} */ }
+    CdpError::InvalidDiscoveryResponse(_) => { /* config error */ }
+    CdpError::Io(_) => { /* network error */ }
+    _ => {}
+}
+```
+
 ## [0.3.2] - 2026-06-26
 
 ### Changed

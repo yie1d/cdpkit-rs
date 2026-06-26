@@ -42,9 +42,11 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **OwnedSession** — 与 `Session` 类似但拥有连接（`Send + 'static`）。需要在 `tokio::spawn` 中使用时，用 `cdp.owned_session(id)` 创建。
 - **Sender trait** — `CDP` 和 `Session` 都实现了 `Sender`。传 `&cdp` 执行浏览器命令，传 `&session` 执行页面命令。
 - **Enable** — CDP 要求先启用域（如 `page::methods::Enable`）才能接收该域的事件。
-- **`with_flatten(true)`** — 附加到 target 时，flatten 模式让 session 事件直接在主连接上传递（事件订阅正常工作的前提）。
+- **flatten 模式** — `AttachToTarget` 默认 `flatten: true`（session 事件正常工作的前提）。传 `with_flatten(false)` 不受支持——cdpkit 只实现了 flatten 模式。
 - **事件订阅顺序** — 必须在触发动作之前订阅事件，否则事件可能丢失。
-- **事件通道** — 每个订阅使用无界通道。事件通道无界——如果事件处理逻辑含有 I/O 或耗时操作，请用 `tokio::spawn` 将处理移出流消费循环，否则在高频事件下内存会持续增长。
+- **事件通道** — 每个订阅使用无界通道，不会丢事件。如果事件处理含有 I/O 或耗时操作，请用 `tokio::spawn` 将处理移出流消费循环，否则在高频事件下内存会持续增长。
+- **连接错误** — `CdpError` 针对每个失败阶段有专用变体：`Io`、`DiscoveryTimeout`、`HandshakeTimeout`、`HttpStatus`、`InvalidDiscoveryResponse`。可用 `err.is_connection_failed()` 或 `err.is_timeout()` 做宽泛判断。
+- **CloseReason** — `CDP::close_reason()` 返回连接关闭原因（`Normal` / `Remote` / `Error`）。所有 `CDP` handle drop 后连接会自动关闭。
 
 ## 快速开始
 
@@ -64,7 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 附加到页面
     let attach = target::methods::AttachToTarget::new(result.target_id)
-        .with_flatten(true)
+        // flatten 模式为默认值（session 事件正常工作的前提）
         .send(&cdp)
         .await?;
 
