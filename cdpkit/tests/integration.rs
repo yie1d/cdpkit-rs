@@ -5,6 +5,7 @@ use serde_json::{json, Value};
 use std::net::SocketAddr;
 use std::time::Duration;
 use tokio::net::TcpListener;
+use tokio::sync::oneshot;
 use tokio_tungstenite::tungstenite::Message;
 
 async fn start_mock_server() -> (SocketAddr, tokio::task::JoinHandle<()>) {
@@ -55,6 +56,71 @@ async fn start_mock_server() -> (SocketAddr, tokio::task::JoinHandle<()>) {
     });
 
     (addr, handle)
+}
+
+async fn start_controlled_client_close_server() -> (
+    SocketAddr,
+    oneshot::Receiver<()>,
+    oneshot::Sender<()>,
+    tokio::task::JoinHandle<()>,
+) {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let (close_seen_tx, close_seen_rx) = oneshot::channel();
+    let (finish_tx, mut finish_rx) = oneshot::channel();
+
+    let handle = tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, mut read) = ws.split();
+
+        use futures::SinkExt;
+
+        let mut close_seen_tx = Some(close_seen_tx);
+        while let Some(Ok(msg)) = read.next().await {
+            match msg {
+                Message::Text(text) => {
+                    if let Ok(val) = serde_json::from_str::<Value>(&text) {
+                        if let Some(id) = val.get("id").and_then(|v| v.as_u64()) {
+                            let resp = json!({"id": id, "result": {}});
+                            let _ = write.send(Message::Text(resp.to_string().into())).await;
+                        }
+                    }
+                }
+                Message::Close(frame) => {
+                    if let Some(tx) = close_seen_tx.take() {
+                        let _ = tx.send(());
+                    }
+                    let _ = (&mut finish_rx).await;
+                    let _ = write.send(Message::Close(frame)).await;
+                    break;
+                }
+                _ => {}
+            }
+        }
+    });
+
+    (addr, close_seen_rx, finish_tx, handle)
+}
+
+async fn start_controlled_remote_close_server(
+) -> (SocketAddr, oneshot::Sender<()>, tokio::task::JoinHandle<()>) {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let (trigger_tx, trigger_rx) = oneshot::channel();
+
+    let handle = tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, _read) = ws.split();
+
+        use futures::SinkExt;
+
+        let _ = trigger_rx.await;
+        let _ = write.send(Message::Close(None)).await;
+    });
+
+    (addr, trigger_tx, handle)
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -589,21 +655,135 @@ async fn command_timeout_triggers() {
 }
 
 #[tokio::test]
-async fn close_reason_normal_after_client_close() {
+async fn closed_pending_while_connection_active() {
     let (addr, _server) = start_mock_server().await;
     let url = format!("ws://127.0.0.1:{}", addr.port());
 
     let cdp = CDP::connect_ws(&url).await.unwrap();
 
-    // Before close, close_reason should be None
+    // closed() should NOT resolve while the connection is active
+    let result = tokio::time::timeout(Duration::from_millis(200), cdp.closed()).await;
+    assert!(
+        result.is_err(),
+        "closed() should not resolve while connection is active"
+    );
+}
+
+#[tokio::test]
+async fn closed_waits_for_message_loop_exit_after_close_request() {
+    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+    let cdp2 = cdp.clone();
+
+    let handle = tokio::spawn(async move { cdp2.closed().await });
+
+    cdp.close().await;
+    close_seen_rx.await.unwrap();
+
+    assert!(
+        !handle.is_finished(),
+        "closed() should wait for the message loop to exit, not just for close() to be called"
+    );
+
+    finish_tx.send(()).unwrap();
+    handle.await.unwrap();
+}
+
+#[tokio::test]
+async fn closed_resolves_after_message_loop_exits() {
+    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+    let cdp2 = cdp.clone();
+
+    let handle = tokio::spawn(async move { cdp2.closed().await });
+
+    cdp.close().await;
+    close_seen_rx.await.unwrap();
+    finish_tx.send(()).unwrap();
+
+    let result = tokio::time::timeout(Duration::from_secs(2), handle).await;
+    assert!(
+        result.is_ok(),
+        "closed() should resolve after the message loop exits"
+    );
+    result.unwrap().unwrap();
+}
+
+#[tokio::test]
+async fn closed_returns_immediately_when_already_closed() {
+    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+    cdp.close().await;
+    close_seen_rx.await.unwrap();
+    finish_tx.send(()).unwrap();
+    cdp.closed().await;
+
+    assert!(cdp.is_closed());
+
+    let result = tokio::time::timeout(Duration::from_millis(200), cdp.closed()).await;
+    assert!(
+        result.is_ok(),
+        "closed() should return immediately on already-closed connection"
+    );
+}
+
+#[tokio::test]
+async fn closed_notifies_multiple_waiters() {
+    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    let mut handles = Vec::new();
+    for _ in 0..5 {
+        let cdp_clone = cdp.clone();
+        handles.push(tokio::spawn(async move {
+            cdp_clone.closed().await;
+        }));
+    }
+
+    cdp.close().await;
+    close_seen_rx.await.unwrap();
+    finish_tx.send(()).unwrap();
+
+    for (i, handle) in handles.into_iter().enumerate() {
+        let result = tokio::time::timeout(Duration::from_secs(2), handle).await;
+        assert!(
+            result.is_ok(),
+            "Waiter {} was not notified after close()",
+            i
+        );
+        result.unwrap().unwrap();
+    }
+}
+
+#[tokio::test]
+async fn close_reason_normal_after_client_close() {
+    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
     assert!(cdp.close_reason().is_none());
 
     cdp.close().await;
+    close_seen_rx.await.unwrap();
+    assert!(
+        cdp.close_reason().is_none(),
+        "close_reason should stay pending until shutdown finishes"
+    );
+    finish_tx.send(()).unwrap();
+    cdp.closed().await;
 
-    // Give the message loop a moment to process the close
-    tokio::time::sleep(Duration::from_millis(50)).await;
-
-    let reason = cdp.close_reason().expect("close_reason should be Some after close");
+    let reason = cdp
+        .close_reason()
+        .expect("close_reason should be Some after close");
     assert!(
         matches!(reason, CloseReason::Normal),
         "Expected CloseReason::Normal, got: {:?}",
@@ -613,28 +793,14 @@ async fn close_reason_normal_after_client_close() {
 
 #[tokio::test]
 async fn close_reason_remote_after_server_close() {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-
-    tokio::spawn(async move {
-        let (stream, _) = listener.accept().await.unwrap();
-        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
-        let (mut write, _read) = ws.split();
-
-        use futures::SinkExt;
-        // Wait briefly then close from server side
-        tokio::time::sleep(Duration::from_millis(50)).await;
-        let _ = write.send(Message::Close(None)).await;
-    });
+    let (addr, trigger_tx, _server) = start_controlled_remote_close_server().await;
 
     let url = format!("ws://127.0.0.1:{}", addr.port());
     let cdp = CDP::connect_ws(&url).await.unwrap();
 
-    // Before the server closes, close_reason should be None
     assert!(cdp.close_reason().is_none());
-
-    // Wait for the server-initiated close to propagate
-    tokio::time::sleep(Duration::from_millis(200)).await;
+    trigger_tx.send(()).unwrap();
+    cdp.closed().await;
 
     assert!(cdp.is_closed(), "Connection should be marked closed");
 

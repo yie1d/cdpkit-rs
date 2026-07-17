@@ -11,7 +11,7 @@ use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
 use tokio::net::TcpStream;
-use tokio::sync::{mpsc, oneshot, Mutex};
+use tokio::sync::{mpsc, oneshot, watch, Mutex};
 use tokio_tungstenite::tungstenite::Message;
 use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
 use tracing::{debug, error, info, trace, warn};
@@ -30,6 +30,7 @@ pub(crate) struct CDPInner {
     event_listeners: Arc<std::sync::RwLock<EventListeners>>,
     next_id: AtomicU64,
     closed: AtomicBool,
+    close_complete: watch::Sender<bool>,
     command_timeout_ms: AtomicU64,
     close_reason: std::sync::Mutex<Option<crate::CloseReason>>,
 }
@@ -46,12 +47,15 @@ impl CDPInner {
 
         let (tx, rx) = mpsc::channel(WS_SEND_CAPACITY);
 
+        let (close_complete, _) = watch::channel(false);
+
         let inner = Arc::new(Self {
             tx,
             pending: Mutex::new(HashMap::new()),
             event_listeners: Arc::new(std::sync::RwLock::new(EventListeners::new())),
             next_id: AtomicU64::new(1),
             closed: AtomicBool::new(false),
+            close_complete,
             command_timeout_ms: AtomicU64::new(DEFAULT_COMMAND_TIMEOUT.as_millis() as u64),
             close_reason: std::sync::Mutex::new(None),
         });
@@ -82,7 +86,18 @@ impl CDPInner {
     }
 
     pub fn close_reason(&self) -> Option<crate::CloseReason> {
-        self.close_reason.lock().unwrap_or_else(|e| e.into_inner()).clone()
+        self.close_reason
+            .lock()
+            .unwrap_or_else(|e| e.into_inner())
+            .clone()
+    }
+
+    pub async fn closed(&self) {
+        let mut close_complete = self.close_complete.subscribe();
+        if *close_complete.borrow() {
+            return;
+        }
+        let _ = close_complete.changed().await;
     }
 
     /// Non-blocking close attempt used by `Drop for CDP`.
@@ -279,6 +294,7 @@ impl CDPInner {
         // before the loop exited — treat the exit as Normal regardless of the WS-level outcome.
         let user_initiated = self.closed.load(Ordering::Acquire);
         self.closed.store(true, Ordering::Release);
+        let _ = self.close_complete.send(true);
 
         // Record close reason
         if let Some(reason) = exit_reason {

@@ -298,6 +298,23 @@ impl CDP {
     pub fn close_reason(&self) -> Option<CloseReason> {
         self.inner.close_reason()
     }
+
+    /// Resolves when the connection is closed.
+    /// Returns immediately if already closed.
+    /// Useful for spawning a monitoring task:
+    ///
+    /// ```rust,no_run
+    /// # use cdpkit::CDP;
+    /// # async fn example(cdp: CDP) {
+    /// tokio::spawn(async move {
+    ///     cdp.closed().await;
+    ///     // cleanup...
+    /// });
+    /// # }
+    /// ```
+    pub async fn closed(&self) {
+        self.inner.closed().await;
+    }
 }
 
 /// Discover WebSocket URL from Chrome's remote debugging endpoint
@@ -381,9 +398,7 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
             if let Some(status_str) = line.split_whitespace().nth(1) {
                 if status_str != "200" {
                     let code = status_str.parse::<u16>().map_err(|_| {
-                        CdpError::InvalidDiscoveryResponse(
-                            "Invalid HTTP status line".to_string(),
-                        )
+                        CdpError::InvalidDiscoveryResponse("Invalid HTTP status line".to_string())
                     })?;
                     return Err(CdpError::HttpStatus(code));
                 }

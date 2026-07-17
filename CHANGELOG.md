@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+
+- `CDP::closed()` — async method that resolves when the WebSocket connection is closed; returns immediately if already closed. Useful for spawning a monitoring task without polling `is_closed()`.
+
 ## [0.4.0] - 2026-06-26
 
 ### Breaking Changes
