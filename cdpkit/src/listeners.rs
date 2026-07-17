@@ -1,11 +1,25 @@
+use crate::{EventOverflowStrategy, EventStreamPolicy};
 use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::Arc;
-use tokio::sync::mpsc::UnboundedSender;
+use tokio::sync::mpsc::{self, Receiver, Sender, UnboundedReceiver, UnboundedSender};
+
+pub(crate) enum EventReceiver {
+    Unbounded(UnboundedReceiver<Arc<Value>>),
+    Bounded(Receiver<Arc<Value>>),
+}
+
+enum ListenerSender {
+    Unbounded(UnboundedSender<Arc<Value>>),
+    Bounded {
+        sender: Sender<Arc<Value>>,
+        overflow: EventOverflowStrategy,
+    },
+}
 
 struct Listener {
     session_id: Option<String>,
-    sender: UnboundedSender<Arc<Value>>,
+    sender: ListenerSender,
 }
 
 pub(crate) struct EventListeners {
@@ -23,12 +37,31 @@ impl EventListeners {
         &mut self,
         event_name: &str,
         session_id: Option<String>,
-        sender: UnboundedSender<Arc<Value>>,
-    ) {
+        policy: EventStreamPolicy,
+    ) -> EventReceiver {
+        let (sender, receiver) = match policy {
+            EventStreamPolicy::Unbounded => {
+                let (tx, rx) = mpsc::unbounded_channel();
+                (ListenerSender::Unbounded(tx), EventReceiver::Unbounded(rx))
+            }
+            EventStreamPolicy::Bounded { capacity, overflow } => {
+                let (tx, rx) = mpsc::channel(capacity.get());
+                (
+                    ListenerSender::Bounded {
+                        sender: tx,
+                        overflow,
+                    },
+                    EventReceiver::Bounded(rx),
+                )
+            }
+        };
+
         self.listeners
             .entry(event_name.to_string())
             .or_default()
             .push(Listener { session_id, sender });
+
+        receiver
     }
 
     pub fn dispatch(&mut self, event_name: &str, session_id: Option<&str>, event: Arc<Value>) {
@@ -45,7 +78,18 @@ impl EventListeners {
                 }
 
                 // UnboundedSender::send only fails when the receiver is dropped
-                listener.sender.send(event.clone()).is_ok()
+                match &listener.sender {
+                    ListenerSender::Unbounded(sender) => sender.send(event.clone()).is_ok(),
+                    ListenerSender::Bounded { sender, overflow } => {
+                        match sender.try_send(event.clone()) {
+                            Ok(()) => true,
+                            Err(tokio::sync::mpsc::error::TrySendError::Full(_)) => {
+                                matches!(overflow, EventOverflowStrategy::DropNewest)
+                            }
+                            Err(tokio::sync::mpsc::error::TrySendError::Closed(_)) => false,
+                        }
+                    }
+                }
             });
         }
     }
@@ -59,6 +103,7 @@ impl EventListeners {
 mod tests {
     use super::*;
     use serde_json::json;
+    use std::num::NonZeroUsize;
     use tokio::sync::mpsc;
 
     #[test]
@@ -67,8 +112,22 @@ mod tests {
         let (tx1, mut rx1) = mpsc::unbounded_channel();
         let (tx2, mut rx2) = mpsc::unbounded_channel();
 
-        listeners.add_listener("Test.event", None, tx1);
-        listeners.add_listener("Test.event", None, tx2);
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx1),
+            });
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx2),
+            });
 
         let event = Arc::new(json!({"key": "value"}));
         listeners.dispatch("Test.event", None, event.clone());
@@ -83,8 +142,22 @@ mod tests {
         let (tx1, mut rx1) = mpsc::unbounded_channel();
         let (tx2, rx2_dropped) = mpsc::unbounded_channel::<Arc<Value>>();
 
-        listeners.add_listener("Test.event", None, tx1);
-        listeners.add_listener("Test.event", None, tx2);
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx1),
+            });
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx2),
+            });
 
         drop(rx2_dropped);
 
@@ -102,7 +175,14 @@ mod tests {
     fn unbounded_channel_buffers_all_events() {
         let mut listeners = EventListeners::new();
         let (tx, mut rx) = mpsc::unbounded_channel();
-        listeners.add_listener("Test.event", None, tx);
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx),
+            });
 
         // Unbounded channel never drops events
         for i in 0..100 {
@@ -126,8 +206,22 @@ mod tests {
         let (tx1, mut rx1) = mpsc::unbounded_channel();
         let (tx2, mut rx2) = mpsc::unbounded_channel();
 
-        listeners.add_listener("Test.event", Some("session-A".into()), tx1);
-        listeners.add_listener("Test.event", Some("session-B".into()), tx2);
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: Some("session-A".into()),
+                sender: ListenerSender::Unbounded(tx1),
+            });
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: Some("session-B".into()),
+                sender: ListenerSender::Unbounded(tx2),
+            });
 
         listeners.dispatch("Test.event", Some("session-A"), Arc::new(json!({"a": 1})));
 
@@ -140,12 +234,69 @@ mod tests {
         let mut listeners = EventListeners::new();
         let (tx, mut rx) = mpsc::unbounded_channel();
 
-        listeners.add_listener("Test.event", None, tx);
+        listeners
+            .listeners
+            .entry("Test.event".into())
+            .or_default()
+            .push(Listener {
+                session_id: None,
+                sender: ListenerSender::Unbounded(tx),
+            });
 
         listeners.dispatch("Test.event", Some("any-session"), Arc::new(json!(1)));
         listeners.dispatch("Test.event", None, Arc::new(json!(2)));
 
         assert_eq!(*rx.try_recv().unwrap(), json!(1));
         assert_eq!(*rx.try_recv().unwrap(), json!(2));
+    }
+
+    #[test]
+    fn bounded_drop_newest_keeps_listener_registered() {
+        let mut listeners = EventListeners::new();
+        let receiver = listeners.add_listener(
+            "Test.event",
+            None,
+            EventStreamPolicy::Bounded {
+                capacity: NonZeroUsize::new(1).unwrap(),
+                overflow: EventOverflowStrategy::DropNewest,
+            },
+        );
+
+        let mut rx = match receiver {
+            EventReceiver::Bounded(rx) => rx,
+            EventReceiver::Unbounded(_) => panic!("expected bounded receiver"),
+        };
+
+        listeners.dispatch("Test.event", None, Arc::new(json!(1)));
+        listeners.dispatch("Test.event", None, Arc::new(json!(2)));
+        listeners.dispatch("Test.event", None, Arc::new(json!(3)));
+
+        assert_eq!(*rx.try_recv().unwrap(), json!(1));
+        assert!(rx.try_recv().is_err());
+        assert_eq!(listeners.listeners["Test.event"].len(), 1);
+    }
+
+    #[test]
+    fn bounded_close_stream_removes_listener_on_overflow() {
+        let mut listeners = EventListeners::new();
+        let receiver = listeners.add_listener(
+            "Test.event",
+            None,
+            EventStreamPolicy::Bounded {
+                capacity: NonZeroUsize::new(1).unwrap(),
+                overflow: EventOverflowStrategy::CloseStream,
+            },
+        );
+
+        let mut rx = match receiver {
+            EventReceiver::Bounded(rx) => rx,
+            EventReceiver::Unbounded(_) => panic!("expected bounded receiver"),
+        };
+
+        listeners.dispatch("Test.event", None, Arc::new(json!(1)));
+        listeners.dispatch("Test.event", None, Arc::new(json!(2)));
+
+        assert_eq!(*rx.try_recv().unwrap(), json!(1));
+        assert!(listeners.listeners["Test.event"].is_empty());
     }
 }

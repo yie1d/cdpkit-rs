@@ -1,5 +1,4 @@
 // Auto-generated from Chrome DevTools Protocol
-// Generated at: 2026-06-26 06:49:13 UTC
 // DO NOT EDIT MANUALLY  OvO
 
 #![allow(dead_code, unused_imports, clippy::all)]
@@ -229,6 +228,7 @@ pub mod accessibility {
         #[serde(rename_all = "camelCase")]
         pub struct AXValueSource {
             /// What type of source this is.
+            #[serde(rename = "type")]
             pub type_: AXValueSourceType,
             /// The value of this property source.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -284,6 +284,7 @@ pub mod accessibility {
         #[serde(rename_all = "camelCase")]
         pub struct AXValue {
             /// The type of this value.
+            #[serde(rename = "type")]
             pub type_: AXValueType,
             /// The computed value of this property.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -1010,6 +1011,26 @@ pub mod accessibility {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Accessibility.loadComplete")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Accessibility.loadComplete", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Accessibility.loadComplete")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Accessibility.loadComplete", policy)
+            }
         }
 
         /// The nodesUpdated event is sent every time a previously requested node has changed the in tree.
@@ -1024,6 +1045,26 @@ pub mod accessibility {
         impl NodesUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Accessibility.nodesUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Accessibility.nodesUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Accessibility.nodesUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Accessibility.nodesUpdated", policy)
             }
         }
     }
@@ -1055,6 +1096,7 @@ pub mod animation {
             /// `Animation`'s current time.
             pub current_time: f64,
             /// Animation type of `Animation`.
+            #[serde(rename = "type")]
             pub type_: String,
             /// `Animation`'s source animation node.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -1447,6 +1489,26 @@ pub mod animation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Animation.animationCanceled")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Animation.animationCanceled", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Animation.animationCanceled")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Animation.animationCanceled", policy)
+            }
         }
 
         /// Event for each animation that has been created.
@@ -1460,6 +1522,26 @@ pub mod animation {
         impl AnimationCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Animation.animationCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Animation.animationCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Animation.animationCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Animation.animationCreated", policy)
             }
         }
 
@@ -1475,6 +1557,26 @@ pub mod animation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Animation.animationStarted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Animation.animationStarted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Animation.animationStarted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Animation.animationStarted", policy)
+            }
         }
 
         /// Event for animation that has been updated.
@@ -1488,6 +1590,26 @@ pub mod animation {
         impl AnimationUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Animation.animationUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Animation.animationUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Animation.animationUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Animation.animationUpdated", policy)
             }
         }
     }
@@ -1776,6 +1898,7 @@ pub mod audits {
         #[derive(Debug, Clone, Serialize, Deserialize)]
         #[serde(rename_all = "camelCase")]
         pub struct CookieIssueInsight {
+            #[serde(rename = "type")]
             pub type_: InsightType,
             /// Link to table entry in third-party cookie migration readiness list.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -2284,6 +2407,7 @@ pub mod audits {
         pub struct SharedArrayBufferIssueDetails {
             pub source_code_location: SourceCodeLocation,
             pub is_warning: bool,
+            #[serde(rename = "type")]
             pub type_: SharedArrayBufferIssueType,
         }
 
@@ -2975,6 +3099,7 @@ pub mod audits {
             pub affected_frame: Option<AffectedFrame>,
             pub source_code_location: SourceCodeLocation,
             /// One of the deprecation names from third_party/blink/renderer/core/frame/deprecation/deprecation.json5
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -3580,6 +3705,7 @@ pub mod audits {
         #[derive(Debug, Clone, Serialize, Deserialize)]
         #[serde(rename_all = "camelCase")]
         pub struct UserReidentificationIssueDetails {
+            #[serde(rename = "type")]
             pub type_: UserReidentificationIssueType,
             /// Applies to BlockedFrameNavigation and BlockedSubresource issue types.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -3703,6 +3829,7 @@ pub mod audits {
             pub issue_type: PermissionElementIssueType,
             /// The value of the type attribute.
             #[serde(skip_serializing_if = "Option::is_none")]
+            #[serde(rename = "type")]
             pub type_: Option<String>,
             /// The node ID of the <permission> element.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -4128,6 +4255,26 @@ pub mod audits {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Audits.issueAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Audits.issueAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Audits.issueAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Audits.issueAdded", policy)
+            }
         }
     }
 }
@@ -4386,6 +4533,26 @@ pub mod autofill {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Autofill.addressFormFilled")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Autofill.addressFormFilled", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Autofill.addressFormFilled")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Autofill.addressFormFilled", policy)
+            }
         }
     }
 }
@@ -4598,6 +4765,29 @@ pub mod background_service {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("BackgroundService.recordingStateChanged")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("BackgroundService.recordingStateChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("BackgroundService.recordingStateChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "BackgroundService.recordingStateChanged",
+                    policy,
+                )
+            }
         }
 
         /// Called with all existing backgroundServiceEvents when enabled, and all new events afterwards if enabled and recording.
@@ -4610,6 +4800,32 @@ pub mod background_service {
         impl BackgroundServiceEventReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("BackgroundService.backgroundServiceEventReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "BackgroundService.backgroundServiceEventReceived",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("BackgroundService.backgroundServiceEventReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "BackgroundService.backgroundServiceEventReceived",
+                    policy,
+                )
             }
         }
     }
@@ -5035,6 +5251,7 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct SimulateGattOperationResponse {
             pub address: String,
+            #[serde(rename = "type")]
             pub type_: types::GATTOperationType,
             pub code: i64,
         }
@@ -5069,6 +5286,7 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct SimulateCharacteristicOperationResponse {
             pub characteristic_id: String,
+            #[serde(rename = "type")]
             pub type_: types::CharacteristicOperationType,
             pub code: i64,
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -5112,6 +5330,7 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct SimulateDescriptorOperationResponse {
             pub descriptor_id: String,
+            #[serde(rename = "type")]
             pub type_: types::DescriptorOperationType,
             pub code: i64,
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -5357,12 +5576,36 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct GattOperationReceived {
             pub address: String,
+            #[serde(rename = "type")]
             pub type_: types::GATTOperationType,
         }
 
         impl GattOperationReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("BluetoothEmulation.gattOperationReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("BluetoothEmulation.gattOperationReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("BluetoothEmulation.gattOperationReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "BluetoothEmulation.gattOperationReceived",
+                    policy,
+                )
             }
         }
 
@@ -5371,6 +5614,7 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct CharacteristicOperationReceived {
             pub characteristic_id: String,
+            #[serde(rename = "type")]
             pub type_: types::CharacteristicOperationType,
             pub data: Option<String>,
             pub write_type: Option<types::CharacteristicWriteType>,
@@ -5380,6 +5624,32 @@ pub mod bluetooth_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("BluetoothEmulation.characteristicOperationReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "BluetoothEmulation.characteristicOperationReceived",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("BluetoothEmulation.characteristicOperationReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "BluetoothEmulation.characteristicOperationReceived",
+                    policy,
+                )
+            }
         }
 
         /// Event for when a descriptor operation of |type| to the descriptor respresented by |descriptorId| happened. |data| is expected to exist when |type| is write.
@@ -5387,6 +5657,7 @@ pub mod bluetooth_emulation {
         #[serde(rename_all = "camelCase")]
         pub struct DescriptorOperationReceived {
             pub descriptor_id: String,
+            #[serde(rename = "type")]
             pub type_: types::DescriptorOperationType,
             pub data: Option<String>,
         }
@@ -5394,6 +5665,32 @@ pub mod bluetooth_emulation {
         impl DescriptorOperationReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("BluetoothEmulation.descriptorOperationReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "BluetoothEmulation.descriptorOperationReceived",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("BluetoothEmulation.descriptorOperationReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "BluetoothEmulation.descriptorOperationReceived",
+                    policy,
+                )
             }
         }
     }
@@ -6611,6 +6908,26 @@ pub mod browser {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Browser.downloadWillBegin")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Browser.downloadWillBegin", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Browser.downloadWillBegin")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Browser.downloadWillBegin", policy)
+            }
         }
 
         /// Fired when download makes progress. Last call has |done| == true.
@@ -6634,6 +6951,26 @@ pub mod browser {
         impl DownloadProgress {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Browser.downloadProgress")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Browser.downloadProgress", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Browser.downloadProgress")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Browser.downloadProgress", policy)
             }
         }
     }
@@ -7318,6 +7655,7 @@ pub mod css {
         #[serde(rename_all = "camelCase")]
         pub struct CSSAtRule {
             /// Type of at-rule.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Subsection of font-feature-values, if this is a subsection.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -7356,6 +7694,7 @@ pub mod css {
             /// The parameter name.
             pub name: String,
             /// The parameter type.
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -8785,6 +9124,26 @@ pub mod css {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.fontsUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.fontsUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.fontsUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.fontsUpdated", policy)
+            }
         }
 
         /// Fires whenever a MediaQuery result changes (for example, after a browser window has been resized.) The current implementation considers only viewport-dependent media features.
@@ -8795,6 +9154,26 @@ pub mod css {
         impl MediaQueryResultChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.mediaQueryResultChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.mediaQueryResultChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.mediaQueryResultChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.mediaQueryResultChanged", policy)
             }
         }
 
@@ -8810,6 +9189,26 @@ pub mod css {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.styleSheetAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.styleSheetAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.styleSheetAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.styleSheetAdded", policy)
+            }
         }
 
         /// Fired whenever a stylesheet is changed as a result of the client operation.
@@ -8822,6 +9221,26 @@ pub mod css {
         impl StyleSheetChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.styleSheetChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.styleSheetChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.styleSheetChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.styleSheetChanged", policy)
             }
         }
 
@@ -8837,6 +9256,26 @@ pub mod css {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.styleSheetRemoved")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.styleSheetRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.styleSheetRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.styleSheetRemoved", policy)
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -8850,6 +9289,26 @@ pub mod css {
         impl ComputedStyleUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("CSS.computedStyleUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("CSS.computedStyleUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("CSS.computedStyleUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("CSS.computedStyleUpdated", policy)
             }
         }
     }
@@ -9405,6 +9864,26 @@ pub mod cast {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Cast.sinksUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Cast.sinksUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Cast.sinksUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Cast.sinksUpdated", policy)
+            }
         }
 
         /// This is fired whenever the outstanding issue/error message changes. |issueMessage| is empty if there is no issue.
@@ -9417,6 +9896,26 @@ pub mod cast {
         impl IssueUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Cast.issueUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Cast.issueUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Cast.issueUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Cast.issueUpdated", policy)
             }
         }
     }
@@ -12140,6 +12639,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.attributeModified")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.attributeModified", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.attributeModified")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.attributeModified", policy)
+            }
         }
 
         /// Fired when `Element`'s adoptedStyleSheets are modified.
@@ -12158,6 +12677,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.adoptedStyleSheetsModified")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.adoptedStyleSheetsModified", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.adoptedStyleSheetsModified")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.adoptedStyleSheetsModified", policy)
+            }
         }
 
         /// Fired when `Element`'s attribute is removed.
@@ -12173,6 +12712,26 @@ pub mod dom {
         impl AttributeRemoved {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.attributeRemoved")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.attributeRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.attributeRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.attributeRemoved", policy)
             }
         }
 
@@ -12190,6 +12749,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.characterDataModified")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.characterDataModified", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.characterDataModified")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.characterDataModified", policy)
+            }
         }
 
         /// Fired when `Container`'s child node count has changed.
@@ -12205,6 +12784,26 @@ pub mod dom {
         impl ChildNodeCountUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.childNodeCountUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.childNodeCountUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.childNodeCountUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.childNodeCountUpdated", policy)
             }
         }
 
@@ -12224,6 +12823,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.childNodeInserted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.childNodeInserted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.childNodeInserted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.childNodeInserted", policy)
+            }
         }
 
         /// Mirrors `DOMNodeRemoved` event.
@@ -12239,6 +12858,26 @@ pub mod dom {
         impl ChildNodeRemoved {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.childNodeRemoved")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.childNodeRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.childNodeRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.childNodeRemoved", policy)
             }
         }
 
@@ -12257,6 +12896,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.distributedNodesUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.distributedNodesUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.distributedNodesUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.distributedNodesUpdated", policy)
+            }
         }
 
         /// Fired when `Document` has been totally updated. Node ids are no longer valid.
@@ -12267,6 +12926,26 @@ pub mod dom {
         impl DocumentUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.documentUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.documentUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.documentUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.documentUpdated", policy)
             }
         }
 
@@ -12282,6 +12961,26 @@ pub mod dom {
         impl InlineStyleInvalidated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.inlineStyleInvalidated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.inlineStyleInvalidated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.inlineStyleInvalidated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.inlineStyleInvalidated", policy)
             }
         }
 
@@ -12300,6 +12999,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.pseudoElementAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.pseudoElementAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.pseudoElementAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.pseudoElementAdded", policy)
+            }
         }
 
         /// Called when top layer elements are changed.
@@ -12311,6 +13030,26 @@ pub mod dom {
         impl TopLayerElementsUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.topLayerElementsUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.topLayerElementsUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.topLayerElementsUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.topLayerElementsUpdated", policy)
             }
         }
 
@@ -12329,6 +13068,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.scrollableFlagUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.scrollableFlagUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.scrollableFlagUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.scrollableFlagUpdated", policy)
+            }
         }
 
         /// Fired when a node's starting styles changes.
@@ -12345,6 +13104,29 @@ pub mod dom {
         impl AffectedByStartingStylesFlagUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.affectedByStartingStylesFlagUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.affectedByStartingStylesFlagUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.affectedByStartingStylesFlagUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "DOM.affectedByStartingStylesFlagUpdated",
+                    policy,
+                )
             }
         }
 
@@ -12363,6 +13145,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.pseudoElementRemoved")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.pseudoElementRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.pseudoElementRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.pseudoElementRemoved", policy)
+            }
         }
 
         /// Fired when backend wants to provide client with the missing DOM structure. This happens upon most of the calls requesting node ids.
@@ -12378,6 +13180,26 @@ pub mod dom {
         impl SetChildNodes {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.setChildNodes")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.setChildNodes", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.setChildNodes")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.setChildNodes", policy)
             }
         }
 
@@ -12396,6 +13218,26 @@ pub mod dom {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.shadowRootPopped")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.shadowRootPopped", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.shadowRootPopped")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.shadowRootPopped", policy)
+            }
         }
 
         /// Called when shadow root is pushed into the element.
@@ -12412,6 +13254,26 @@ pub mod dom {
         impl ShadowRootPushed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOM.shadowRootPushed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOM.shadowRootPushed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOM.shadowRootPushed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOM.shadowRootPushed", policy)
             }
         }
     }
@@ -12498,6 +13360,7 @@ pub mod dom_debugger {
         #[serde(rename_all = "camelCase")]
         pub struct EventListener {
             /// `EventListener`'s type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// `EventListener`'s useCapture.
             pub use_capture: bool,
@@ -12594,6 +13457,7 @@ pub mod dom_debugger {
             /// Identifier of the node to remove breakpoint from.
             pub node_id: dom::types::NodeId,
             /// Type of the breakpoint to remove.
+            #[serde(rename = "type")]
             pub type_: types::DOMBreakpointType,
         }
 
@@ -12738,6 +13602,7 @@ pub mod dom_debugger {
             /// Identifier of the node to set breakpoint on.
             pub node_id: dom::types::NodeId,
             /// Type of the operation to stop upon.
+            #[serde(rename = "type")]
             pub type_: types::DOMBreakpointType,
         }
 
@@ -13604,6 +14469,26 @@ pub mod dom_storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOMStorage.domStorageItemAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOMStorage.domStorageItemAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOMStorage.domStorageItemAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOMStorage.domStorageItemAdded", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -13616,6 +14501,26 @@ pub mod dom_storage {
         impl DomStorageItemRemoved {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOMStorage.domStorageItemRemoved")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOMStorage.domStorageItemRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOMStorage.domStorageItemRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOMStorage.domStorageItemRemoved", policy)
             }
         }
 
@@ -13632,6 +14537,26 @@ pub mod dom_storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOMStorage.domStorageItemUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOMStorage.domStorageItemUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOMStorage.domStorageItemUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOMStorage.domStorageItemUpdated", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -13643,6 +14568,26 @@ pub mod dom_storage {
         impl DomStorageItemsCleared {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DOMStorage.domStorageItemsCleared")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DOMStorage.domStorageItemsCleared", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DOMStorage.domStorageItemsCleared")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DOMStorage.domStorageItemsCleared", policy)
             }
         }
     }
@@ -13787,6 +14732,26 @@ pub mod device_access {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("DeviceAccess.deviceRequestPrompted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("DeviceAccess.deviceRequestPrompted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("DeviceAccess.deviceRequestPrompted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("DeviceAccess.deviceRequestPrompted", policy)
+            }
         }
     }
 }
@@ -13893,6 +14858,7 @@ pub mod emulation {
         #[serde(rename_all = "camelCase")]
         pub struct ScreenOrientation {
             /// Orientation type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Orientation angle.
             pub angle: i64,
@@ -13913,6 +14879,7 @@ pub mod emulation {
         #[serde(rename_all = "camelCase")]
         pub struct DevicePosture {
             /// Current posture of the device
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -14916,6 +15883,7 @@ pub mod emulation {
         #[serde(rename_all = "camelCase")]
         pub struct SetEmulatedVisionDeficiency {
             /// Vision deficiency to emulate. Order: best-effort emulations come first, followed by any physiologically accurate emulations for medically recognized color vision deficiencies.
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -15059,6 +16027,7 @@ pub mod emulation {
         #[derive(Debug, Clone, Serialize)]
         #[serde(rename_all = "camelCase")]
         pub struct GetOverriddenSensorInformation {
+            #[serde(rename = "type")]
             pub type_: types::SensorType,
         }
 
@@ -15086,6 +16055,7 @@ pub mod emulation {
         #[serde(rename_all = "camelCase")]
         pub struct SetSensorOverrideEnabled {
             pub enabled: bool,
+            #[serde(rename = "type")]
             pub type_: types::SensorType,
             #[serde(skip_serializing_if = "Option::is_none")]
             pub metadata: Option<types::SensorMetadata>,
@@ -15122,6 +16092,7 @@ pub mod emulation {
         #[derive(Debug, Clone, Serialize)]
         #[serde(rename_all = "camelCase")]
         pub struct SetSensorOverrideReadings {
+            #[serde(rename = "type")]
             pub type_: types::SensorType,
             pub reading: types::SensorReading,
         }
@@ -15917,6 +16888,26 @@ pub mod emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Emulation.virtualTimeBudgetExpired")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Emulation.virtualTimeBudgetExpired", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Emulation.virtualTimeBudgetExpired")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Emulation.virtualTimeBudgetExpired", policy)
+            }
         }
     }
 }
@@ -16703,6 +17694,26 @@ pub mod fed_cm {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("FedCm.dialogShown")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("FedCm.dialogShown", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("FedCm.dialogShown")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("FedCm.dialogShown", policy)
+            }
         }
 
         /// Triggered when a dialog is closed, either by user action, JS abort, or a command below.
@@ -16715,6 +17726,26 @@ pub mod fed_cm {
         impl DialogClosed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("FedCm.dialogClosed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("FedCm.dialogClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("FedCm.dialogClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("FedCm.dialogClosed", policy)
             }
         }
     }
@@ -17272,6 +18303,26 @@ pub mod fetch {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Fetch.requestPaused")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Fetch.requestPaused", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Fetch.requestPaused")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Fetch.requestPaused", policy)
+            }
         }
 
         /// Issued when the domain is enabled with handleAuthRequests set to true. The request is paused until client responds with continueWithAuth.
@@ -17294,6 +18345,26 @@ pub mod fetch {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Fetch.authRequired")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Fetch.authRequired", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Fetch.authRequired")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Fetch.authRequired", policy)
+            }
         }
     }
 }
@@ -17313,6 +18384,7 @@ pub mod file_system {
             pub last_modified: network::types::TimeSinceEpoch,
             /// Size in bytes
             pub size: f64,
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -17726,6 +18798,7 @@ pub mod indexed_db {
         #[serde(rename_all = "camelCase")]
         pub struct Key {
             /// Key type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Number value.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -17774,6 +18847,7 @@ pub mod indexed_db {
         #[serde(rename_all = "camelCase")]
         pub struct KeyPath {
             /// Key path type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// String value.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -18494,6 +19568,7 @@ pub mod input {
         #[serde(rename_all = "camelCase")]
         pub struct DispatchDragEvent {
             /// Type of the drag event.
+            #[serde(rename = "type")]
             pub type_: String,
             /// X coordinate of the event relative to the main frame's viewport in CSS pixels.
             pub x: f64,
@@ -18538,6 +19613,7 @@ pub mod input {
         #[serde(rename_all = "camelCase")]
         pub struct DispatchKeyEvent {
             /// Type of the key event.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Bit field representing pressed modifier keys. Alt=1, Ctrl=2, Meta/Command=4, Shift=8 (default: 0).
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -18770,6 +19846,7 @@ pub mod input {
         #[serde(rename_all = "camelCase")]
         pub struct DispatchMouseEvent {
             /// Type of the mouse event.
+            #[serde(rename = "type")]
             pub type_: String,
             /// X coordinate of the event relative to the main frame's viewport in CSS pixels.
             pub x: f64,
@@ -18923,6 +20000,7 @@ pub mod input {
         #[serde(rename_all = "camelCase")]
         pub struct DispatchTouchEvent {
             /// Type of the touch event. TouchEnd and TouchCancel must not contain any touch points, while TouchStart and TouchMove must contains at least one.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Active touch points on the touch device. One event per any changed point (compared to previous touch event in a sequence) is generated, emulating pressing/moving/releasing points one by one.
             pub touch_points: Vec<types::TouchPoint>,
@@ -18994,6 +20072,7 @@ pub mod input {
         #[serde(rename_all = "camelCase")]
         pub struct EmulateTouchFromMouseEvent {
             /// Type of the mouse event.
+            #[serde(rename = "type")]
             pub type_: String,
             /// X coordinate of the mouse pointer in DIP.
             pub x: i64,
@@ -19386,6 +20465,26 @@ pub mod input {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Input.dragIntercepted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Input.dragIntercepted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Input.dragIntercepted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Input.dragIntercepted", policy)
+            }
         }
     }
 }
@@ -19458,6 +20557,26 @@ pub mod inspector {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Inspector.detached")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Inspector.detached", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Inspector.detached")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Inspector.detached", policy)
+            }
         }
 
         /// Fired when debugging target has crashed
@@ -19468,6 +20587,26 @@ pub mod inspector {
         impl TargetCrashed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Inspector.targetCrashed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Inspector.targetCrashed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Inspector.targetCrashed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Inspector.targetCrashed", policy)
             }
         }
 
@@ -19480,6 +20619,26 @@ pub mod inspector {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Inspector.targetReloadedAfterCrash")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Inspector.targetReloadedAfterCrash", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Inspector.targetReloadedAfterCrash")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Inspector.targetReloadedAfterCrash", policy)
+            }
         }
 
         /// Fired on worker targets when main worker script and any imported scripts have been evaluated.
@@ -19491,6 +20650,26 @@ pub mod inspector {
         impl WorkerScriptLoaded {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Inspector.workerScriptLoaded")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Inspector.workerScriptLoaded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Inspector.workerScriptLoaded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Inspector.workerScriptLoaded", policy)
             }
         }
     }
@@ -19516,6 +20695,7 @@ pub mod layer_tree {
             /// Rectangle itself.
             pub rect: dom::types::Rect,
             /// Reason for rectangle to force scrolling on the main thread
+            #[serde(rename = "type")]
             pub type_: String,
         }
 
@@ -19950,6 +21130,26 @@ pub mod layer_tree {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("LayerTree.layerPainted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("LayerTree.layerPainted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("LayerTree.layerPainted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("LayerTree.layerPainted", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -19962,6 +21162,26 @@ pub mod layer_tree {
         impl LayerTreeDidChange {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("LayerTree.layerTreeDidChange")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("LayerTree.layerTreeDidChange", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("LayerTree.layerTreeDidChange")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("LayerTree.layerTreeDidChange", policy)
             }
         }
     }
@@ -20155,6 +21375,26 @@ pub mod log {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Log.entryAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Log.entryAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Log.entryAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Log.entryAdded", policy)
+            }
         }
     }
 }
@@ -20295,6 +21535,26 @@ pub mod media {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Media.playerPropertiesChanged")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Media.playerPropertiesChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Media.playerPropertiesChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Media.playerPropertiesChanged", policy)
+            }
         }
 
         /// Send events as a list, allowing them to be batched on the browser for less congestion. If batched, events must ALWAYS be in chronological order.
@@ -20308,6 +21568,26 @@ pub mod media {
         impl PlayerEventsAdded {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Media.playerEventsAdded")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Media.playerEventsAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Media.playerEventsAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Media.playerEventsAdded", policy)
             }
         }
 
@@ -20323,6 +21603,26 @@ pub mod media {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Media.playerMessagesLogged")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Media.playerMessagesLogged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Media.playerMessagesLogged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Media.playerMessagesLogged", policy)
+            }
         }
 
         /// Send a list of any errors that need to be delivered.
@@ -20337,6 +21637,26 @@ pub mod media {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Media.playerErrorsRaised")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Media.playerErrorsRaised", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Media.playerErrorsRaised")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Media.playerErrorsRaised", policy)
+            }
         }
 
         /// Called whenever a player is created, or when a new agent joins and receives a list of active players. If an agent is restored, it will receive one event for each active player.
@@ -20349,6 +21669,26 @@ pub mod media {
         impl PlayerCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Media.playerCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Media.playerCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Media.playerCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Media.playerCreated", policy)
             }
         }
     }
@@ -22050,6 +23390,7 @@ pub mod network {
             /// Resource URL. This is the url of the original network request.
             pub url: String,
             /// Type of this resource.
+            #[serde(rename = "type")]
             pub type_: ResourceType,
             /// Cached response data.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -22063,6 +23404,7 @@ pub mod network {
         #[serde(rename_all = "camelCase")]
         pub struct Initiator {
             /// Type of this initiator.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Initiator JavaScript stack trace, set for Script only. Requires the Debugger domain to be enabled.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -23210,6 +24552,7 @@ pub mod network {
             /// The name of the endpoint group that should be used to deliver the report.
             pub destination: String,
             /// The type of the report (specifies the set of data that is contained in the report body).
+            #[serde(rename = "type")]
             pub type_: String,
             /// When the report was generated.
             pub timestamp: network::types::TimeSinceEpoch,
@@ -25425,6 +26768,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.dataReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.dataReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.dataReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.dataReceived", policy)
+            }
         }
 
         /// Fired when EventSource message is received.
@@ -25447,6 +26810,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.eventSourceMessageReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.eventSourceMessageReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.eventSourceMessageReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.eventSourceMessageReceived", policy)
+            }
         }
 
         /// Fired when HTTP request has failed to load.
@@ -25458,6 +26841,7 @@ pub mod network {
             /// Timestamp.
             pub timestamp: types::MonotonicTime,
             /// Resource type.
+            #[serde(rename = "type")]
             pub type_: types::ResourceType,
             /// Error message. List of network errors: https://cs.chromium.org/chromium/src/net/base/net_error_list.h
             pub error_text: String,
@@ -25472,6 +26856,26 @@ pub mod network {
         impl LoadingFailed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.loadingFailed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.loadingFailed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.loadingFailed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.loadingFailed", policy)
             }
         }
 
@@ -25490,6 +26894,26 @@ pub mod network {
         impl LoadingFinished {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.loadingFinished")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.loadingFinished", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.loadingFinished")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.loadingFinished", policy)
             }
         }
 
@@ -25528,6 +26952,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.requestIntercepted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.requestIntercepted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.requestIntercepted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.requestIntercepted", policy)
+            }
         }
 
         /// Fired if request ended up loading from cache.
@@ -25541,6 +26985,26 @@ pub mod network {
         impl RequestServedFromCache {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.requestServedFromCache")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.requestServedFromCache", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.requestServedFromCache")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.requestServedFromCache", policy)
             }
         }
 
@@ -25569,6 +27033,7 @@ pub mod network {
             /// Redirect response data.
             pub redirect_response: Option<types::Response>,
             /// Type of this resource.
+            #[serde(rename = "type")]
             pub type_: Option<types::ResourceType>,
             /// Frame identifier.
             pub frame_id: Option<page::types::FrameId>,
@@ -25582,6 +27047,26 @@ pub mod network {
         impl RequestWillBeSent {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.requestWillBeSent")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.requestWillBeSent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.requestWillBeSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.requestWillBeSent", policy)
             }
         }
 
@@ -25602,6 +27087,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.resourceChangedPriority")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.resourceChangedPriority", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.resourceChangedPriority")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.resourceChangedPriority", policy)
+            }
         }
 
         /// Fired when a signed exchange was received over the network
@@ -25619,6 +27124,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.signedExchangeReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.signedExchangeReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.signedExchangeReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.signedExchangeReceived", policy)
+            }
         }
 
         /// Fired when HTTP response is available.
@@ -25632,6 +27157,7 @@ pub mod network {
             /// Timestamp.
             pub timestamp: types::MonotonicTime,
             /// Resource type.
+            #[serde(rename = "type")]
             pub type_: types::ResourceType,
             /// Response data.
             pub response: types::Response,
@@ -25645,6 +27171,26 @@ pub mod network {
         impl ResponseReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.responseReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.responseReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.responseReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.responseReceived", policy)
             }
         }
 
@@ -25661,6 +27207,26 @@ pub mod network {
         impl WebSocketClosed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketClosed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webSocketClosed", policy)
             }
         }
 
@@ -25680,6 +27246,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketCreated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webSocketCreated", policy)
+            }
         }
 
         /// Fired when WebSocket message error occurs.
@@ -25697,6 +27283,26 @@ pub mod network {
         impl WebSocketFrameError {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketFrameError")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketFrameError", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketFrameError")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webSocketFrameError", policy)
             }
         }
 
@@ -25716,6 +27322,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketFrameReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketFrameReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketFrameReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webSocketFrameReceived", policy)
+            }
         }
 
         /// Fired when WebSocket message is sent.
@@ -25734,6 +27360,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketFrameSent")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketFrameSent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketFrameSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webSocketFrameSent", policy)
+            }
         }
 
         /// Fired when WebSocket handshake response becomes available.
@@ -25751,6 +27397,30 @@ pub mod network {
         impl WebSocketHandshakeResponseReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketHandshakeResponseReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target
+                    .event_stream_with_policy("Network.webSocketHandshakeResponseReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketHandshakeResponseReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.webSocketHandshakeResponseReceived",
+                    policy,
+                )
             }
         }
 
@@ -25772,6 +27442,29 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webSocketWillSendHandshakeRequest")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webSocketWillSendHandshakeRequest", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webSocketWillSendHandshakeRequest")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.webSocketWillSendHandshakeRequest",
+                    policy,
+                )
+            }
         }
 
         /// Fired upon WebTransport creation.
@@ -25792,6 +27485,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webTransportCreated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webTransportCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webTransportCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webTransportCreated", policy)
+            }
         }
 
         /// Fired when WebTransport handshake is finished.
@@ -25808,6 +27521,29 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webTransportConnectionEstablished")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webTransportConnectionEstablished", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webTransportConnectionEstablished")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.webTransportConnectionEstablished",
+                    policy,
+                )
+            }
         }
 
         /// Fired when WebTransport is disposed.
@@ -25823,6 +27559,26 @@ pub mod network {
         impl WebTransportClosed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.webTransportClosed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.webTransportClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.webTransportClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.webTransportClosed", policy)
             }
         }
 
@@ -25843,6 +27599,26 @@ pub mod network {
         impl DirectTcpSocketCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directTCPSocketCreated", policy)
             }
         }
 
@@ -25865,6 +27641,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketOpened")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketOpened", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketOpened")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directTCPSocketOpened", policy)
+            }
         }
 
         /// Fired when direct_socket.TCPSocket is aborted.
@@ -25881,6 +27677,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketAborted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketAborted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketAborted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directTCPSocketAborted", policy)
+            }
         }
 
         /// Fired when direct_socket.TCPSocket is closed.
@@ -25895,6 +27711,26 @@ pub mod network {
         impl DirectTcpSocketClosed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketClosed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directTCPSocketClosed", policy)
             }
         }
 
@@ -25912,6 +27748,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketChunkSent")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketChunkSent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketChunkSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directTCPSocketChunkSent", policy)
+            }
         }
 
         /// Fired when data is received from tcp direct socket stream.
@@ -25928,6 +27784,27 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directTCPSocketChunkReceived")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directTCPSocketChunkReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directTCPSocketChunkReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("Network.directTCPSocketChunkReceived", policy)
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -25943,6 +27820,30 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketJoinedMulticastGroup")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target
+                    .event_stream_with_policy("Network.directUDPSocketJoinedMulticastGroup", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketJoinedMulticastGroup")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.directUDPSocketJoinedMulticastGroup",
+                    policy,
+                )
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -25957,6 +27858,29 @@ pub mod network {
         impl DirectUdpSocketLeftMulticastGroup {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketLeftMulticastGroup")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketLeftMulticastGroup", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketLeftMulticastGroup")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.directUDPSocketLeftMulticastGroup",
+                    policy,
+                )
             }
         }
 
@@ -25974,6 +27898,26 @@ pub mod network {
         impl DirectUdpSocketCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directUDPSocketCreated", policy)
             }
         }
 
@@ -25996,6 +27940,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketOpened")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketOpened", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketOpened")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directUDPSocketOpened", policy)
+            }
         }
 
         /// Fired when direct_socket.UDPSocket is aborted.
@@ -26012,6 +27976,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketAborted")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketAborted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketAborted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directUDPSocketAborted", policy)
+            }
         }
 
         /// Fired when direct_socket.UDPSocket is closed.
@@ -26026,6 +28010,26 @@ pub mod network {
         impl DirectUdpSocketClosed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketClosed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directUDPSocketClosed", policy)
             }
         }
 
@@ -26043,6 +28047,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketChunkSent")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketChunkSent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketChunkSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.directUDPSocketChunkSent", policy)
+            }
         }
 
         /// Fired when message is received from udp direct socket stream.
@@ -26058,6 +28082,27 @@ pub mod network {
         impl DirectUdpSocketChunkReceived {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.directUDPSocketChunkReceived")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.directUDPSocketChunkReceived", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.directUDPSocketChunkReceived")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("Network.directUDPSocketChunkReceived", policy)
             }
         }
 
@@ -26088,6 +28133,26 @@ pub mod network {
         impl RequestWillBeSentExtraInfo {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.requestWillBeSentExtraInfo")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.requestWillBeSentExtraInfo", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.requestWillBeSentExtraInfo")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.requestWillBeSentExtraInfo", policy)
             }
         }
 
@@ -26122,6 +28187,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.responseReceivedExtraInfo")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.responseReceivedExtraInfo", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.responseReceivedExtraInfo")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.responseReceivedExtraInfo", policy)
+            }
         }
 
         /// Fired when 103 Early Hints headers is received in addition to the common response. Not every responseReceived event will have an responseReceivedEarlyHints fired. Only one responseReceivedEarlyHints may be fired for eached responseReceived event.
@@ -26139,6 +28224,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.responseReceivedEarlyHints")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.responseReceivedEarlyHints", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.responseReceivedEarlyHints")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.responseReceivedEarlyHints", policy)
+            }
         }
 
         /// Fired exactly once for each Trust Token operation. Depending on the type of the operation and whether the operation succeeded or failed, the event is fired before the corresponding request was sent or after the response was received.
@@ -26148,6 +28253,7 @@ pub mod network {
         pub struct TrustTokenOperationDone {
             /// Detailed success or error status of the operation. 'AlreadyExists' also signifies a successful operation, as the result of the operation already exists und thus, the operation was abort preemptively (e.g. a cache hit).
             pub status: String,
+            #[serde(rename = "type")]
             pub type_: types::TrustTokenOperationType,
             pub request_id: types::RequestId,
             /// Top level origin. The context in which the operation was attempted.
@@ -26162,6 +28268,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.trustTokenOperationDone")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.trustTokenOperationDone", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.trustTokenOperationDone")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.trustTokenOperationDone", policy)
+            }
         }
 
         /// Fired once security policy has been updated.
@@ -26173,6 +28299,26 @@ pub mod network {
         impl PolicyUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.policyUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.policyUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.policyUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.policyUpdated", policy)
             }
         }
 
@@ -26188,6 +28334,26 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.reportingApiReportAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.reportingApiReportAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.reportingApiReportAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.reportingApiReportAdded", policy)
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -26200,6 +28366,26 @@ pub mod network {
         impl ReportingApiReportUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.reportingApiReportUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.reportingApiReportUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.reportingApiReportUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.reportingApiReportUpdated", policy)
             }
         }
 
@@ -26216,6 +28402,32 @@ pub mod network {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.reportingApiEndpointsChangedForOrigin")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Network.reportingApiEndpointsChangedForOrigin",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.reportingApiEndpointsChangedForOrigin")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.reportingApiEndpointsChangedForOrigin",
+                    policy,
+                )
+            }
         }
 
         /// Triggered when the initial set of device bound sessions is added.
@@ -26230,6 +28442,26 @@ pub mod network {
         impl DeviceBoundSessionsAdded {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.deviceBoundSessionsAdded")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.deviceBoundSessionsAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.deviceBoundSessionsAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Network.deviceBoundSessionsAdded", policy)
             }
         }
 
@@ -26256,6 +28488,29 @@ pub mod network {
         impl DeviceBoundSessionEventOccurred {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Network.deviceBoundSessionEventOccurred")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Network.deviceBoundSessionEventOccurred", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Network.deviceBoundSessionEventOccurred")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Network.deviceBoundSessionEventOccurred",
+                    policy,
+                )
             }
         }
     }
@@ -27711,6 +29966,26 @@ pub mod overlay {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Overlay.inspectNodeRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Overlay.inspectNodeRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Overlay.inspectNodeRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Overlay.inspectNodeRequested", policy)
+            }
         }
 
         /// Fired when the node should be highlighted. This happens after call to `setInspectMode`.
@@ -27723,6 +29998,26 @@ pub mod overlay {
         impl NodeHighlightRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Overlay.nodeHighlightRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Overlay.nodeHighlightRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Overlay.nodeHighlightRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Overlay.nodeHighlightRequested", policy)
             }
         }
 
@@ -27738,6 +30033,26 @@ pub mod overlay {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Overlay.screenshotRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Overlay.screenshotRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Overlay.screenshotRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Overlay.screenshotRequested", policy)
+            }
         }
 
         /// Fired when user cancels the inspect mode.
@@ -27748,6 +30063,26 @@ pub mod overlay {
         impl InspectModeCanceled {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Overlay.inspectModeCanceled")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Overlay.inspectModeCanceled", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Overlay.inspectModeCanceled")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Overlay.inspectModeCanceled", policy)
             }
         }
     }
@@ -29073,6 +31408,7 @@ pub mod page {
             /// Resource URL.
             pub url: String,
             /// Type of this resource.
+            #[serde(rename = "type")]
             pub type_: network::types::ResourceType,
             /// Resource mimeType as determined by the browser.
             pub mime_type: String,
@@ -29630,6 +31966,7 @@ pub mod page {
             #[serde(skip_serializing_if = "Option::is_none")]
             pub sizes: Option<String>,
             #[serde(skip_serializing_if = "Option::is_none")]
+            #[serde(rename = "type")]
             pub type_: Option<String>,
         }
 
@@ -30569,6 +32906,7 @@ pub mod page {
         #[serde(rename_all = "camelCase")]
         pub struct BackForwardCacheNotRestoredExplanation {
             /// Type of the reason
+            #[serde(rename = "type")]
             pub type_: BackForwardCacheNotRestoredReasonType,
             /// Not restored reason
             pub reason: BackForwardCacheNotRestoredReason,
@@ -32956,6 +35294,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.domContentEventFired")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.domContentEventFired", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.domContentEventFired")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.domContentEventFired", policy)
+            }
         }
 
         /// Emitted only when `page.interceptFileChooser` is enabled.
@@ -32976,6 +35334,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.fileChooserOpened")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.fileChooserOpened", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.fileChooserOpened")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.fileChooserOpened", policy)
+            }
         }
 
         /// Fired when frame has been attached to its parent.
@@ -32994,6 +35372,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameAttached")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameAttached", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameAttached")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameAttached", policy)
+            }
         }
 
         /// Fired when frame no longer has a scheduled navigation.
@@ -33008,6 +35406,27 @@ pub mod page {
         impl FrameClearedScheduledNavigation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameClearedScheduledNavigation")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameClearedScheduledNavigation", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameClearedScheduledNavigation")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("Page.frameClearedScheduledNavigation", policy)
             }
         }
 
@@ -33025,6 +35444,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameDetached")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameDetached", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameDetached")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameDetached", policy)
+            }
         }
 
         /// Fired before frame subtree is detached. Emitted before any frame of the subtree is actually detached.
@@ -33040,6 +35479,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameSubtreeWillBeDetached")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameSubtreeWillBeDetached", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameSubtreeWillBeDetached")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameSubtreeWillBeDetached", policy)
+            }
         }
 
         /// Fired once navigation of the frame has completed. Frame is now associated with the new loader.
@@ -33049,12 +35508,33 @@ pub mod page {
             /// Frame object.
             pub frame: types::Frame,
             /// **EXPERIMENTAL**
+            #[serde(rename = "type")]
             pub type_: types::NavigationType,
         }
 
         impl FrameNavigated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameNavigated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameNavigated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameNavigated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameNavigated", policy)
             }
         }
 
@@ -33071,6 +35551,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.documentOpened")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.documentOpened", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.documentOpened")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.documentOpened", policy)
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -33081,6 +35581,26 @@ pub mod page {
         impl FrameResized {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameResized")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameResized", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameResized")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameResized", policy)
             }
         }
 
@@ -33101,6 +35621,26 @@ pub mod page {
         impl FrameStartedNavigating {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameStartedNavigating")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameStartedNavigating", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameStartedNavigating")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameStartedNavigating", policy)
             }
         }
 
@@ -33123,6 +35663,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameRequestedNavigation")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameRequestedNavigation", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameRequestedNavigation")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameRequestedNavigation", policy)
+            }
         }
 
         /// Fired when frame schedules a potential navigation.
@@ -33144,6 +35704,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameScheduledNavigation")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameScheduledNavigation", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameScheduledNavigation")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameScheduledNavigation", policy)
+            }
         }
 
         /// Fired when frame has started loading.
@@ -33159,6 +35739,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameStartedLoading")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameStartedLoading", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameStartedLoading")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameStartedLoading", policy)
+            }
         }
 
         /// Fired when frame has stopped loading.
@@ -33173,6 +35773,26 @@ pub mod page {
         impl FrameStoppedLoading {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.frameStoppedLoading")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.frameStoppedLoading", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.frameStoppedLoading")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.frameStoppedLoading", policy)
             }
         }
 
@@ -33196,6 +35816,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.downloadWillBegin")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.downloadWillBegin", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.downloadWillBegin")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.downloadWillBegin", policy)
+            }
         }
 
         /// Fired when download makes progress. Last call has |done| == true. Deprecated. Use Browser.downloadProgress instead.
@@ -33218,6 +35858,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.downloadProgress")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.downloadProgress", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.downloadProgress")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.downloadProgress", policy)
+            }
         }
 
         /// Fired when interstitial page was hidden
@@ -33229,6 +35889,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.interstitialHidden")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.interstitialHidden", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.interstitialHidden")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.interstitialHidden", policy)
+            }
         }
 
         /// Fired when interstitial page was shown
@@ -33239,6 +35919,26 @@ pub mod page {
         impl InterstitialShown {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.interstitialShown")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.interstitialShown", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.interstitialShown")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.interstitialShown", policy)
             }
         }
 
@@ -33259,6 +35959,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.javascriptDialogClosed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.javascriptDialogClosed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.javascriptDialogClosed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.javascriptDialogClosed", policy)
+            }
         }
 
         /// Fired when a JavaScript initiated dialog (alert, confirm, prompt, or onbeforeunload) is about to open.
@@ -33273,6 +35993,7 @@ pub mod page {
             /// Message that will be displayed by the dialog.
             pub message: String,
             /// Dialog type.
+            #[serde(rename = "type")]
             pub type_: types::DialogType,
             /// True iff browser is capable showing or acting on the given dialog. When browser has no dialog handler for given target, calling alert while Page domain is engaged will stall the page execution. Execution can be resumed via calling Page.handleJavaScriptDialog.
             pub has_browser_handler: bool,
@@ -33283,6 +36004,26 @@ pub mod page {
         impl JavascriptDialogOpening {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.javascriptDialogOpening")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.javascriptDialogOpening", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.javascriptDialogOpening")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.javascriptDialogOpening", policy)
             }
         }
 
@@ -33301,6 +36042,26 @@ pub mod page {
         impl LifecycleEvent {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.lifecycleEvent")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.lifecycleEvent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.lifecycleEvent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.lifecycleEvent", policy)
             }
         }
 
@@ -33324,6 +36085,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.backForwardCacheNotUsed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.backForwardCacheNotUsed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.backForwardCacheNotUsed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.backForwardCacheNotUsed", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -33335,6 +36116,26 @@ pub mod page {
         impl LoadEventFired {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.loadEventFired")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.loadEventFired", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.loadEventFired")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.loadEventFired", policy)
             }
         }
 
@@ -33355,6 +36156,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.navigatedWithinDocument")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.navigatedWithinDocument", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.navigatedWithinDocument")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.navigatedWithinDocument", policy)
+            }
         }
 
         /// Compressed image data requested by the `startScreencast`.
@@ -33374,6 +36195,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.screencastFrame")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.screencastFrame", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.screencastFrame")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.screencastFrame", policy)
+            }
         }
 
         /// Fired when the page with currently enabled screencast was shown or hidden `.
@@ -33388,6 +36229,26 @@ pub mod page {
         impl ScreencastVisibilityChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.screencastVisibilityChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.screencastVisibilityChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.screencastVisibilityChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.screencastVisibilityChanged", policy)
             }
         }
 
@@ -33409,6 +36270,26 @@ pub mod page {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.windowOpen")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.windowOpen", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.windowOpen")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.windowOpen", policy)
+            }
         }
 
         /// Issued for every compilation cache generated.
@@ -33424,6 +36305,26 @@ pub mod page {
         impl CompilationCacheProduced {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Page.compilationCacheProduced")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Page.compilationCacheProduced", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Page.compilationCacheProduced")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Page.compilationCacheProduced", policy)
             }
         }
     }
@@ -33590,6 +36491,26 @@ pub mod performance {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Performance.metrics")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Performance.metrics", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Performance.metrics")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Performance.metrics", policy)
+            }
         }
     }
 }
@@ -33645,6 +36566,7 @@ pub mod performance_timeline {
             /// Identifies the frame that this event is related to. Empty for non-frame targets.
             pub frame_id: page::types::FrameId,
             /// The event type, as specified in https://w3c.github.io/performance-timeline/#dom-performanceentry-entrytype This determines which of the optional "details" fields is present.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Name may be empty depending on the type.
             pub name: String,
@@ -33706,6 +36628,29 @@ pub mod performance_timeline {
         impl TimelineEventAdded {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("PerformanceTimeline.timelineEventAdded")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("PerformanceTimeline.timelineEventAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("PerformanceTimeline.timelineEventAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "PerformanceTimeline.timelineEventAdded",
+                    policy,
+                )
             }
         }
     }
@@ -34621,6 +37566,26 @@ pub mod preload {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.ruleSetUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.ruleSetUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.ruleSetUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Preload.ruleSetUpdated", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -34632,6 +37597,26 @@ pub mod preload {
         impl RuleSetRemoved {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.ruleSetRemoved")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.ruleSetRemoved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.ruleSetRemoved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Preload.ruleSetRemoved", policy)
             }
         }
 
@@ -34649,6 +37634,26 @@ pub mod preload {
         impl PreloadEnabledStateUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.preloadEnabledStateUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.preloadEnabledStateUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.preloadEnabledStateUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Preload.preloadEnabledStateUpdated", policy)
             }
         }
 
@@ -34670,6 +37675,26 @@ pub mod preload {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.prefetchStatusUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.prefetchStatusUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.prefetchStatusUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Preload.prefetchStatusUpdated", policy)
+            }
         }
 
         /// Fired when a prerender attempt is updated.
@@ -34689,6 +37714,26 @@ pub mod preload {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.prerenderStatusUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.prerenderStatusUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.prerenderStatusUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Preload.prerenderStatusUpdated", policy)
+            }
         }
 
         /// Send a list of sources for all preloading attempts in a document.
@@ -34702,6 +37747,29 @@ pub mod preload {
         impl PreloadingAttemptSourcesUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Preload.preloadingAttemptSourcesUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Preload.preloadingAttemptSourcesUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Preload.preloadingAttemptSourcesUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Preload.preloadingAttemptSourcesUpdated",
+                    policy,
+                )
             }
         }
     }
@@ -35091,6 +38159,7 @@ pub mod security {
         #[serde(rename_all = "camelCase")]
         pub struct SetOverrideCertificateErrors {
             /// If true, certificate errors will be overridden.
+            #[serde(rename = "override")]
             pub override_: bool,
         }
 
@@ -35135,6 +38204,26 @@ pub mod security {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Security.certificateError")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Security.certificateError", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Security.certificateError")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Security.certificateError", policy)
+            }
         }
 
         /// The security state of the page changed.
@@ -35149,6 +38238,27 @@ pub mod security {
         impl VisibleSecurityStateChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Security.visibleSecurityStateChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Security.visibleSecurityStateChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Security.visibleSecurityStateChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("Security.visibleSecurityStateChanged", policy)
             }
         }
 
@@ -35176,6 +38286,26 @@ pub mod security {
         impl SecurityStateChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Security.securityStateChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Security.securityStateChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Security.securityStateChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Security.securityStateChanged", policy)
             }
         }
     }
@@ -35664,6 +38794,26 @@ pub mod serviceworker {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("ServiceWorker.workerErrorReported")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("ServiceWorker.workerErrorReported", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("ServiceWorker.workerErrorReported")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("ServiceWorker.workerErrorReported", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -35676,6 +38826,29 @@ pub mod serviceworker {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("ServiceWorker.workerRegistrationUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("ServiceWorker.workerRegistrationUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("ServiceWorker.workerRegistrationUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "ServiceWorker.workerRegistrationUpdated",
+                    policy,
+                )
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -35687,6 +38860,26 @@ pub mod serviceworker {
         impl WorkerVersionUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("ServiceWorker.workerVersionUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("ServiceWorker.workerVersionUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("ServiceWorker.workerVersionUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("ServiceWorker.workerVersionUpdated", policy)
             }
         }
     }
@@ -36439,6 +39632,32 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.establishContextRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "SmartCardEmulation.establishContextRequested",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.establishContextRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.establishContextRequested",
+                    policy,
+                )
+            }
         }
 
         /// Fired when |SCardReleaseContext| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#ga6aabcba7744c5c9419fdd6404f73a934 Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardreleasecontext
@@ -36453,6 +39672,30 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.releaseContextRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target
+                    .event_stream_with_policy("SmartCardEmulation.releaseContextRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.releaseContextRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.releaseContextRequested",
+                    policy,
+                )
+            }
         }
 
         /// Fired when |SCardListReaders| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#ga93b07815789b3cf2629d439ecf20f0d9 Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardlistreadersa
@@ -36466,6 +39709,29 @@ pub mod smart_card_emulation {
         impl ListReadersRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.listReadersRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.listReadersRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.listReadersRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.listReadersRequested",
+                    policy,
+                )
             }
         }
 
@@ -36484,6 +39750,30 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.getStatusChangeRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target
+                    .event_stream_with_policy("SmartCardEmulation.getStatusChangeRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.getStatusChangeRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.getStatusChangeRequested",
+                    policy,
+                )
+            }
         }
 
         /// Fired when |SCardCancel| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#gaacbbc0c6d6c0cbbeb4f4debf6fbeeee6 Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardcancel
@@ -36497,6 +39787,26 @@ pub mod smart_card_emulation {
         impl CancelRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.cancelRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.cancelRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.cancelRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("SmartCardEmulation.cancelRequested", policy)
             }
         }
 
@@ -36515,6 +39825,27 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.connectRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.connectRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.connectRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("SmartCardEmulation.connectRequested", policy)
+            }
         }
 
         /// Fired when |SCardDisconnect| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#ga4be198045c73ec0deb79e66c0ca1738a Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scarddisconnect
@@ -36529,6 +39860,29 @@ pub mod smart_card_emulation {
         impl DisconnectRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.disconnectRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.disconnectRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.disconnectRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.disconnectRequested",
+                    policy,
+                )
             }
         }
 
@@ -36546,6 +39900,27 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.transmitRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.transmitRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.transmitRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("SmartCardEmulation.transmitRequested", policy)
+            }
         }
 
         /// Fired when |SCardControl| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#gac3454d4657110fd7f753b2d3d8f4e32f Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardcontrol
@@ -36562,6 +39937,27 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.controlRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.controlRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.controlRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("SmartCardEmulation.controlRequested", policy)
+            }
         }
 
         /// Fired when |SCardGetAttrib| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#gaacfec51917255b7a25b94c5104961602 Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardgetattrib
@@ -36576,6 +39972,29 @@ pub mod smart_card_emulation {
         impl GetAttribRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.getAttribRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.getAttribRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.getAttribRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.getAttribRequested",
+                    policy,
+                )
             }
         }
 
@@ -36593,6 +40012,29 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.setAttribRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.setAttribRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.setAttribRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.setAttribRequested",
+                    policy,
+                )
+            }
         }
 
         /// Fired when |SCardStatus| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#gae49c3c894ad7ac12a5b896bde70d0382 Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardstatusa
@@ -36606,6 +40048,26 @@ pub mod smart_card_emulation {
         impl StatusRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.statusRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("SmartCardEmulation.statusRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.statusRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("SmartCardEmulation.statusRequested", policy)
             }
         }
 
@@ -36621,6 +40083,32 @@ pub mod smart_card_emulation {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.beginTransactionRequested")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "SmartCardEmulation.beginTransactionRequested",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.beginTransactionRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.beginTransactionRequested",
+                    policy,
+                )
+            }
         }
 
         /// Fired when |SCardEndTransaction| is called. This maps to: PC/SC Lite: https://pcsclite.apdu.fr/api/group__API.html#gae8742473b404363e5c587f570d7e2f3b Microsoft: https://learn.microsoft.com/en-us/windows/win32/api/winscard/nf-winscard-scardendtransaction
@@ -36635,6 +40123,30 @@ pub mod smart_card_emulation {
         impl EndTransactionRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("SmartCardEmulation.endTransactionRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target
+                    .event_stream_with_policy("SmartCardEmulation.endTransactionRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("SmartCardEmulation.endTransactionRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "SmartCardEmulation.endTransactionRequested",
+                    policy,
+                )
             }
         }
     }
@@ -37351,6 +40863,7 @@ pub mod storage {
             pub event_report_windows: AttributionReportingEventReportWindows,
             /// duration in seconds
             pub aggregatable_report_window: i64,
+            #[serde(rename = "type")]
             pub type_: AttributionReportingSourceType,
             pub source_origin: String,
             pub reporting_origin: String,
@@ -39046,6 +42559,26 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.cacheStorageContentUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.cacheStorageContentUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.cacheStorageContentUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.cacheStorageContentUpdated", policy)
+            }
         }
 
         /// A cache has been added/deleted.
@@ -39063,6 +42596,26 @@ pub mod storage {
         impl CacheStorageListUpdated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.cacheStorageListUpdated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.cacheStorageListUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.cacheStorageListUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.cacheStorageListUpdated", policy)
             }
         }
 
@@ -39086,6 +42639,26 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.indexedDBContentUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.indexedDBContentUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.indexedDBContentUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.indexedDBContentUpdated", policy)
+            }
         }
 
         /// The origin's IndexedDB database list has been modified.
@@ -39104,6 +42677,26 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.indexedDBListUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.indexedDBListUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.indexedDBListUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.indexedDBListUpdated", policy)
+            }
         }
 
         /// One of the interest groups was accessed. Note that these events are global to all targets sharing an interest group store.
@@ -39111,6 +42704,7 @@ pub mod storage {
         #[serde(rename_all = "camelCase")]
         pub struct InterestGroupAccessed {
             pub access_time: network::types::TimeSinceEpoch,
+            #[serde(rename = "type")]
             pub type_: types::InterestGroupAccessType,
             pub owner_origin: String,
             pub name: String,
@@ -39127,6 +42721,26 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.interestGroupAccessed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.interestGroupAccessed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.interestGroupAccessed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.interestGroupAccessed", policy)
+            }
         }
 
         /// An auction involving interest groups is taking place. These events are target-specific.
@@ -39134,6 +42748,7 @@ pub mod storage {
         #[serde(rename_all = "camelCase")]
         pub struct InterestGroupAuctionEventOccurred {
             pub event_time: network::types::TimeSinceEpoch,
+            #[serde(rename = "type")]
             pub type_: types::InterestGroupAuctionEventType,
             pub unique_auction_id: types::InterestGroupAuctionId,
             /// Set for child auctions.
@@ -39146,12 +42761,36 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.interestGroupAuctionEventOccurred")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.interestGroupAuctionEventOccurred", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.interestGroupAuctionEventOccurred")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.interestGroupAuctionEventOccurred",
+                    policy,
+                )
+            }
         }
 
         /// Specifies which auctions a particular network fetch may be related to, and in what role. Note that it is not ordered with respect to Network.requestWillBeSent (but will happen before loadingFinished loadingFailed).
         #[derive(Debug, Clone, Deserialize)]
         #[serde(rename_all = "camelCase")]
         pub struct InterestGroupAuctionNetworkRequestCreated {
+            #[serde(rename = "type")]
             pub type_: types::InterestGroupAuctionFetchType,
             pub request_id: network::types::RequestId,
             /// This is the set of the auctions using the worklet that issued this request. In the case of trusted signals, it's possible that only some of them actually care about the keys being queried.
@@ -39161,6 +42800,32 @@ pub mod storage {
         impl InterestGroupAuctionNetworkRequestCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.interestGroupAuctionNetworkRequestCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Storage.interestGroupAuctionNetworkRequestCreated",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.interestGroupAuctionNetworkRequestCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.interestGroupAuctionNetworkRequestCreated",
+                    policy,
+                )
             }
         }
 
@@ -39188,6 +42853,26 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.sharedStorageAccessed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.sharedStorageAccessed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.sharedStorageAccessed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.sharedStorageAccessed", policy)
+            }
         }
 
         /// A shared storage run or selectURL operation finished its execution. The following parameters are included in all events.
@@ -39214,6 +42899,32 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.sharedStorageWorkletOperationExecutionFinished")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Storage.sharedStorageWorkletOperationExecutionFinished",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.sharedStorageWorkletOperationExecutionFinished")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.sharedStorageWorkletOperationExecutionFinished",
+                    policy,
+                )
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -39226,6 +42937,29 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.storageBucketCreatedOrUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.storageBucketCreatedOrUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.storageBucketCreatedOrUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.storageBucketCreatedOrUpdated",
+                    policy,
+                )
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -39237,6 +42971,26 @@ pub mod storage {
         impl StorageBucketDeleted {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.storageBucketDeleted")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.storageBucketDeleted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.storageBucketDeleted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Storage.storageBucketDeleted", policy)
             }
         }
 
@@ -39252,6 +43006,32 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.attributionReportingSourceRegistered")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Storage.attributionReportingSourceRegistered",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.attributionReportingSourceRegistered")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.attributionReportingSourceRegistered",
+                    policy,
+                )
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -39266,6 +43046,32 @@ pub mod storage {
         impl AttributionReportingTriggerRegistered {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.attributionReportingTriggerRegistered")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Storage.attributionReportingTriggerRegistered",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.attributionReportingTriggerRegistered")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.attributionReportingTriggerRegistered",
+                    policy,
+                )
             }
         }
 
@@ -39286,6 +43092,29 @@ pub mod storage {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.attributionReportingReportSent")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Storage.attributionReportingReportSent", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.attributionReportingReportSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.attributionReportingReportSent",
+                    policy,
+                )
+            }
         }
 
         /// **EXPERIMENTAL**: This feature is experimental and may change or be removed.
@@ -39302,6 +43131,32 @@ pub mod storage {
         impl AttributionReportingVerboseDebugReportSent {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Storage.attributionReportingVerboseDebugReportSent")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy(
+                    "Storage.attributionReportingVerboseDebugReportSent",
+                    policy,
+                )
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Storage.attributionReportingVerboseDebugReportSent")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "Storage.attributionReportingVerboseDebugReportSent",
+                    policy,
+                )
             }
         }
     }
@@ -39470,6 +43325,7 @@ pub mod system_info {
         #[serde(rename_all = "camelCase")]
         pub struct ProcessInfo {
             /// Specifies process type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Specifies process id.
             pub id: i64,
@@ -39605,6 +43461,7 @@ pub mod target {
         pub struct TargetInfo {
             pub target_id: TargetID,
             /// List of types: https://source.chromium.org/chromium/chromium/src/+/main:content/browser/devtools/devtools_agent_host_impl.cc?ss=chromium&q=f:devtools%20-f:out%20%22::kTypeTab%5B%5D%22
+            #[serde(rename = "type")]
             pub type_: String,
             pub title: String,
             pub url: String,
@@ -39643,6 +43500,7 @@ pub mod target {
             pub exclude: Option<bool>,
             /// If not present, matches any type.
             #[serde(skip_serializing_if = "Option::is_none")]
+            #[serde(rename = "type")]
             pub type_: Option<String>,
         }
 
@@ -39842,6 +43700,15 @@ pub mod target {
         impl Method for AttachToTarget {
             type Response = responses::AttachToTargetResponse;
             const METHOD: &'static str = "Target.attachToTarget";
+
+            fn validate(&self) -> Result<(), crate::CdpError> {
+                if matches!(self.flatten, Some(false)) {
+                    return Err(crate::CdpError::UnsupportedConfiguration(
+                        "Target.attachToTarget requires flatten=true; cdpkit only supports flattened sessions".to_string(),
+                    ));
+                }
+                Ok(())
+            }
         }
 
         /// Attaches to the browser target, only uses flat sessionId mode.
@@ -40398,6 +44265,15 @@ pub mod target {
         impl Method for SetAutoAttach {
             type Response = ();
             const METHOD: &'static str = "Target.setAutoAttach";
+
+            fn validate(&self) -> Result<(), crate::CdpError> {
+                if matches!(self.flatten, Some(false)) {
+                    return Err(crate::CdpError::UnsupportedConfiguration(
+                        "Target.setAutoAttach requires flatten=true; cdpkit only supports flattened sessions".to_string(),
+                    ));
+                }
+                Ok(())
+            }
         }
 
         /// Adds the specified target to the list of targets that will be monitored for any related target creation (such as child frames, child workers and new versions of service worker) and reported through `attachedToTarget`. The specified target is also auto-attached. This cancels the effect of any previous `setAutoAttach` and is also cancelled by subsequent `setAutoAttach`. Only available at the Browser target.
@@ -40587,6 +44463,26 @@ pub mod target {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.attachedToTarget")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.attachedToTarget", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.attachedToTarget")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.attachedToTarget", policy)
+            }
         }
 
         /// Issued when detached from target for any reason (including `detachFromTarget` command). Can be issued multiple times per target if multiple sessions have been attached to it.
@@ -40604,6 +44500,26 @@ pub mod target {
         impl DetachedFromTarget {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.detachedFromTarget")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.detachedFromTarget", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.detachedFromTarget")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.detachedFromTarget", policy)
             }
         }
 
@@ -40623,6 +44539,26 @@ pub mod target {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.receivedMessageFromTarget")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.receivedMessageFromTarget", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.receivedMessageFromTarget")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.receivedMessageFromTarget", policy)
+            }
         }
 
         /// Issued when a possible inspection target is created.
@@ -40636,6 +44572,26 @@ pub mod target {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.targetCreated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.targetCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.targetCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.targetCreated", policy)
+            }
         }
 
         /// Issued when a target is destroyed.
@@ -40648,6 +44604,26 @@ pub mod target {
         impl TargetDestroyed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.targetDestroyed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.targetDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.targetDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.targetDestroyed", policy)
             }
         }
 
@@ -40666,6 +44642,26 @@ pub mod target {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.targetCrashed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.targetCrashed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.targetCrashed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.targetCrashed", policy)
+            }
         }
 
         /// Issued when some information about a target has changed. This only happens between `targetCreated` and `targetDestroyed`.
@@ -40678,6 +44674,26 @@ pub mod target {
         impl TargetInfoChanged {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Target.targetInfoChanged")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Target.targetInfoChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Target.targetInfoChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Target.targetInfoChanged", policy)
             }
         }
     }
@@ -40758,6 +44774,26 @@ pub mod tethering {
         impl Accepted {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Tethering.accepted")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Tethering.accepted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Tethering.accepted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Tethering.accepted", policy)
             }
         }
     }
@@ -41271,6 +45307,26 @@ pub mod tracing {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Tracing.bufferUsage")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Tracing.bufferUsage", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Tracing.bufferUsage")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Tracing.bufferUsage", policy)
+            }
         }
 
         /// Contains a bucket of collected trace events. When tracing is stopped collected events will be sent as a sequence of dataCollected events followed by tracingComplete event.
@@ -41284,6 +45340,26 @@ pub mod tracing {
         impl DataCollected {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Tracing.dataCollected")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Tracing.dataCollected", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Tracing.dataCollected")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Tracing.dataCollected", policy)
             }
         }
 
@@ -41304,6 +45380,26 @@ pub mod tracing {
         impl TracingComplete {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Tracing.tracingComplete")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Tracing.tracingComplete", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Tracing.tracingComplete")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Tracing.tracingComplete", policy)
             }
         }
     }
@@ -41668,6 +45764,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.contextCreated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.contextCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.contextCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.contextCreated", policy)
+            }
         }
 
         /// Notifies that an existing BaseAudioContext will be destroyed.
@@ -41680,6 +45796,26 @@ pub mod web_audio {
         impl ContextWillBeDestroyed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.contextWillBeDestroyed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.contextWillBeDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.contextWillBeDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.contextWillBeDestroyed", policy)
             }
         }
 
@@ -41694,6 +45830,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.contextChanged")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.contextChanged", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.contextChanged")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.contextChanged", policy)
+            }
         }
 
         /// Notifies that the construction of an AudioListener has finished.
@@ -41706,6 +45862,26 @@ pub mod web_audio {
         impl AudioListenerCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioListenerCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioListenerCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioListenerCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.audioListenerCreated", policy)
             }
         }
 
@@ -41721,6 +45897,29 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioListenerWillBeDestroyed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioListenerWillBeDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioListenerWillBeDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "WebAudio.audioListenerWillBeDestroyed",
+                    policy,
+                )
+            }
         }
 
         /// Notifies that a new AudioNode has been created.
@@ -41733,6 +45932,26 @@ pub mod web_audio {
         impl AudioNodeCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioNodeCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioNodeCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioNodeCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.audioNodeCreated", policy)
             }
         }
 
@@ -41748,6 +45967,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioNodeWillBeDestroyed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioNodeWillBeDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioNodeWillBeDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.audioNodeWillBeDestroyed", policy)
+            }
         }
 
         /// Notifies that a new AudioParam has been created.
@@ -41760,6 +45999,26 @@ pub mod web_audio {
         impl AudioParamCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioParamCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioParamCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioParamCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.audioParamCreated", policy)
             }
         }
 
@@ -41775,6 +46034,26 @@ pub mod web_audio {
         impl AudioParamWillBeDestroyed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.audioParamWillBeDestroyed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.audioParamWillBeDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.audioParamWillBeDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.audioParamWillBeDestroyed", policy)
             }
         }
 
@@ -41793,6 +46072,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.nodesConnected")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.nodesConnected", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.nodesConnected")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.nodesConnected", policy)
+            }
         }
 
         /// Notifies that AudioNodes are disconnected. The destination can be null, and it means all the outgoing connections from the source are disconnected.
@@ -41810,6 +46109,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.nodesDisconnected")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.nodesDisconnected", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.nodesDisconnected")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.nodesDisconnected", policy)
+            }
         }
 
         /// Notifies that an AudioNode is connected to an AudioParam.
@@ -41826,6 +46145,26 @@ pub mod web_audio {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.nodeParamConnected")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.nodeParamConnected", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.nodeParamConnected")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.nodeParamConnected", policy)
+            }
         }
 
         /// Notifies that an AudioNode is disconnected to an AudioParam.
@@ -41841,6 +46180,26 @@ pub mod web_audio {
         impl NodeParamDisconnected {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAudio.nodeParamDisconnected")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAudio.nodeParamDisconnected", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAudio.nodeParamDisconnected")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAudio.nodeParamDisconnected", policy)
             }
         }
     }
@@ -42482,6 +46841,26 @@ pub mod web_authn {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAuthn.credentialAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAuthn.credentialAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAuthn.credentialAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAuthn.credentialAdded", policy)
+            }
         }
 
         /// Triggered when a credential is deleted, e.g. through PublicKeyCredential.signalUnknownCredential().
@@ -42495,6 +46874,26 @@ pub mod web_authn {
         impl CredentialDeleted {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAuthn.credentialDeleted")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAuthn.credentialDeleted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAuthn.credentialDeleted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAuthn.credentialDeleted", policy)
             }
         }
 
@@ -42510,6 +46909,26 @@ pub mod web_authn {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAuthn.credentialUpdated")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAuthn.credentialUpdated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAuthn.credentialUpdated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAuthn.credentialUpdated", policy)
+            }
         }
 
         /// Triggered when a credential is used in a webauthn assertion.
@@ -42523,6 +46942,26 @@ pub mod web_authn {
         impl CredentialAsserted {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("WebAuthn.credentialAsserted")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("WebAuthn.credentialAsserted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("WebAuthn.credentialAsserted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("WebAuthn.credentialAsserted", policy)
             }
         }
     }
@@ -42646,6 +47085,26 @@ pub mod console {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Console.messageAdded")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Console.messageAdded", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Console.messageAdded")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Console.messageAdded", policy)
+            }
         }
     }
 }
@@ -42729,6 +47188,7 @@ pub mod debugger {
         #[serde(rename_all = "camelCase")]
         pub struct Scope {
             /// Scope type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Object representing the scope. For `global` and `with` scopes it represents the actual object; for the rest of the scopes, it is artificial transient object enumerating scope variables as its properties.
             pub object: runtime::types::RemoteObject,
@@ -42763,6 +47223,7 @@ pub mod debugger {
             #[serde(skip_serializing_if = "Option::is_none")]
             pub column_number: Option<i64>,
             #[serde(skip_serializing_if = "Option::is_none")]
+            #[serde(rename = "type")]
             pub type_: Option<String>,
         }
 
@@ -42813,6 +47274,7 @@ pub mod debugger {
         #[serde(rename_all = "camelCase")]
         pub struct DebugSymbols {
             /// Type of the debug symbols.
+            #[serde(rename = "type")]
             pub type_: String,
             /// URL of the external symbol source.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -44148,6 +48610,26 @@ pub mod debugger {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Debugger.breakpointResolved")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Debugger.breakpointResolved", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Debugger.breakpointResolved")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Debugger.breakpointResolved", policy)
+            }
         }
 
         /// Fired when the virtual machine stopped on breakpoint or exception or any other stop criteria.
@@ -44177,6 +48659,26 @@ pub mod debugger {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Debugger.paused")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Debugger.paused", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Debugger.paused")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Debugger.paused", policy)
+            }
         }
 
         /// Fired when the virtual machine resumed execution.
@@ -44187,6 +48689,26 @@ pub mod debugger {
         impl Resumed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Debugger.resumed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Debugger.resumed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Debugger.resumed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Debugger.resumed", policy)
             }
         }
 
@@ -44241,6 +48763,26 @@ pub mod debugger {
         impl ScriptFailedToParse {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Debugger.scriptFailedToParse")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Debugger.scriptFailedToParse", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Debugger.scriptFailedToParse")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Debugger.scriptFailedToParse", policy)
             }
         }
 
@@ -44304,6 +48846,26 @@ pub mod debugger {
         impl ScriptParsed {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Debugger.scriptParsed")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Debugger.scriptParsed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Debugger.scriptParsed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Debugger.scriptParsed", policy)
             }
         }
     }
@@ -44826,6 +49388,26 @@ pub mod heap_profiler {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("HeapProfiler.addHeapSnapshotChunk")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("HeapProfiler.addHeapSnapshotChunk", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("HeapProfiler.addHeapSnapshotChunk")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("HeapProfiler.addHeapSnapshotChunk", policy)
+            }
         }
 
         /// If heap objects tracking has been started then backend may send update for one or more fragments
@@ -44839,6 +49421,26 @@ pub mod heap_profiler {
         impl HeapStatsUpdate {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("HeapProfiler.heapStatsUpdate")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("HeapProfiler.heapStatsUpdate", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("HeapProfiler.heapStatsUpdate")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("HeapProfiler.heapStatsUpdate", policy)
             }
         }
 
@@ -44854,6 +49456,26 @@ pub mod heap_profiler {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("HeapProfiler.lastSeenObjectId")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("HeapProfiler.lastSeenObjectId", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("HeapProfiler.lastSeenObjectId")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("HeapProfiler.lastSeenObjectId", policy)
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -44868,6 +49490,29 @@ pub mod heap_profiler {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("HeapProfiler.reportHeapSnapshotProgress")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("HeapProfiler.reportHeapSnapshotProgress", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("HeapProfiler.reportHeapSnapshotProgress")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy(
+                    "HeapProfiler.reportHeapSnapshotProgress",
+                    policy,
+                )
+            }
         }
 
         #[derive(Debug, Clone, Deserialize)]
@@ -44877,6 +49522,26 @@ pub mod heap_profiler {
         impl ResetProfiles {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("HeapProfiler.resetProfiles")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("HeapProfiler.resetProfiles", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("HeapProfiler.resetProfiles")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("HeapProfiler.resetProfiles", policy)
             }
         }
     }
@@ -45265,6 +49930,26 @@ pub mod profiler {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Profiler.consoleProfileFinished")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Profiler.consoleProfileFinished", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Profiler.consoleProfileFinished")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Profiler.consoleProfileFinished", policy)
+            }
         }
 
         /// Sent when new profile recording is started using console.profile() call.
@@ -45281,6 +49966,26 @@ pub mod profiler {
         impl ConsoleProfileStarted {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Profiler.consoleProfileStarted")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Profiler.consoleProfileStarted", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Profiler.consoleProfileStarted")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Profiler.consoleProfileStarted", policy)
             }
         }
 
@@ -45300,6 +50005,27 @@ pub mod profiler {
         impl PreciseCoverageDeltaUpdate {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Profiler.preciseCoverageDeltaUpdate")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Profiler.preciseCoverageDeltaUpdate", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Profiler.preciseCoverageDeltaUpdate")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target
+                    .event_stream_result_with_policy("Profiler.preciseCoverageDeltaUpdate", policy)
             }
         }
     }
@@ -45332,6 +50058,7 @@ pub mod runtime {
         #[derive(Debug, Clone, Serialize, Deserialize)]
         #[serde(rename_all = "camelCase")]
         pub struct DeepSerializedValue {
+            #[serde(rename = "type")]
             pub type_: String,
             #[serde(skip_serializing_if = "Option::is_none")]
             pub value: Option<serde_json::Value>,
@@ -45353,6 +50080,7 @@ pub mod runtime {
         #[serde(rename_all = "camelCase")]
         pub struct RemoteObject {
             /// Object type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Object subtype hint. Specified for `object` type values only. NOTE: If you change anything here, make sure to also update `subtype` in `ObjectPreview` and `PropertyPreview` below.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -45402,6 +50130,7 @@ pub mod runtime {
         #[serde(rename_all = "camelCase")]
         pub struct ObjectPreview {
             /// Object type.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Object subtype hint. Specified for `object` type values only.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -45425,6 +50154,7 @@ pub mod runtime {
             /// Property name.
             pub name: String,
             /// Object type. Accessor means that the property itself is an accessor property.
+            #[serde(rename = "type")]
             pub type_: String,
             /// User-friendly property value string.
             #[serde(skip_serializing_if = "Option::is_none")]
@@ -46801,6 +51531,26 @@ pub mod runtime {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.bindingCalled")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.bindingCalled", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.bindingCalled")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.bindingCalled", policy)
+            }
         }
 
         /// Issued when console API was called.
@@ -46808,6 +51558,7 @@ pub mod runtime {
         #[serde(rename_all = "camelCase")]
         pub struct ConsoleApiCalled {
             /// Type of the call.
+            #[serde(rename = "type")]
             pub type_: String,
             /// Call arguments.
             pub args: Vec<types::RemoteObject>,
@@ -46826,6 +51577,26 @@ pub mod runtime {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.consoleAPICalled")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.consoleAPICalled", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.consoleAPICalled")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.consoleAPICalled", policy)
+            }
         }
 
         /// Issued when unhandled exception was revoked.
@@ -46842,6 +51613,26 @@ pub mod runtime {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.exceptionRevoked")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.exceptionRevoked", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.exceptionRevoked")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.exceptionRevoked", policy)
+            }
         }
 
         /// Issued when exception was thrown and unhandled.
@@ -46857,6 +51648,26 @@ pub mod runtime {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.exceptionThrown")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.exceptionThrown", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.exceptionThrown")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.exceptionThrown", policy)
+            }
         }
 
         /// Issued when new execution context is created.
@@ -46870,6 +51681,26 @@ pub mod runtime {
         impl ExecutionContextCreated {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.executionContextCreated")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.executionContextCreated", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.executionContextCreated")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.executionContextCreated", policy)
             }
         }
 
@@ -46889,6 +51720,26 @@ pub mod runtime {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.executionContextDestroyed")
             }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.executionContextDestroyed", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.executionContextDestroyed")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.executionContextDestroyed", policy)
+            }
         }
 
         /// Issued when all executionContexts were cleared in browser
@@ -46899,6 +51750,26 @@ pub mod runtime {
         impl ExecutionContextsCleared {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.executionContextsCleared")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.executionContextsCleared", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.executionContextsCleared")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.executionContextsCleared", policy)
             }
         }
 
@@ -46916,6 +51787,26 @@ pub mod runtime {
         impl InspectRequested {
             pub fn subscribe(target: &(impl crate::Sender + Sync)) -> crate::EventStream<Self> {
                 target.event_stream("Runtime.inspectRequested")
+            }
+
+            pub fn subscribe_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStream<Self> {
+                target.event_stream_with_policy("Runtime.inspectRequested", policy)
+            }
+
+            pub fn subscribe_result(
+                target: &(impl crate::Sender + Sync),
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result("Runtime.inspectRequested")
+            }
+
+            pub fn subscribe_result_with_policy(
+                target: &(impl crate::Sender + Sync),
+                policy: crate::EventStreamPolicy,
+            ) -> crate::EventStreamResult<Self> {
+                target.event_stream_result_with_policy("Runtime.inspectRequested", policy)
             }
         }
     }

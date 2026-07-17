@@ -18,6 +18,9 @@ pub enum CdpError {
     #[error("Response channel closed")]
     ChannelClosed,
 
+    #[error("Unsupported configuration: {0}")]
+    UnsupportedConfiguration(String),
+
     #[error("Command timed out")]
     Timeout,
 
@@ -36,6 +39,10 @@ pub enum CdpError {
     /// HTTP discovery returned non-200 status code
     #[error("HTTP discovery returned status {0}")]
     HttpStatus(u16),
+
+    /// Invalid or unsupported discovery target passed to `CDP::connect`
+    #[error("Invalid discovery input: {0}")]
+    InvalidDiscoveryInput(String),
 
     /// HTTP discovery response format invalid (cannot parse or missing webSocketDebuggerUrl)
     #[error("Invalid discovery response: {0}")]
@@ -74,6 +81,7 @@ impl CdpError {
                 | Self::DiscoveryTimeout
                 | Self::HandshakeTimeout
                 | Self::HttpStatus(_)
+                | Self::InvalidDiscoveryInput(_)
                 | Self::InvalidDiscoveryResponse(_)
         )
     }

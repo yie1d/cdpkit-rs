@@ -1,6 +1,7 @@
 use crate::error::CdpError;
-use crate::listeners::EventListeners;
+use crate::listeners::{EventListeners, EventReceiver};
 use crate::types::Method;
+use crate::EventStreamPolicy;
 use futures::stream::Stream;
 use futures::{SinkExt, StreamExt};
 use serde::de::DeserializeOwned;
@@ -201,30 +202,18 @@ impl CDPInner {
         &self,
         event_name: &str,
         session_id: Option<String>,
+        policy: EventStreamPolicy,
     ) -> Pin<Box<dyn Stream<Item = T> + Send>>
     where
         T: DeserializeOwned + Send + 'static,
     {
-        let (tx, rx) = mpsc::unbounded_channel();
+        let results = self.event_stream_result(event_name, session_id, policy);
         let event_name: Arc<str> = event_name.into();
 
-        debug!(event = %event_name, "Subscribing to event");
-
-        self.event_listeners
-            .write()
-            .unwrap_or_else(|e| {
-                warn!("EventListeners RwLock was poisoned, recovering");
-                e.into_inner()
-            })
-            .add_listener(&event_name, session_id, tx);
-
-        let rx_stream = tokio_stream::wrappers::UnboundedReceiverStream::new(rx);
-
-        Box::pin(rx_stream.filter_map(move |v| {
+        Box::pin(results.filter_map(move |event| {
             let event_name = Arc::clone(&event_name);
             async move {
-                let value = (*v).clone();
-                match serde_json::from_value(value) {
+                match event {
                     Ok(event) => Some(event),
                     Err(e) => {
                         warn!(event = %event_name, error = %e, "Failed to deserialize event");
@@ -233,6 +222,41 @@ impl CDPInner {
                 }
             }
         }))
+    }
+
+    pub fn event_stream_result<T>(
+        &self,
+        event_name: &str,
+        session_id: Option<String>,
+        policy: EventStreamPolicy,
+    ) -> Pin<Box<dyn Stream<Item = Result<T, CdpError>> + Send>>
+    where
+        T: DeserializeOwned + Send + 'static,
+    {
+        let event_name: Arc<str> = event_name.into();
+
+        debug!(event = %event_name, "Subscribing to event");
+
+        let receiver = self
+            .event_listeners
+            .write()
+            .unwrap_or_else(|e| {
+                warn!("EventListeners RwLock was poisoned, recovering");
+                e.into_inner()
+            })
+            .add_listener(&event_name, session_id, policy);
+
+        let rx_stream: Pin<Box<dyn Stream<Item = Arc<Value>> + Send>> = match receiver {
+            EventReceiver::Unbounded(rx) => {
+                Box::pin(tokio_stream::wrappers::UnboundedReceiverStream::new(rx))
+            }
+            EventReceiver::Bounded(rx) => Box::pin(tokio_stream::wrappers::ReceiverStream::new(rx)),
+        };
+
+        Box::pin(
+            rx_stream
+                .map(move |value| serde_json::from_value((*value).clone()).map_err(Into::into)),
+        )
     }
 
     async fn message_loop(&self, mut ws: WsStream, mut rx: mpsc::Receiver<Message>) {

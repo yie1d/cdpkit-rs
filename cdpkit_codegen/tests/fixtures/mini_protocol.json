@@ -1,0 +1,134 @@
+{
+  "version": {
+    "major": "1",
+    "minor": "3"
+  },
+  "domains": [
+    {
+      "domain": "Runtime",
+      "types": [
+        {
+          "id": "RemoteObjectId",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "domain": "Target",
+      "types": [
+        {
+          "id": "TargetID",
+          "type": "string"
+        },
+        {
+          "id": "Mode",
+          "type": "string",
+          "enum": [
+            "default",
+            "override"
+          ]
+        },
+        {
+          "id": "KeywordCarrier",
+          "type": "object",
+          "properties": [
+            {
+              "name": "type",
+              "type": "string"
+            },
+            {
+              "name": "override",
+              "type": "boolean",
+              "optional": true
+            }
+          ]
+        }
+      ],
+      "commands": [
+        {
+          "name": "attachToTarget",
+          "parameters": [
+            {
+              "name": "targetId",
+              "$ref": "TargetID"
+            },
+            {
+              "name": "flatten",
+              "type": "boolean",
+              "optional": true
+            }
+          ],
+          "returns": [
+            {
+              "name": "sessionId",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "setAutoAttach",
+          "parameters": [
+            {
+              "name": "autoAttach",
+              "type": "boolean"
+            },
+            {
+              "name": "waitForDebuggerOnStart",
+              "type": "boolean"
+            },
+            {
+              "name": "flatten",
+              "type": "boolean",
+              "optional": true
+            }
+          ]
+        },
+        {
+          "name": "inspect",
+          "parameters": [
+            {
+              "name": "remoteObjectId",
+              "$ref": "Runtime.RemoteObjectId"
+            },
+            {
+              "name": "type",
+              "type": "string",
+              "optional": true
+            },
+            {
+              "name": "mode",
+              "$ref": "Mode",
+              "optional": true
+            }
+          ],
+          "returns": [
+            {
+              "name": "details",
+              "$ref": "KeywordCarrier"
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "attachedToTarget",
+          "parameters": [
+            {
+              "name": "sessionId",
+              "type": "string"
+            },
+            {
+              "name": "targetId",
+              "$ref": "TargetID"
+            },
+            {
+              "name": "type",
+              "type": "string",
+              "optional": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

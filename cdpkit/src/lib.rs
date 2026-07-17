@@ -15,6 +15,7 @@ pub use types::Method;
 pub use protocol::*;
 
 use inner::CDPInner;
+use std::num::NonZeroUsize;
 use std::sync::Arc;
 use std::time::Duration;
 
@@ -35,6 +36,31 @@ pub const DEFAULT_CONNECT_TIMEOUT: Duration = Duration::from_secs(30);
 
 /// Type alias for CDP event streams returned by `subscribe()`.
 pub type EventStream<T> = std::pin::Pin<Box<dyn futures::Stream<Item = T> + Send>>;
+
+/// Type alias for CDP event streams that surface deserialization errors.
+pub type EventStreamResult<T> =
+    std::pin::Pin<Box<dyn futures::Stream<Item = Result<T, CdpError>> + Send>>;
+
+/// Overflow behavior for explicitly bounded event streams.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum EventOverflowStrategy {
+    /// Drop the incoming event when the per-subscriber buffer is already full.
+    DropNewest,
+    /// Close the subscriber stream when the per-subscriber buffer overflows.
+    CloseStream,
+}
+
+/// Buffering policy for event subscriptions.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum EventStreamPolicy {
+    /// Preserve the historical behavior: unbounded per-subscription buffering.
+    Unbounded,
+    /// Bound the per-subscription buffer and apply an explicit overflow strategy.
+    Bounded {
+        capacity: NonZeroUsize,
+        overflow: EventOverflowStrategy,
+    },
+}
 
 /// Sealed trait module — prevents external implementations of [`Sender`].
 #[allow(private_interfaces)]
@@ -96,6 +122,7 @@ pub trait Sender: sealed::Sealed {
         Self: Sync,
     {
         async move {
+            cmd.validate()?;
             sealed::Sealed::inner(self)
                 .send_command(cmd, sealed::Sealed::session_id(self))
                 .await
@@ -123,9 +150,46 @@ pub trait Sender: sealed::Sealed {
     where
         T: serde::de::DeserializeOwned + Send + 'static,
     {
+        self.event_stream_with_policy(event_name, EventStreamPolicy::Unbounded)
+    }
+
+    /// Subscribe to a CDP event stream with an explicit buffering policy.
+    fn event_stream_with_policy<T>(
+        &self,
+        event_name: &str,
+        policy: EventStreamPolicy,
+    ) -> EventStream<T>
+    where
+        T: serde::de::DeserializeOwned + Send + 'static,
+    {
         sealed::Sealed::inner(self).event_stream(
             event_name,
             sealed::Sealed::session_id(self).map(str::to_owned),
+            policy,
+        )
+    }
+
+    /// Subscribe to a CDP event stream and surface deserialization errors as `Result`.
+    fn event_stream_result<T>(&self, event_name: &str) -> EventStreamResult<T>
+    where
+        T: serde::de::DeserializeOwned + Send + 'static,
+    {
+        self.event_stream_result_with_policy(event_name, EventStreamPolicy::Unbounded)
+    }
+
+    /// Subscribe to a CDP event stream with explicit buffering and explicit decode errors.
+    fn event_stream_result_with_policy<T>(
+        &self,
+        event_name: &str,
+        policy: EventStreamPolicy,
+    ) -> EventStreamResult<T>
+    where
+        T: serde::de::DeserializeOwned + Send + 'static,
+    {
+        sealed::Sealed::inner(self).event_stream_result(
+            event_name,
+            sealed::Sealed::session_id(self).map(str::to_owned),
+            policy,
         )
     }
 }
@@ -133,6 +197,71 @@ pub trait Sender: sealed::Sealed {
 impl Sender for CDP {}
 impl Sender for Session<'_> {}
 impl Sender for OwnedSession {}
+
+struct DiscoveryEndpoint {
+    connect_addr: String,
+    host_header: String,
+}
+
+fn parse_discovery_endpoint(input: &str) -> Result<DiscoveryEndpoint, CdpError> {
+    let trimmed = input.trim();
+    if trimmed.is_empty() {
+        return Err(CdpError::InvalidDiscoveryInput(
+            "expected host:port or http://host:port".to_string(),
+        ));
+    }
+
+    let authority = if let Some(authority) = trimmed.strip_prefix("http://") {
+        authority
+    } else if trimmed.starts_with("https://") {
+        return Err(CdpError::InvalidDiscoveryInput(
+            "https:// discovery is not supported; use http://host:port or host:port".to_string(),
+        ));
+    } else if trimmed.contains("://") {
+        return Err(CdpError::InvalidDiscoveryInput(
+            "unsupported discovery scheme; use http://host:port or host:port".to_string(),
+        ));
+    } else {
+        trimmed
+    };
+
+    if authority.contains('/') || authority.contains('?') || authority.contains('#') {
+        return Err(CdpError::InvalidDiscoveryInput(
+            "discovery only accepts a host:port authority and always queries /json/version"
+                .to_string(),
+        ));
+    }
+
+    let (host, port) = if authority.starts_with('[') {
+        let end = authority.find("]:").ok_or_else(|| {
+            CdpError::InvalidDiscoveryInput(
+                "IPv6 discovery targets must be written as [host]:port".to_string(),
+            )
+        })?;
+        (&authority[..=end], &authority[end + 2..])
+    } else {
+        authority.split_once(':').ok_or_else(|| {
+            CdpError::InvalidDiscoveryInput(
+                "discovery requires an explicit host:port; the port is not inferred".to_string(),
+            )
+        })?
+    };
+
+    if host.is_empty() {
+        return Err(CdpError::InvalidDiscoveryInput(
+            "discovery host cannot be empty".to_string(),
+        ));
+    }
+
+    let port: u16 = port.parse().map_err(|_| {
+        CdpError::InvalidDiscoveryInput("discovery port must be a valid u16".to_string())
+    })?;
+
+    Ok(DiscoveryEndpoint {
+        connect_addr: format!("{host}:{port}"),
+        host_header: format!("{host}:{port}"),
+    })
+}
 
 /// Chrome DevTools Protocol client (browser-level connection).
 pub struct CDP {
@@ -334,21 +463,9 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
     const MAX_CONTENT_LENGTH: usize = 1_048_576;
     const MAX_HEADER_LINES: usize = 100;
 
-    let addr = if host.starts_with("http://") {
-        host.strip_prefix("http://").unwrap()
-    } else if host.starts_with("https://") {
-        host.strip_prefix("https://").unwrap()
-    } else {
-        host
-    };
+    let endpoint = parse_discovery_endpoint(host)?;
 
-    let addr = if addr.contains(':') {
-        addr.to_string()
-    } else {
-        format!("{}:80", addr)
-    };
-
-    let stream = TcpStream::connect(&addr)
+    let stream = TcpStream::connect(&endpoint.connect_addr)
         .await
         .map_err(|e| CdpError::Io(e.to_string()))?;
 
@@ -356,7 +473,7 @@ async fn discover_ws_url_inner(host: &str) -> Result<String, CdpError> {
 
     let request = format!(
         "GET /json/version HTTP/1.1\r\nHost: {}\r\nConnection: close\r\n\r\n",
-        addr
+        endpoint.host_header
     );
     writer
         .write_all(request.as_bytes())

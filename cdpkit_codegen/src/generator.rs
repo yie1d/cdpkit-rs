@@ -5,68 +5,7 @@ use std::collections::HashMap;
 pub fn generate_code(protocols: &[Protocol]) -> String {
     let mut output = String::new();
 
-    let now = {
-        use std::time::SystemTime;
-        let d = SystemTime::now()
-            .duration_since(SystemTime::UNIX_EPOCH)
-            .unwrap();
-        let secs = d.as_secs();
-        // Simple UTC timestamp
-        let days = secs / 86400;
-        let time_of_day = secs % 86400;
-        let hours = time_of_day / 3600;
-        let minutes = (time_of_day % 3600) / 60;
-        let seconds = time_of_day % 60;
-        // Days since 1970-01-01
-        let mut y = 1970i64;
-        let mut remaining = days as i64;
-        loop {
-            let days_in_year = if y % 4 == 0 && (y % 100 != 0 || y % 400 == 0) {
-                366
-            } else {
-                365
-            };
-            if remaining < days_in_year {
-                break;
-            }
-            remaining -= days_in_year;
-            y += 1;
-        }
-        let leap = y % 4 == 0 && (y % 100 != 0 || y % 400 == 0);
-        let month_days = [
-            31,
-            if leap { 29 } else { 28 },
-            31,
-            30,
-            31,
-            30,
-            31,
-            31,
-            30,
-            31,
-            30,
-            31,
-        ];
-        let mut m = 0usize;
-        for &md in &month_days {
-            if remaining < md {
-                break;
-            }
-            remaining -= md;
-            m += 1;
-        }
-        format!(
-            "{:04}-{:02}-{:02} {:02}:{:02}:{:02} UTC",
-            y,
-            m + 1,
-            remaining + 1,
-            hours,
-            minutes,
-            seconds
-        )
-    };
     output.push_str("// Auto-generated from Chrome DevTools Protocol\n");
-    output.push_str(&format!("// Generated at: {}\n", now));
     output.push_str("// DO NOT EDIT MANUALLY  OvO\n\n");
     output.push_str("#![allow(dead_code, unused_imports, clippy::all)]\n\n");
     output.push_str("use serde::{Deserialize, Serialize};\n");
@@ -375,10 +314,26 @@ fn generate_response(
 ///
 /// cdpkit only implements flatten mode for session message routing, so `flatten` must be `true`
 /// for `AttachToTarget` and `SetAutoAttach` to avoid silent failures.
-fn field_default_override(domain: &str, command_name: &str, field_name: &str) -> Option<&'static str> {
+fn field_default_override(
+    domain: &str,
+    command_name: &str,
+    field_name: &str,
+) -> Option<&'static str> {
     match (domain, command_name, field_name) {
         ("Target", "attachToTarget", "flatten") => Some("Some(true)"),
         ("Target", "setAutoAttach", "flatten") => Some("Some(true)"),
+        _ => None,
+    }
+}
+
+fn validation_error_message(domain: &str, command_name: &str) -> Option<&'static str> {
+    match (domain, command_name) {
+        ("Target", "attachToTarget") => Some(
+            "Target.attachToTarget requires flatten=true; cdpkit only supports flattened sessions",
+        ),
+        ("Target", "setAutoAttach") => Some(
+            "Target.setAutoAttach requires flatten=true; cdpkit only supports flattened sessions",
+        ),
         _ => None,
     }
 }
@@ -450,9 +405,12 @@ fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, 
         output.push_str("                Self {\n");
         for param in &command.parameters {
             let field_name = sanitize_field_name(&param.name.to_snake_case());
-            let default_val = field_default_override(domain, &command.name, &param.name)
-                .unwrap_or("None");
-            output.push_str(&format!("                    {}: {},\n", field_name, default_val));
+            let default_val =
+                field_default_override(domain, &command.name, &param.name).unwrap_or("None");
+            output.push_str(&format!(
+                "                    {}: {},\n",
+                field_name, default_val
+            ));
         }
         output.push_str("                }\n");
         output.push_str("            }\n");
@@ -476,9 +434,12 @@ fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, 
             let field_name = sanitize_field_name(&param.name.to_snake_case());
             let rust_type = param.type_ref.to_rust_type(domain, type_map, false);
             if param.optional {
-                let default_val = field_default_override(domain, &command.name, &param.name)
-                    .unwrap_or("None");
-                output.push_str(&format!("                    {}: {},\n", field_name, default_val));
+                let default_val =
+                    field_default_override(domain, &command.name, &param.name).unwrap_or("None");
+                output.push_str(&format!(
+                    "                    {}: {},\n",
+                    field_name, default_val
+                ));
             } else if rust_type == "String" {
                 output.push_str(&format!(
                     "                    {}: {}.into(),\n",
@@ -541,6 +502,21 @@ fn generate_command(command: &Command, domain: &str, type_map: &HashMap<String, 
         "            const METHOD: &'static str = \"{}\";\n",
         method_name
     ));
+    if let Some(message) = validation_error_message(domain, &command.name) {
+        output.push_str("\n            fn validate(&self) -> Result<(), crate::CdpError> {\n");
+        output.push_str("                if matches!(self.flatten, Some(false)) {\n");
+        output.push_str(
+            "                    return Err(crate::CdpError::UnsupportedConfiguration(\n",
+        );
+        output.push_str(&format!(
+            "                        \"{}\".to_string(),\n",
+            message
+        ));
+        output.push_str("                    ));\n");
+        output.push_str("                }\n");
+        output.push_str("                Ok(())\n");
+        output.push_str("            }\n");
+    }
     output.push_str("        }\n");
 
     output
@@ -602,23 +578,40 @@ fn generate_event(event: &Event, domain: &str, type_map: &HashMap<String, String
         method_name
     ));
     output.push_str("            }\n");
+    output.push_str(
+        "\n            pub fn subscribe_with_policy(\n                target: &(impl crate::Sender + Sync),\n                policy: crate::EventStreamPolicy,\n            ) -> crate::EventStream<Self> {\n",
+    );
+    output.push_str(&format!(
+        "                target.event_stream_with_policy(\"{}\", policy)\n",
+        method_name
+    ));
+    output.push_str("            }\n");
+    output.push_str(
+        "\n            pub fn subscribe_result(target: &(impl crate::Sender + Sync)) -> crate::EventStreamResult<Self> {\n",
+    );
+    output.push_str(&format!(
+        "                target.event_stream_result(\"{}\")\n",
+        method_name
+    ));
+    output.push_str("            }\n");
+    output.push_str(
+        "\n            pub fn subscribe_result_with_policy(\n                target: &(impl crate::Sender + Sync),\n                policy: crate::EventStreamPolicy,\n            ) -> crate::EventStreamResult<Self> {\n",
+    );
+    output.push_str(&format!(
+        "                target.event_stream_result_with_policy(\"{}\", policy)\n",
+        method_name
+    ));
+    output.push_str("            }\n");
     output.push_str("        }\n");
 
     output
 }
 
 fn sanitize_field_name(name: &str) -> String {
-    match name {
-        "type" => "type_".to_string(),
-        "ref" => "ref_".to_string(),
-        "mod" => "mod_".to_string(),
-        "use" => "use_".to_string(),
-        "loop" => "loop_".to_string(),
-        "move" => "move_".to_string(),
-        "match" => "match_".to_string(),
-        "self" => "self_".to_string(),
-        "Self" => "Self_".to_string(),
-        "override" => "override_".to_string(),
+    match name.to_ascii_lowercase().as_str() {
+        "type" | "ref" | "mod" | "use" | "loop" | "move" | "match" | "self" | "override" => {
+            format!("{}_", name)
+        }
         _ => name.to_string(),
     }
 }
@@ -632,6 +625,9 @@ fn escape_doc(s: &str) -> String {
 /// to camelCase. We only need explicit rename when that conversion doesn't match the
 /// original JSON property name.
 fn needs_serde_rename(original_name: &str, field_name: &str) -> bool {
+    if sanitize_field_name(original_name) != original_name {
+        return true;
+    }
     if field_name == original_name {
         return false;
     }

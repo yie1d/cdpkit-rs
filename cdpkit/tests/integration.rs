@@ -1,8 +1,11 @@
-use cdpkit::{CdpError, CloseReason, Method, Sender, CDP};
+use cdpkit::{
+    target, CdpError, CloseReason, EventOverflowStrategy, EventStreamPolicy, Method, Sender, CDP,
+};
 use futures::StreamExt;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::net::SocketAddr;
+use std::num::NonZeroUsize;
 use std::time::Duration;
 use tokio::net::TcpListener;
 use tokio::sync::oneshot;
@@ -121,6 +124,46 @@ async fn start_controlled_remote_close_server(
     });
 
     (addr, trigger_tx, handle)
+}
+
+async fn start_recording_server() -> (
+    SocketAddr,
+    oneshot::Receiver<Value>,
+    tokio::task::JoinHandle<()>,
+) {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+    let (message_tx, message_rx) = oneshot::channel();
+
+    let handle = tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, mut read) = ws.split();
+
+        use futures::SinkExt;
+
+        let mut message_tx = Some(message_tx);
+        while let Some(Ok(msg)) = read.next().await {
+            match msg {
+                Message::Text(text) => {
+                    let value: Value = serde_json::from_str(&text).unwrap();
+                    if let Some(tx) = message_tx.take() {
+                        let _ = tx.send(value.clone());
+                    }
+                    let id = value.get("id").and_then(|v| v.as_u64()).unwrap();
+                    let resp = json!({"id": id, "result": {}});
+                    let _ = write.send(Message::Text(resp.to_string().into())).await;
+                }
+                Message::Close(frame) => {
+                    let _ = write.send(Message::Close(frame)).await;
+                    break;
+                }
+                _ => {}
+            }
+        }
+    });
+
+    (addr, message_rx, handle)
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -460,6 +503,222 @@ async fn event_stream_skips_bad_deserialization() {
 }
 
 #[tokio::test]
+async fn event_stream_result_surfaces_deserialization_errors() {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+
+    tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, mut read) = ws.split();
+
+        use futures::SinkExt;
+        if let Some(Ok(Message::Text(text))) = read.next().await {
+            let val: Value = serde_json::from_str(&text).unwrap();
+            let id = val.get("id").and_then(|v| v.as_u64()).unwrap();
+
+            let bad_event = json!({"method": "Test.event", "params": {"wrong_field": 123}});
+            let _ = write
+                .send(Message::Text(bad_event.to_string().into()))
+                .await;
+
+            let good_event = json!({"method": "Test.event", "params": {"data": "valid"}});
+            let _ = write
+                .send(Message::Text(good_event.to_string().into()))
+                .await;
+
+            let resp = json!({"id": id, "result": {}});
+            let _ = write.send(Message::Text(resp.to_string().into())).await;
+        }
+    });
+
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    #[derive(Debug, Deserialize, PartialEq)]
+    struct TestEvent {
+        data: String,
+    }
+
+    let mut events = cdp.event_stream_result::<TestEvent>("Test.event");
+
+    let _ = cdp.send_raw("Trigger", json!({})).await;
+
+    let first = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout")
+        .expect("stream ended");
+    assert!(matches!(first, Err(CdpError::Serialization(_))));
+
+    let second = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout")
+        .expect("stream ended")
+        .unwrap();
+    assert_eq!(
+        second,
+        TestEvent {
+            data: "valid".into()
+        }
+    );
+}
+
+#[tokio::test]
+async fn bounded_event_stream_drop_newest_preserves_existing_buffer() {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+
+    tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, mut read) = ws.split();
+
+        use futures::SinkExt;
+        if let Some(Ok(Message::Text(text))) = read.next().await {
+            let val: Value = serde_json::from_str(&text).unwrap();
+            let id = val.get("id").and_then(|v| v.as_u64()).unwrap();
+
+            for payload in ["first", "second", "third"] {
+                let event = json!({"method": "Test.event", "params": {"data": payload}});
+                let _ = write.send(Message::Text(event.to_string().into())).await;
+            }
+
+            let resp = json!({"id": id, "result": {}});
+            let _ = write.send(Message::Text(resp.to_string().into())).await;
+        }
+    });
+
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    #[derive(Debug, Deserialize)]
+    struct TestEvent {
+        data: String,
+    }
+
+    let mut events = cdp.event_stream_with_policy::<TestEvent>(
+        "Test.event",
+        EventStreamPolicy::Bounded {
+            capacity: NonZeroUsize::new(1).unwrap(),
+            overflow: EventOverflowStrategy::DropNewest,
+        },
+    );
+
+    let _ = cdp.send_raw("Trigger", json!({})).await;
+
+    let first = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout")
+        .expect("stream ended");
+    assert_eq!(first.data, "first");
+
+    match tokio::time::timeout(Duration::from_millis(200), events.next()).await {
+        Err(_) | Ok(None) => {}
+        Ok(Some(event)) => panic!(
+            "newer events should be dropped when the buffer is full, got {:?}",
+            event.data
+        ),
+    }
+}
+
+#[tokio::test]
+async fn bounded_event_stream_close_stream_on_overflow() {
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let addr = listener.local_addr().unwrap();
+
+    tokio::spawn(async move {
+        let (stream, _) = listener.accept().await.unwrap();
+        let ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+        let (mut write, mut read) = ws.split();
+
+        use futures::SinkExt;
+        if let Some(Ok(Message::Text(text))) = read.next().await {
+            let val: Value = serde_json::from_str(&text).unwrap();
+            let id = val.get("id").and_then(|v| v.as_u64()).unwrap();
+
+            for payload in ["first", "overflow"] {
+                let event = json!({"method": "Test.event", "params": {"data": payload}});
+                let _ = write.send(Message::Text(event.to_string().into())).await;
+            }
+
+            let resp = json!({"id": id, "result": {}});
+            let _ = write.send(Message::Text(resp.to_string().into())).await;
+        }
+    });
+
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    #[derive(Debug, Deserialize)]
+    struct TestEvent {
+        data: String,
+    }
+
+    let mut events = cdp.event_stream_with_policy::<TestEvent>(
+        "Test.event",
+        EventStreamPolicy::Bounded {
+            capacity: NonZeroUsize::new(1).unwrap(),
+            overflow: EventOverflowStrategy::CloseStream,
+        },
+    );
+
+    let _ = cdp.send_raw("Trigger", json!({})).await;
+
+    let first = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout")
+        .expect("stream ended");
+    assert_eq!(first.data, "first");
+
+    let end = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout");
+    assert!(end.is_none(), "stream should close after an overflow");
+}
+
+#[tokio::test]
+async fn attach_to_target_rejects_flatten_false_before_sending() {
+    let (addr, first_message_rx, _server) = start_recording_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    let err = target::methods::AttachToTarget::new("target-1".to_string())
+        .with_flatten(false)
+        .send(&cdp)
+        .await
+        .unwrap_err();
+
+    assert!(matches!(err, CdpError::UnsupportedConfiguration(_)));
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), first_message_rx)
+            .await
+            .is_err(),
+        "unsupported flatten=false should fail before any wire message is sent"
+    );
+}
+
+#[tokio::test]
+async fn set_auto_attach_rejects_flatten_false_before_sending() {
+    let (addr, first_message_rx, _server) = start_recording_server().await;
+    let url = format!("ws://127.0.0.1:{}", addr.port());
+    let cdp = CDP::connect_ws(&url).await.unwrap();
+
+    let err = target::methods::SetAutoAttach::new(true, false)
+        .with_flatten(false)
+        .send(&cdp)
+        .await
+        .unwrap_err();
+
+    assert!(matches!(err, CdpError::UnsupportedConfiguration(_)));
+    assert!(
+        tokio::time::timeout(Duration::from_millis(200), first_message_rx)
+            .await
+            .is_err(),
+        "unsupported flatten=false should fail before any wire message is sent"
+    );
+}
+
+#[tokio::test]
 async fn discover_ws_url_integration() {
     use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
@@ -495,6 +754,69 @@ async fn discover_ws_url_integration() {
         Ok(_) => panic!("Should not succeed without a real WebSocket server"),
         Err(e) => panic!("Unexpected error type: {:?}", e),
     }
+}
+
+#[tokio::test]
+async fn discovery_rejects_ambiguous_or_unsupported_inputs() {
+    for input in [
+        "localhost",
+        "https://localhost:9222",
+        "localhost:9222/json/version",
+        "ftp://localhost:9222",
+    ] {
+        let err = match CDP::connect(input).await {
+            Ok(_) => panic!("expected discovery input {input} to be rejected"),
+            Err(err) => err,
+        };
+        assert!(
+            matches!(err, CdpError::InvalidDiscoveryInput(_)),
+            "expected InvalidDiscoveryInput for {input}, got {err:?}"
+        );
+    }
+}
+
+#[tokio::test]
+async fn discovery_requests_exact_json_version_endpoint() {
+    use tokio::io::{AsyncReadExt, AsyncWriteExt};
+
+    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+    let port = listener.local_addr().unwrap().port();
+    let (request_tx, request_rx) = oneshot::channel();
+
+    tokio::spawn(async move {
+        let (mut stream, _) = listener.accept().await.unwrap();
+        let mut buf = vec![0u8; 1024];
+        let n = stream.read(&mut buf).await.unwrap();
+        request_tx
+            .send(String::from_utf8_lossy(&buf[..n]).to_string())
+            .unwrap();
+
+        let body = json!({"webSocketDebuggerUrl": format!("ws://127.0.0.1:{port}/devtools/browser/fake-id")}).to_string();
+        let response = format!(
+            "HTTP/1.1 200 OK\r\nContent-Length: {}\r\n\r\n{}",
+            body.len(),
+            body
+        );
+        stream.write_all(response.as_bytes()).await.unwrap();
+    });
+
+    let err = match CDP::connect(&format!("http://127.0.0.1:{port}")).await {
+        Ok(_) => panic!("expected connect() to fail at the WebSocket stage"),
+        Err(err) => err,
+    };
+    assert!(
+        matches!(
+            err,
+            CdpError::Io(_) | CdpError::WebSocket(_) | CdpError::HandshakeTimeout
+        ),
+        "HTTP discovery should succeed before the WebSocket stage, got {err:?}"
+    );
+
+    let request = request_rx.await.unwrap();
+    assert!(
+        request.starts_with("GET /json/version HTTP/1.1\r\n"),
+        "discovery should request /json/version exactly, got: {request:?}"
+    );
 }
 
 #[tokio::test]

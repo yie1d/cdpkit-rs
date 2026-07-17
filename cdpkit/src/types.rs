@@ -7,4 +7,9 @@ pub trait Method: Serialize + Send {
 
     /// CDP method name (e.g., "Page.navigate")
     const METHOD: &'static str;
+
+    /// Validate command parameters before the request goes on the wire.
+    fn validate(&self) -> Result<(), crate::CdpError> {
+        Ok(())
+    }
 }
