@@ -468,7 +468,7 @@ impl CDP {
     }
 
     /// Resolves when the connection is closed.
-    /// Returns immediately if already closed.
+    /// Returns immediately once shutdown cleanup has already completed.
     /// Useful for spawning a monitoring task:
     ///
     /// ```rust,no_run

@@ -6,7 +6,6 @@
 
 - `CDP::connect(...)` and `CDP::connect_with_timeout(...)` now accept only `host:port` or `http://host:port` discovery inputs and always request `/json/version`. Direct `ws://` / `wss://` URLs must use `CDP::connect_ws(...)` or `CDP::connect_ws_with_timeout(...)`.
 - `Target.attachToTarget` / `Target.setAutoAttach` reject `.with_flatten(false)` with `CdpError::UnsupportedConfiguration(...)`; cdpkit supports flattened sessions only.
-- `EventStreamResult<T>` is now a concrete `Stream` type rather than a boxed-stream type alias so callers can retain `EventStreamStats`. Normal `.next()` usage is unchanged, but code naming the old alias representation may need adjustment.
 - Downstream browserkit must update its cdpkit dependency and migrate direct WebSocket calls to `connect_ws` / `connect_ws_with_timeout` before adopting 0.5.0. This release does not update browserkit automatically.
 
 ### Added
