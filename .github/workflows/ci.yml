@@ -4,84 +4,129 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*"
   pull_request:
+  workflow_call:
+    inputs:
+      checkout_ref:
+        description: Commit or ref to verify
+        required: false
+        type: string
+      expected_commit:
+        description: Expected checked-out commit SHA
+        required: false
+        type: string
+
+permissions:
+  contents: read
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   fmt-build-test-clippy:
-    name: Fmt Build Test Clippy Examples
+    name: Fmt Build Test Clippy Examples Package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.checkout_ref || github.sha }}
+          persist-credentials: false
+
+      - name: Verify checked-out commit
+        if: ${{ inputs.expected_commit != '' }}
+        env:
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           components: clippy, rustfmt
 
       - name: Cache
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v2
 
       - name: cargo fmt --check
         run: cargo fmt --all --check
 
       - name: cargo build
-        run: cargo build --workspace
+        run: cargo build --workspace --locked
 
       - name: cargo test
-        run: cargo test --workspace
+        run: cargo test --workspace --locked
 
       - name: cargo clippy
-        run: cargo clippy --workspace --all-targets -- -D warnings
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
 
       - name: cargo build --examples
-        run: cargo build --workspace --examples
+        run: cargo build --workspace --examples --locked
+
+      - name: cargo publish --dry-run
+        run: cargo publish -p cdpkit --dry-run --locked
 
   msrv:
     name: MSRV Rust 1.75
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.checkout_ref || github.sha }}
+          persist-credentials: false
+
+      - name: Verify checked-out commit
+        if: ${{ inputs.expected_commit != '' }}
+        env:
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Install Rust 1.75.0
-        uses: dtolnay/rust-toolchain@master
+        uses: dtolnay/rust-toolchain@2c7215f132e9ebf062739d9130488b56d53c060c # master
         with:
           toolchain: 1.75.0
 
       - name: Cache
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v2
 
       - name: cargo build
-        run: cargo build --workspace
+        run: cargo build --workspace --locked
 
       - name: cargo test
-        run: cargo test --workspace
+        run: cargo test --workspace --locked
 
       - name: cargo build --examples
-        run: cargo build --workspace --examples
+        run: cargo build --workspace --examples --locked
 
   codegen-stability:
     name: Codegen Stability
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          ref: ${{ inputs.checkout_ref || github.sha }}
+          persist-credentials: false
+
+      - name: Verify checked-out commit
+        if: ${{ inputs.expected_commit != '' }}
+        env:
+          EXPECTED_COMMIT: ${{ inputs.expected_commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
         with:
           components: rustfmt
 
       - name: Cache
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v2
 
       - name: Verify generated protocol is stable
         run: |
-          cargo run -p cdpkit_codegen
+          cargo run -p cdpkit_codegen --locked
           git diff --exit-code -- cdpkit/src/protocol.rs
           first_hash="$(sha256sum cdpkit/src/protocol.rs | cut -d' ' -f1)"
-          cargo run -p cdpkit_codegen
+          cargo run -p cdpkit_codegen --locked
           second_hash="$(sha256sum cdpkit/src/protocol.rs | cut -d' ' -f1)"
           test "$first_hash" = "$second_hash"
           git diff --exit-code -- cdpkit/src/protocol.rs

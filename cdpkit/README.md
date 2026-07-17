@@ -12,7 +12,7 @@ Pure CDP protocol implementation. Not another browser automation library.
 - 🚀 **Async-first** - Built on tokio with full async/await support
 - 📡 **Stream-based events** - Handle CDP events using Rust streams with multiplexing and filtering
 - 🎯 **Pure protocol client** - Direct CDP access without abstraction layers, full control
-- 🔄 **Auto-generated bindings** - Generated from official CDP specification, always up-to-date
+- 🔄 **Auto-generated bindings** - Generated reproducibly from a committed official CDP snapshot
 - 🪶 **Lightweight** - Minimal dependencies, focused on protocol communication
 - 🔌 **Flexible connection** - Connect to running browser instances without process management
 - 🧩 **Dynamic commands** - Send arbitrary CDP commands by name when typed bindings aren't needed
@@ -86,7 +86,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.4.1"
+cdpkit = "0.5"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -94,8 +94,8 @@ futures = "0.3"
 ## Key Concepts
 
 - **flatten mode** — `AttachToTarget` / `SetAutoAttach` default to `flatten: true` (required for session events to work). Calling `with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)`.
-- **Event buffering** — `event_stream()` / generated `Event::subscribe()` stay unbounded and skip malformed payloads after logging. Use `event_stream_with_policy()` / `subscribe_with_policy()` for explicit bounded buffering, or `event_stream_result()` / `subscribe_result()` when you want decode failures as `Result`.
-- **Discovery boundary** — `CDP::connect(...)` accepts `host:port` or `http://host:port`, always requests `/json/version`, and rejects `https://`, paths, and missing ports with `CdpError::InvalidDiscoveryInput`.
+- **Event buffering** — `event_stream()` / generated `Event::subscribe()` stay unbounded and skip malformed payloads after logging. Bounded result streams expose `EventStreamStats::dropped_events()` for `DropNewest`; `CloseStream` yields `CdpError::EventStreamOverflow` and then ends.
+- **Connection inputs** — `CDP::connect(...)` accepts only `host:port` or `http://host:port` and always requests `/json/version`. Use `CDP::connect_ws(...)` for a complete `ws://` or `wss://` DevTools URL.
 - **Connection errors** — `CdpError` has specific variants for each failure phase: `Io`, `DiscoveryTimeout`, `HandshakeTimeout`, `HttpStatus`, `InvalidDiscoveryInput`, `InvalidDiscoveryResponse`. Use `err.is_connection_failed()` or `err.is_timeout()` for broad checks.
 - **CloseReason** — `CDP::close_reason()` returns why the connection ended (`Normal` / `Remote` / `Error`). The connection is also closed automatically when all `CDP` handles are dropped.
 - **Shutdown wait** — `CDP::closed().await` resolves when the background message loop has actually finished shutting the WebSocket down.
@@ -160,6 +160,7 @@ let mut request_events = network::events::RequestWillBeSent::subscribe_result_wi
         overflow: EventOverflowStrategy::DropNewest,
     },
 );
+let request_stats = request_events.stats();
 
 while let Some(event) = request_events.next().await {
     match event {
@@ -167,6 +168,7 @@ while let Some(event) = request_events.next().await {
         Err(err) => eprintln!("Failed to decode event: {err}"),
     }
 }
+println!("Dropped events: {}", request_stats.dropped_events());
 ```
 
 ### Compile-Time Type Safety

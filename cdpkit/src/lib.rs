@@ -16,7 +16,10 @@ pub use protocol::*;
 
 use inner::CDPInner;
 use std::num::NonZeroUsize;
+use std::pin::Pin;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::Arc;
+use std::task::{Context, Poll};
 use std::time::Duration;
 
 /// Reason why the CDP connection was closed.
@@ -37,9 +40,50 @@ pub const DEFAULT_CONNECT_TIMEOUT: Duration = Duration::from_secs(30);
 /// Type alias for CDP event streams returned by `subscribe()`.
 pub type EventStream<T> = std::pin::Pin<Box<dyn futures::Stream<Item = T> + Send>>;
 
-/// Type alias for CDP event streams that surface deserialization errors.
-pub type EventStreamResult<T> =
-    std::pin::Pin<Box<dyn futures::Stream<Item = Result<T, CdpError>> + Send>>;
+/// Shared statistics for one event subscription.
+#[derive(Clone, Debug, Default)]
+pub struct EventStreamStats {
+    dropped_events: Arc<AtomicU64>,
+}
+
+impl EventStreamStats {
+    /// Number of events dropped because the bounded subscription buffer overflowed.
+    pub fn dropped_events(&self) -> u64 {
+        self.dropped_events.load(Ordering::Relaxed)
+    }
+
+    pub(crate) fn record_drop(&self) {
+        self.dropped_events.fetch_add(1, Ordering::Relaxed);
+    }
+}
+
+/// CDP event stream that surfaces deserialization and overflow errors.
+pub struct EventStreamResult<T> {
+    inner: Pin<Box<dyn futures::Stream<Item = Result<T, CdpError>> + Send>>,
+    stats: EventStreamStats,
+}
+
+impl<T> EventStreamResult<T> {
+    pub(crate) fn new(
+        inner: Pin<Box<dyn futures::Stream<Item = Result<T, CdpError>> + Send>>,
+        stats: EventStreamStats,
+    ) -> Self {
+        Self { inner, stats }
+    }
+
+    /// Return a cloneable handle to this subscription's overflow statistics.
+    pub fn stats(&self) -> EventStreamStats {
+        self.stats.clone()
+    }
+}
+
+impl<T> futures::Stream for EventStreamResult<T> {
+    type Item = Result<T, CdpError>;
+
+    fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
+        self.inner.as_mut().poll_next(cx)
+    }
+}
 
 /// Overflow behavior for explicitly bounded event streams.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -107,11 +151,6 @@ mod sealed {
 /// - [`CDP`] — sends at browser level (no session)
 /// - [`Session`] — sends within a specific session (borrowed)
 /// - [`OwnedSession`] — sends within a specific session (owned, `Send + 'static`)
-#[diagnostic::on_unimplemented(
-    message = "`{Self}` cannot be used as a CDP command sender",
-    label = "expected `&CDP`, `&Session`, or `&OwnedSession`",
-    note = "use `cdp.session(session_id)` to create a Session"
-)]
 pub trait Sender: sealed::Sealed {
     /// Send a typed CDP command.
     fn send_cmd<C: Method>(
@@ -321,9 +360,10 @@ impl OwnedSession {
 }
 
 impl CDP {
-    /// Connect to Chrome by host and port (most common usage).
+    /// Connect to Chrome through HTTP discovery (most common usage).
     ///
-    /// Automatically discovers the WebSocket URL from Chrome's debugging endpoint.
+    /// Accepts only `host:port` or `http://host:port`, then discovers the WebSocket URL
+    /// from `/json/version`. Use [`CDP::connect_ws`] for complete `ws://` / `wss://` URLs.
     /// Uses a default WebSocket handshake timeout of 30 seconds.
     ///
     /// # Example
@@ -338,8 +378,10 @@ impl CDP {
         Self::connect_with_timeout(host, DEFAULT_CONNECT_TIMEOUT).await
     }
 
-    /// Connect to Chrome by host and port with a custom WebSocket handshake timeout.
+    /// Connect through HTTP discovery with a custom WebSocket handshake timeout.
     ///
+    /// Accepts only `host:port` or `http://host:port`. Use
+    /// [`CDP::connect_ws_with_timeout`] for complete `ws://` / `wss://` URLs.
     /// The `timeout` controls how long to wait for the WebSocket handshake to complete.
     /// The HTTP discovery phase (`/json/version`) has its own independent 10s timeout.
     ///
@@ -353,21 +395,18 @@ impl CDP {
     /// # }
     /// ```
     pub async fn connect_with_timeout(host: &str, timeout: Duration) -> Result<Self, CdpError> {
-        if host.starts_with("ws://") || host.starts_with("wss://") {
-            return Self::connect_ws_with_timeout(host, timeout).await;
-        }
         let ws_url = discover_ws_url(host).await?;
         Self::connect_ws_with_timeout(&ws_url, timeout).await
     }
 
-    /// Connect directly using a WebSocket URL (advanced usage).
+    /// Connect directly using a complete `ws://` or `wss://` WebSocket URL.
     ///
     /// Uses a default WebSocket handshake timeout of 30 seconds.
     pub async fn connect_ws(url: &str) -> Result<Self, CdpError> {
         Self::connect_ws_with_timeout(url, DEFAULT_CONNECT_TIMEOUT).await
     }
 
-    /// Connect directly using a WebSocket URL with a custom handshake timeout.
+    /// Connect directly using a complete `ws://` or `wss://` URL with a custom handshake timeout.
     ///
     /// The `timeout` controls how long to wait for the WebSocket handshake to complete.
     /// If the handshake does not finish within the given duration, returns

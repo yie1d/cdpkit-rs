@@ -596,28 +596,32 @@ async fn bounded_event_stream_drop_newest_preserves_existing_buffer() {
         data: String,
     }
 
-    let mut events = cdp.event_stream_with_policy::<TestEvent>(
+    let mut events = cdp.event_stream_result_with_policy::<TestEvent>(
         "Test.event",
         EventStreamPolicy::Bounded {
             capacity: NonZeroUsize::new(1).unwrap(),
             overflow: EventOverflowStrategy::DropNewest,
         },
     );
+    let stats = events.stats();
 
     let _ = cdp.send_raw("Trigger", json!({})).await;
 
     let first = tokio::time::timeout(Duration::from_secs(2), events.next())
         .await
         .expect("timeout")
-        .expect("stream ended");
+        .expect("stream ended")
+        .expect("event error");
     assert_eq!(first.data, "first");
+    assert_eq!(stats.dropped_events(), 2);
 
     match tokio::time::timeout(Duration::from_millis(200), events.next()).await {
         Err(_) | Ok(None) => {}
-        Ok(Some(event)) => panic!(
+        Ok(Some(Ok(event))) => panic!(
             "newer events should be dropped when the buffer is full, got {:?}",
             event.data
         ),
+        Ok(Some(Err(err))) => panic!("unexpected event error: {err}"),
     }
 }
 
@@ -654,7 +658,7 @@ async fn bounded_event_stream_close_stream_on_overflow() {
         data: String,
     }
 
-    let mut events = cdp.event_stream_with_policy::<TestEvent>(
+    let mut events = cdp.event_stream_result_with_policy::<TestEvent>(
         "Test.event",
         EventStreamPolicy::Bounded {
             capacity: NonZeroUsize::new(1).unwrap(),
@@ -667,13 +671,28 @@ async fn bounded_event_stream_close_stream_on_overflow() {
     let first = tokio::time::timeout(Duration::from_secs(2), events.next())
         .await
         .expect("timeout")
-        .expect("stream ended");
+        .expect("stream ended")
+        .expect("event error");
     assert_eq!(first.data, "first");
+
+    let overflow = tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .expect("timeout")
+        .expect("stream ended before overflow error")
+        .expect_err("overflow should be surfaced as an error");
+    assert!(matches!(
+        overflow,
+        CdpError::EventStreamOverflow {
+            ref event,
+            capacity: 1,
+            dropped: 1,
+        } if event == "Test.event"
+    ));
 
     let end = tokio::time::timeout(Duration::from_secs(2), events.next())
         .await
         .expect("timeout");
-    assert!(end.is_none(), "stream should close after an overflow");
+    assert!(end.is_none(), "stream should end after the overflow error");
 }
 
 #[tokio::test]
@@ -760,6 +779,8 @@ async fn discover_ws_url_integration() {
 async fn discovery_rejects_ambiguous_or_unsupported_inputs() {
     for input in [
         "localhost",
+        "ws://localhost:9222/devtools/browser/example",
+        "wss://localhost:9222/devtools/browser/example",
         "https://localhost:9222",
         "localhost:9222/json/version",
         "ftp://localhost:9222",
@@ -1036,17 +1057,23 @@ async fn closed_resolves_after_message_loop_exits() {
 }
 
 #[tokio::test]
-async fn closed_returns_immediately_when_already_closed() {
-    let (addr, close_seen_rx, finish_tx, _server) = start_controlled_client_close_server().await;
+async fn closed_returns_for_waiter_created_after_shutdown_completed() {
+    let (addr, close_seen_rx, finish_tx, server) = start_controlled_client_close_server().await;
     let url = format!("ws://127.0.0.1:{}", addr.port());
 
     let cdp = CDP::connect_ws(&url).await.unwrap();
+    let mut events = cdp.event_stream_result::<Value>("Test.event");
     cdp.close().await;
     close_seen_rx.await.unwrap();
     finish_tx.send(()).unwrap();
-    cdp.closed().await;
+    server.await.unwrap();
 
+    assert!(tokio::time::timeout(Duration::from_secs(2), events.next())
+        .await
+        .unwrap()
+        .is_none());
     assert!(cdp.is_closed());
+    assert!(cdp.close_reason().is_some());
 
     let result = tokio::time::timeout(Duration::from_millis(200), cdp.closed()).await;
     assert!(

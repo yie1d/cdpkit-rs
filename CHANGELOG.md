@@ -1,24 +1,33 @@
 # Changelog
 
-## [0.4.1] - 2026-07-17
+## [0.5.0] - 2026-07-17
+
+### Breaking Changes
+
+- `CDP::connect(...)` and `CDP::connect_with_timeout(...)` now accept only `host:port` or `http://host:port` discovery inputs and always request `/json/version`. Direct `ws://` / `wss://` URLs must use `CDP::connect_ws(...)` or `CDP::connect_ws_with_timeout(...)`.
+- `Target.attachToTarget` / `Target.setAutoAttach` reject `.with_flatten(false)` with `CdpError::UnsupportedConfiguration(...)`; cdpkit supports flattened sessions only.
+- `EventStreamResult<T>` is now a concrete `Stream` type rather than a boxed-stream type alias so callers can retain `EventStreamStats`. Normal `.next()` usage is unchanged, but code naming the old alias representation may need adjustment.
+- Downstream browserkit must update its cdpkit dependency and migrate direct WebSocket calls to `connect_ws` / `connect_ws_with_timeout` before adopting 0.5.0. This release does not update browserkit automatically.
 
 ### Added
 
-- `CDP::closed()` — async method that resolves when the WebSocket connection is closed; returns immediately if already closed. Useful for spawning a monitoring task without polling `is_closed()`.
-- `EventStreamResult<T>`, `EventOverflowStrategy`, and `EventStreamPolicy` — additive event-stream types for explicit buffering and error surfacing.
+- `CDP::closed()` — async method that resolves only after the WebSocket loop, close reason, pending commands, and event listeners finish shutdown; late and concurrent waiters are supported.
+- `EventStreamResult<T>`, `EventStreamStats`, `EventOverflowStrategy`, and `EventStreamPolicy` — event-stream types for explicit buffering, errors, and overflow telemetry.
 - `Sender::event_stream_with_policy()` / generated `Event::subscribe_with_policy()` — opt-in bounded event buffering with explicit overflow handling while leaving existing unbounded subscriptions unchanged.
-- `Sender::event_stream_result()` and `Sender::event_stream_result_with_policy()` plus generated `Event::subscribe_result()` helpers — additive APIs that surface event deserialization failures as `Result` instead of silently skipping them.
-- Codegen golden tests for command builders, event subscriptions, enums, `$ref` handling, keyword renames, and flatten validation.
+- `Sender::event_stream_result()` and `Sender::event_stream_result_with_policy()` plus generated `Event::subscribe_result()` helpers — APIs that surface deserialization failures and terminal `CdpError::EventStreamOverflow` errors.
+- `EventStreamStats::dropped_events()` reports every event rejected by `DropNewest`; `CloseStream` emits one structured overflow error after buffered events and then ends.
+- Complete byte-for-byte codegen golden coverage for the fixed mini protocol fixture.
+
+### Fixed
+
+- `CDP::closed()` completion is durable when no waiter exists at shutdown and is published only after all shutdown state is finalized.
+- The two official protocol JSON inputs are checked in, so default code generation and CI do not depend on live network access.
+- The locked workspace dependency graph builds with the declared Rust 1.75 MSRV and no longer resolves edition-2024-only `cpufeatures`.
 
 ### Changed
 
-- `CDP::closed()` now waits for the background message loop to finish shutdown, closing the previous race where a close request could make it return before the WebSocket was actually done.
-- Generated `cdpkit/src/protocol.rs` is now stable across consecutive `cargo run -p cdpkit_codegen` runs; CI verifies that regeneration stays byte-for-byte identical.
-
-### Migration Notes
-
-- `Target.attachToTarget` / `Target.setAutoAttach` no longer allow unsupported non-flatten sessions to slip through. Calling `.with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)`; remove that override or pass `true`.
-- `CDP::connect(...)` discovery is intentionally narrower: it accepts `host:port` or `http://host:port`, always requests `/json/version`, and rejects `https://`, paths, and missing ports with `CdpError::InvalidDiscoveryInput`.
+- `cargo run -p cdpkit_codegen` regenerates from the committed protocol snapshot. Use `cargo run -p cdpkit_codegen -- --update` only when intentionally refreshing that snapshot from the official source.
+- CI and release use the same fmt/build/test/clippy/examples/MSRV/codegen/package gates; release inputs are validated before shell use and third-party actions are pinned to immutable commits.
 
 ## [0.4.0] - 2026-06-26
 

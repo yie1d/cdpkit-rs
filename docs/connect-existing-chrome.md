@@ -59,7 +59,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Direct WebSocket connection (bypasses disabled /json/version)
     let ws_url = format!("ws://127.0.0.1:{}{}", port, ws_path);
-    let cdp = CDP::connect_with_timeout(&ws_url, Duration::from_secs(10)).await?;
+    let cdp = CDP::connect_ws_with_timeout(&ws_url, Duration::from_secs(10)).await?;
 
     println!("Connected to existing Chrome!");
     Ok(())
@@ -71,4 +71,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 - You are connecting to the user's default BrowserContext — cookies, login sessions, and extensions are all shared.
 - `Target::createTarget` without a `browserContextId` opens a new tab in the user's visible browser window.
 - DevTools frontend is itself a CDP client. Multiple clients can coexist on the same browser; there is no exclusive lock.
-- Use `CDP::connect_with_timeout` rather than plain `connect` to avoid hanging indefinitely if the `DevToolsActivePort` file is stale (pointing to a port from a previous Chrome process that is no longer running).
+- Use `CDP::connect_ws_with_timeout` for a complete `ws://` / `wss://` URL and to bound the handshake when `DevToolsActivePort` is stale. `CDP::connect_with_timeout` accepts discovery authorities only.

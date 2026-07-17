@@ -59,7 +59,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 直接 WebSocket 连接（绕过被禁用的 /json/version）
     let ws_url = format!("ws://127.0.0.1:{}{}", port, ws_path);
-    let cdp = CDP::connect_with_timeout(&ws_url, Duration::from_secs(10)).await?;
+    let cdp = CDP::connect_ws_with_timeout(&ws_url, Duration::from_secs(10)).await?;
 
     println!("已连接到现有 Chrome！");
     Ok(())
@@ -71,4 +71,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 - 连接的是用户默认的 BrowserContext——cookie、登录态、扩展全部共享。
 - `Target::createTarget` 不传 `browserContextId` 时，会在用户可见的浏览器窗口中打开新标签页。
 - DevTools 前端本身也是一个 CDP client，多个 client 可以同时连接同一个浏览器，没有排他锁。
-- 建议使用 `CDP::connect_with_timeout` 而非普通 `connect`，避免 `DevToolsActivePort` 文件过期（指向已退出的 Chrome 进程端口）时无限挂起。
+- 完整的 `ws://` / `wss://` URL 应使用 `CDP::connect_ws_with_timeout`，并通过超时避免 `DevToolsActivePort` 过期时握手无限等待；`CDP::connect_with_timeout` 只接受 discovery authority。

@@ -1,12 +1,39 @@
-use crate::{EventOverflowStrategy, EventStreamPolicy};
+use crate::{EventOverflowStrategy, EventStreamPolicy, EventStreamStats};
 use serde_json::Value;
 use std::collections::HashMap;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use tokio::sync::mpsc::{self, Receiver, Sender, UnboundedReceiver, UnboundedSender};
 
 pub(crate) enum EventReceiver {
     Unbounded(UnboundedReceiver<Arc<Value>>),
-    Bounded(Receiver<Arc<Value>>),
+    Bounded {
+        receiver: Receiver<Arc<Value>>,
+        overflow: Arc<OverflowState>,
+        capacity: usize,
+    },
+}
+
+pub(crate) struct OverflowState {
+    stats: EventStreamStats,
+    close_stream: AtomicBool,
+}
+
+impl OverflowState {
+    fn new() -> Self {
+        Self {
+            stats: EventStreamStats::default(),
+            close_stream: AtomicBool::new(false),
+        }
+    }
+
+    pub(crate) fn stats(&self) -> EventStreamStats {
+        self.stats.clone()
+    }
+
+    pub(crate) fn closed_by_overflow(&self) -> bool {
+        self.close_stream.load(Ordering::Acquire)
+    }
 }
 
 enum ListenerSender {
@@ -14,6 +41,7 @@ enum ListenerSender {
     Bounded {
         sender: Sender<Arc<Value>>,
         overflow: EventOverflowStrategy,
+        state: Arc<OverflowState>,
     },
 }
 
@@ -46,12 +74,18 @@ impl EventListeners {
             }
             EventStreamPolicy::Bounded { capacity, overflow } => {
                 let (tx, rx) = mpsc::channel(capacity.get());
+                let state = Arc::new(OverflowState::new());
                 (
                     ListenerSender::Bounded {
                         sender: tx,
                         overflow,
+                        state: Arc::clone(&state),
                     },
-                    EventReceiver::Bounded(rx),
+                    EventReceiver::Bounded {
+                        receiver: rx,
+                        overflow: state,
+                        capacity: capacity.get(),
+                    },
                 )
             }
         };
@@ -80,15 +114,23 @@ impl EventListeners {
                 // UnboundedSender::send only fails when the receiver is dropped
                 match &listener.sender {
                     ListenerSender::Unbounded(sender) => sender.send(event.clone()).is_ok(),
-                    ListenerSender::Bounded { sender, overflow } => {
-                        match sender.try_send(event.clone()) {
-                            Ok(()) => true,
-                            Err(tokio::sync::mpsc::error::TrySendError::Full(_)) => {
-                                matches!(overflow, EventOverflowStrategy::DropNewest)
+                    ListenerSender::Bounded {
+                        sender,
+                        overflow,
+                        state,
+                    } => match sender.try_send(event.clone()) {
+                        Ok(()) => true,
+                        Err(tokio::sync::mpsc::error::TrySendError::Full(_)) => {
+                            state.stats.record_drop();
+                            if matches!(overflow, EventOverflowStrategy::DropNewest) {
+                                true
+                            } else {
+                                state.close_stream.store(true, Ordering::Release);
+                                false
                             }
-                            Err(tokio::sync::mpsc::error::TrySendError::Closed(_)) => false,
                         }
-                    }
+                        Err(tokio::sync::mpsc::error::TrySendError::Closed(_)) => false,
+                    },
                 }
             });
         }
@@ -262,8 +304,15 @@ mod tests {
             },
         );
 
-        let mut rx = match receiver {
-            EventReceiver::Bounded(rx) => rx,
+        let (mut rx, overflow) = match receiver {
+            EventReceiver::Bounded {
+                receiver,
+                overflow,
+                capacity: 1,
+            } => (receiver, overflow),
+            EventReceiver::Bounded { capacity, .. } => {
+                panic!("expected capacity 1, got {capacity}")
+            }
             EventReceiver::Unbounded(_) => panic!("expected bounded receiver"),
         };
 
@@ -273,6 +322,8 @@ mod tests {
 
         assert_eq!(*rx.try_recv().unwrap(), json!(1));
         assert!(rx.try_recv().is_err());
+        assert_eq!(overflow.stats().dropped_events(), 2);
+        assert!(!overflow.closed_by_overflow());
         assert_eq!(listeners.listeners["Test.event"].len(), 1);
     }
 
@@ -288,8 +339,15 @@ mod tests {
             },
         );
 
-        let mut rx = match receiver {
-            EventReceiver::Bounded(rx) => rx,
+        let (mut rx, overflow) = match receiver {
+            EventReceiver::Bounded {
+                receiver,
+                overflow,
+                capacity: 1,
+            } => (receiver, overflow),
+            EventReceiver::Bounded { capacity, .. } => {
+                panic!("expected capacity 1, got {capacity}")
+            }
             EventReceiver::Unbounded(_) => panic!("expected bounded receiver"),
         };
 
@@ -297,6 +355,8 @@ mod tests {
         listeners.dispatch("Test.event", None, Arc::new(json!(2)));
 
         assert_eq!(*rx.try_recv().unwrap(), json!(1));
+        assert_eq!(overflow.stats().dropped_events(), 1);
+        assert!(overflow.closed_by_overflow());
         assert!(listeners.listeners["Test.event"].is_empty());
     }
 }

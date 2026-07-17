@@ -7,16 +7,19 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Version tag to release (e.g. v0.4.1)"
+        description: "Version tag to release (e.g. v0.5.0)"
         required: true
         type: string
+
+permissions:
+  contents: read
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   validate:
-    name: Validate
+    name: Validate release tag
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.resolve.outputs.tag }}
@@ -24,45 +27,35 @@ jobs:
       version: ${{ steps.resolve.outputs.version }}
       commit: ${{ steps.resolve.outputs.commit }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tag || github.ref }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Resolve and verify tag
         id: resolve
         shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_TAG: ${{ inputs.tag }}
+          TRIGGER_REF: ${{ github.ref }}
         run: |
           set -euo pipefail
 
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            TAG="${{ github.event.inputs.tag }}"
-            if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
-              echo "::error::Invalid tag format: $TAG"
-              exit 1
-            fi
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            TAG="$REQUESTED_TAG"
           else
-            TAG="${GITHUB_REF#refs/tags/}"
+            TAG="${TRIGGER_REF#refs/tags/}"
           fi
 
-          git fetch --force --tags origin
-
-          if ! git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
-            echo "::error::Remote tag does not exist: $TAG"
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z][0-9A-Za-z.-]*)?$ ]]; then
+            echo "::error::Invalid tag format"
             exit 1
           fi
 
-          if ! git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
-            echo "::error::Tag was not fetched locally: $TAG"
-            exit 1
-          fi
-
+          git fetch --force --no-tags origin "refs/tags/$TAG:refs/tags/$TAG"
           TAG_COMMIT="$(git rev-list -n 1 "$TAG^{commit}")"
-          HEAD_COMMIT="$(git rev-parse HEAD)"
-          if [ "$HEAD_COMMIT" != "$TAG_COMMIT" ]; then
-            echo "::error::Checked-out HEAD ($HEAD_COMMIT) does not match tag $TAG commit ($TAG_COMMIT)"
-            exit 1
-          fi
+          git checkout --detach "$TAG_COMMIT"
 
           VERSION="${TAG#v}"
           CARGO_VERSION="$(awk '/^\[workspace.package\]/{in_section=1; next} /^\[/{in_section=0} in_section && /^version = / {gsub(/"/,"",$3); print $3; exit}' Cargo.toml)"
@@ -76,64 +69,43 @@ jobs:
           fi
 
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "ref=refs/tags/$TAG" >> "$GITHUB_OUTPUT"
+          echo "ref=$TAG_COMMIT" >> "$GITHUB_OUTPUT"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "commit=$TAG_COMMIT" >> "$GITHUB_OUTPUT"
-          echo "Releasing $TAG at commit $TAG_COMMIT (version $VERSION)"
+          echo "Validated release tag at commit $TAG_COMMIT"
 
-  test:
-    name: Test
+  verify:
+    name: Run CI release gates
     needs: validate
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ needs.validate.outputs.ref }}
-          fetch-depth: 0
-
-      - name: Verify checked-out commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ needs.validate.outputs.commit }}"
-
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: clippy
-
-      - name: Cache
-        uses: Swatinem/rust-cache@v2
-
-      - run: cargo build --workspace
-      - run: cargo test --workspace
-      - run: cargo clippy --workspace --all-targets -- -D warnings
+    uses: ./.github/workflows/ci.yml
+    with:
+      checkout_ref: ${{ needs.validate.outputs.ref }}
+      expected_commit: ${{ needs.validate.outputs.commit }}
 
   publish:
     name: Publish to crates.io
-    needs: [validate, test]
+    needs: [validate, verify]
     runs-on: ubuntu-latest
     environment: crates-io
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ needs.validate.outputs.ref }}
-          fetch-depth: 0
+          persist-credentials: false
 
       - name: Verify checked-out commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ needs.validate.outputs.commit }}"
+        env:
+          EXPECTED_COMMIT: ${{ needs.validate.outputs.commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@4cda84d5c5c54efe2404f9d843567869ab1699d4 # stable
 
       - name: Cache
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v2
 
       - name: Publish
-        run: cargo publish -p cdpkit
+        run: cargo publish -p cdpkit --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
@@ -144,27 +116,28 @@ jobs:
     outputs:
       notes: ${{ steps.extract.outputs.notes }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ needs.validate.outputs.ref }}
-          fetch-depth: 0
+          persist-credentials: false
 
       - name: Verify checked-out commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ needs.validate.outputs.commit }}"
+        env:
+          EXPECTED_COMMIT: ${{ needs.validate.outputs.commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Extract section from CHANGELOG.md
         id: extract
         shell: bash
+        env:
+          VERSION: ${{ needs.validate.outputs.version }}
+          TAG: ${{ needs.validate.outputs.tag }}
         run: |
           set -euo pipefail
-          VERSION="${{ needs.validate.outputs.version }}"
-          NOTES="$(awk "/^## \[$VERSION\]/{found=1; next} found && /^## \[/{exit} found{print}" CHANGELOG.md)"
+          NOTES="$(awk -v version="$VERSION" '$0 == "## [" version "]" || index($0, "## [" version "] - ") == 1 {found=1; next} found && /^## \[/{exit} found{print}' CHANGELOG.md)"
           if [ -z "$NOTES" ]; then
-            echo "::warning::No changelog entry found for $VERSION, using fallback"
-            NOTES="See CHANGELOG.md in tag ${{ needs.validate.outputs.tag }} for details."
+            echo "::error::No changelog entry found for $VERSION"
+            exit 1
           fi
           {
             echo "notes<<EOF_NOTES"
@@ -179,19 +152,18 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ needs.validate.outputs.ref }}
-          fetch-depth: 0
+          persist-credentials: false
 
       - name: Verify checked-out commit
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ needs.validate.outputs.commit }}"
+        env:
+          EXPECTED_COMMIT: ${{ needs.validate.outputs.commit }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           tag_name: ${{ needs.validate.outputs.tag }}
           name: "cdpkit ${{ needs.validate.outputs.tag }}"

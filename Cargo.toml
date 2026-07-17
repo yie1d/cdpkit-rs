@@ -6,7 +6,7 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.4.1"
+version = "0.5.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/yie1d/cdpkit-rs"
@@ -23,4 +23,4 @@ futures = "0.3"
 thiserror = "2"
 tracing = "0.1"
 heck = "0.5"
-reqwest = { version = "0.13" } # only used by cdpkit_codegen (publish = false), not by cdpkit runtime
+reqwest = { version = "=0.12.28", default-features = false, features = ["rustls-tls"] } # codegen --update only

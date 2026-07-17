@@ -10,7 +10,7 @@
 - 🚀 **异步优先** - 基于 tokio 构建，完整的 async/await 支持
 - 📡 **流式事件** - 使用 Rust Stream 处理 CDP 事件，支持多路复用和过滤
 - 🎯 **纯协议客户端** - 直接访问 CDP，无封装层，完全控制
-- 🔄 **自动生成绑定** - 从官方 CDP 规范自动生成，始终保持最新
+- 🔄 **自动生成绑定** - 从仓库内固定的官方 CDP 快照可复现生成
 - 🪶 **轻量级** - 最小化依赖，专注于协议通信
 - 🔌 **灵活连接** - 连接到已运行的浏览器实例，无需管理进程
 - 🧩 **动态命令** - 不需要类型绑定时，可按方法名发送任意 CDP 命令
@@ -46,8 +46,8 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **Enable** — CDP 要求先启用域（如 `page::methods::Enable`）才能接收该域的事件。
 - **flatten 模式** — `AttachToTarget` / `SetAutoAttach` 默认 `flatten: true`（session 事件正常工作的前提）。现在显式传 `with_flatten(false)` 会直接返回 `CdpError::UnsupportedConfiguration(...)`，不再静默创建本库不支持的 non-flatten session。
 - **事件订阅顺序** — 必须在触发动作之前订阅事件，否则事件可能丢失。
-- **事件通道** — `event_stream()` / 生成的 `Event::subscribe()` 默认保持无界并在日志后跳过反序列化失败的事件。如果要显式控制高频事件的缓冲策略，用 `event_stream_with_policy()` / `subscribe_with_policy()`；如果要把反序列化失败暴露为 `Result`，用 `event_stream_result()` / `subscribe_result()`。
-- **discovery 边界** — `CDP::connect(...)` 只接受 `host:port` 或 `http://host:port`，固定请求 `/json/version`，并拒绝 `https://`、带路径的 URL、缺失端口的输入，错误为 `CdpError::InvalidDiscoveryInput`。
+- **事件通道** — `event_stream()` / 生成的 `Event::subscribe()` 默认保持无界并在日志后跳过反序列化失败的事件。bounded result stream 可通过 `EventStreamStats::dropped_events()` 查询 `DropNewest` 丢弃数；`CloseStream` 会返回一次 `CdpError::EventStreamOverflow` 后结束。
+- **连接输入** — `CDP::connect(...)` 只接受 `host:port` 或 `http://host:port` 并固定请求 `/json/version`。完整的 `ws://` 或 `wss://` DevTools URL 必须传给 `CDP::connect_ws(...)`。
 - **连接错误** — `CdpError` 针对每个失败阶段有专用变体：`Io`、`DiscoveryTimeout`、`HandshakeTimeout`、`HttpStatus`、`InvalidDiscoveryInput`、`InvalidDiscoveryResponse`。可用 `err.is_connection_failed()` 或 `err.is_timeout()` 做宽泛判断。
 - **CloseReason** — `CDP::close_reason()` 返回连接关闭原因（`Normal` / `Remote` / `Error`）。所有 `CDP` handle drop 后连接会自动关闭。
 - **关闭等待** — `CDP::closed().await` 会在后台消息循环真正完成 WebSocket shutdown 后才返回。
@@ -100,7 +100,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.4.1"
+cdpkit = "0.5"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -116,7 +116,7 @@ cdpkit 使用从官方 Chrome DevTools Protocol 规范自动生成的绑定。`c
 
 ### 重新生成 CDP 绑定
 
-要将 CDP 绑定更新到最新的协议版本：
+从仓库内固定的协议快照重新生成 CDP 绑定：
 
 ```bash
 # 运行代码生成器
@@ -125,9 +125,11 @@ cargo run -p cdpkit_codegen
 # 生成的代码将写入 cdpkit/src/protocol.rs
 ```
 
+只有在明确更新协议快照时才运行 `cargo run -p cdpkit_codegen -- --update` 联网获取官方版本；应同时审查并提交两份 JSON 输入和生成结果。默认生成与 CI 不依赖实时网络。
+
 ### 工作原理
 
-1. **获取协议** - 从 Chrome 仓库下载最新的 CDP 协议 JSON
+1. **读取协议** - 读取已提交的 `browser_protocol.json` 与 `js_protocol.json`（`--update` 才联网刷新）
 2. **解析规范** - 将协议定义解析为 Rust 数据结构
 3. **生成代码** - 为所有 CDP 域、命令和事件生成类型安全的 Rust 代码
 4. **输出** - 将生成的代码写入 `cdpkit/src/protocol.rs`
@@ -145,7 +147,7 @@ cargo run -p cdpkit_codegen
 - 当你需要实验性 CDP 功能时
 - 当贡献协议绑定更新时
 
-**注意：** 生成的 `protocol.rs` 文件已提交到版本控制，因此用户无需运行生成器，除非想要更新协议版本。现在它还要求连续生成保持字节级稳定，CI 会自动验证。
+**注意：** 协议 JSON 与生成的 `protocol.rs` 均提交到版本控制。CI 使用固定输入离线生成，并验证连续生成保持字节级稳定。
 
 ## 为什么选择 cdpkit？
 
@@ -222,6 +224,7 @@ let mut request_events = network::events::RequestWillBeSent::subscribe_result_wi
         overflow: EventOverflowStrategy::DropNewest,
     },
 );
+let request_stats = request_events.stats();
 
 while let Some(event) = request_events.next().await {
     match event {
@@ -229,6 +232,7 @@ while let Some(event) = request_events.next().await {
         Err(err) => eprintln!("事件反序列化失败: {err}"),
     }
 }
+println!("已丢弃事件数：{}", request_stats.dropped_events());
 ```
 
 ### 编译时类型安全

@@ -12,7 +12,7 @@ Pure CDP protocol implementation. Not another browser automation library.
 - 🚀 **Async-first** - Built on tokio with full async/await support
 - 📡 **Stream-based events** - Handle CDP events using Rust streams with multiplexing and filtering
 - 🎯 **Pure protocol client** - Direct CDP access without abstraction layers, full control
-- 🔄 **Auto-generated bindings** - Generated from official CDP specification, always up-to-date
+- 🔄 **Auto-generated bindings** - Generated reproducibly from a committed official CDP snapshot
 - 🪶 **Lightweight** - Minimal dependencies, focused on protocol communication
 - 🔌 **Flexible connection** - Connect to running browser instances without process management
 - 🧩 **Dynamic commands** - Send arbitrary CDP commands by name when typed bindings aren't needed
@@ -48,8 +48,8 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **Enable** — CDP requires you to enable a domain (e.g., `page::methods::Enable`) before its events are delivered.
 - **flatten mode** — `AttachToTarget` / `SetAutoAttach` default to `flatten: true` (required for session events to work). Calling `with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)` instead of silently creating an unsupported non-flatten session.
 - **Event ordering** — Always subscribe to events *before* triggering the action that produces them, otherwise events may be lost.
-- **Event channel** — `event_stream()` / generated `Event::subscribe()` keep the historical unbounded behavior and skip bad event payloads after logging. Use `event_stream_with_policy()` / `subscribe_with_policy()` for explicit bounded buffering, or `event_stream_result()` / `subscribe_result()` if you want `serde` decode failures surfaced as `Result`.
-- **Discovery boundary** — `CDP::connect(...)` is a pure CDP discovery helper: it accepts `host:port` or `http://host:port`, always requests `/json/version`, and rejects `https://`, paths, and missing ports with `CdpError::InvalidDiscoveryInput`.
+- **Event channel** — `event_stream()` / generated `Event::subscribe()` keep the historical unbounded behavior and skip bad event payloads after logging. Bounded result streams expose `EventStreamStats::dropped_events()` for `DropNewest`; `CloseStream` yields `CdpError::EventStreamOverflow` and then ends.
+- **Connection inputs** — `CDP::connect(...)` accepts only `host:port` or `http://host:port` and always requests `/json/version`. Use `CDP::connect_ws(...)` for a complete `ws://` or `wss://` DevTools URL; other discovery schemes, paths, and missing ports return `CdpError::InvalidDiscoveryInput`.
 - **Connection errors** — `CdpError` has specific variants for each failure phase: `Io`, `DiscoveryTimeout`, `HandshakeTimeout`, `HttpStatus`, `InvalidDiscoveryInput`, `InvalidDiscoveryResponse`. Use `err.is_connection_failed()` or `err.is_timeout()` for broad checks.
 - **CloseReason** — `CDP::close_reason()` returns why the connection ended (`Normal` / `Remote` / `Error`). The connection is also closed automatically when all `CDP` handles are dropped.
 - **Shutdown wait** — `CDP::closed().await` resolves when the background message loop has actually finished shutting the WebSocket down.
@@ -102,7 +102,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.4.1"
+cdpkit = "0.5"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -118,7 +118,7 @@ cdpkit uses auto-generated bindings from the official Chrome DevTools Protocol s
 
 ### Regenerate CDP Bindings
 
-To update CDP bindings to the latest protocol version:
+To regenerate from the fixed protocol snapshot committed in this repository:
 
 ```bash
 # Run the code generator
@@ -127,11 +127,11 @@ cargo run -p cdpkit_codegen
 # The generated code will be written to cdpkit/src/protocol.rs
 ```
 
-The generated `cdpkit/src/protocol.rs` is checked in and now intentionally stable across consecutive runs. CI regenerates it and verifies the file stays byte-for-byte identical.
+To intentionally refresh the snapshot from the official Chrome repository, run `cargo run -p cdpkit_codegen -- --update`, review both JSON inputs and the generated diff, then commit them together. Normal generation and CI are offline and byte-for-byte stable.
 
 ### How It Works
 
-1. **Fetch Protocol** - Downloads the latest CDP protocol JSON from Chrome's repository
+1. **Read Protocol** - Reads the committed `browser_protocol.json` and `js_protocol.json` snapshot (`--update` refreshes it explicitly)
 2. **Parse Specification** - Parses the protocol definition into Rust data structures
 3. **Generate Code** - Generates type-safe Rust code for all CDP domains, commands, and events
 4. **Output** - Writes the generated code to `cdpkit/src/protocol.rs`
@@ -227,6 +227,7 @@ let mut request_events = network::events::RequestWillBeSent::subscribe_result_wi
         overflow: EventOverflowStrategy::DropNewest,
     },
 );
+let request_stats = request_events.stats();
 
 while let Some(event) = request_events.next().await {
     match event {
@@ -234,6 +235,7 @@ while let Some(event) = request_events.next().await {
         Err(err) => eprintln!("Failed to decode event: {err}"),
     }
 }
+println!("Dropped events: {}", request_stats.dropped_events());
 ```
 
 ### Compile-Time Type Safety

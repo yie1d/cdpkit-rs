@@ -21,6 +21,13 @@ pub enum CdpError {
     #[error("Unsupported configuration: {0}")]
     UnsupportedConfiguration(String),
 
+    #[error("Event stream {event} overflowed (capacity {capacity}, dropped {dropped} event(s))")]
+    EventStreamOverflow {
+        event: String,
+        capacity: usize,
+        dropped: u64,
+    },
+
     #[error("Command timed out")]
     Timeout,
 

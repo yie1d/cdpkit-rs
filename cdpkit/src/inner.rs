@@ -1,7 +1,7 @@
 use crate::error::CdpError;
 use crate::listeners::{EventListeners, EventReceiver};
 use crate::types::Method;
-use crate::EventStreamPolicy;
+use crate::{EventStreamPolicy, EventStreamResult, EventStreamStats};
 use futures::stream::Stream;
 use futures::{SinkExt, StreamExt};
 use serde::de::DeserializeOwned;
@@ -18,6 +18,7 @@ use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
 use tracing::{debug, error, info, trace, warn};
 
 type WsStream = WebSocketStream<MaybeTlsStream<TcpStream>>;
+type RawEventStream = Pin<Box<dyn Stream<Item = Result<Arc<Value>, CdpError>> + Send>>;
 
 /// Channel capacity for outgoing WebSocket messages
 const WS_SEND_CAPACITY: usize = 256;
@@ -32,6 +33,7 @@ pub(crate) struct CDPInner {
     next_id: AtomicU64,
     closed: AtomicBool,
     close_complete: watch::Sender<bool>,
+    _close_complete_rx: watch::Receiver<bool>,
     command_timeout_ms: AtomicU64,
     close_reason: std::sync::Mutex<Option<crate::CloseReason>>,
 }
@@ -48,7 +50,7 @@ impl CDPInner {
 
         let (tx, rx) = mpsc::channel(WS_SEND_CAPACITY);
 
-        let (close_complete, _) = watch::channel(false);
+        let (close_complete, close_complete_rx) = watch::channel(false);
 
         let inner = Arc::new(Self {
             tx,
@@ -57,6 +59,7 @@ impl CDPInner {
             next_id: AtomicU64::new(1),
             closed: AtomicBool::new(false),
             close_complete,
+            _close_complete_rx: close_complete_rx,
             command_timeout_ms: AtomicU64::new(DEFAULT_COMMAND_TIMEOUT.as_millis() as u64),
             close_reason: std::sync::Mutex::new(None),
         });
@@ -229,7 +232,7 @@ impl CDPInner {
         event_name: &str,
         session_id: Option<String>,
         policy: EventStreamPolicy,
-    ) -> Pin<Box<dyn Stream<Item = Result<T, CdpError>> + Send>>
+    ) -> EventStreamResult<T>
     where
         T: DeserializeOwned + Send + 'static,
     {
@@ -246,16 +249,49 @@ impl CDPInner {
             })
             .add_listener(&event_name, session_id, policy);
 
-        let rx_stream: Pin<Box<dyn Stream<Item = Arc<Value>> + Send>> = match receiver {
-            EventReceiver::Unbounded(rx) => {
-                Box::pin(tokio_stream::wrappers::UnboundedReceiverStream::new(rx))
+        let (rx_stream, stats): (RawEventStream, EventStreamStats) = match receiver {
+            EventReceiver::Unbounded(rx) => (
+                Box::pin(tokio_stream::wrappers::UnboundedReceiverStream::new(rx).map(Ok)),
+                EventStreamStats::default(),
+            ),
+            EventReceiver::Bounded {
+                receiver,
+                overflow,
+                capacity,
+            } => {
+                let stats = overflow.stats();
+                let event_name = Arc::clone(&event_name);
+                let stream = futures::stream::unfold(
+                    (receiver, overflow, false),
+                    move |(mut receiver, overflow, overflow_emitted)| {
+                        let event_name = Arc::clone(&event_name);
+                        async move {
+                            if let Some(value) = receiver.recv().await {
+                                return Some((Ok(value), (receiver, overflow, overflow_emitted)));
+                            }
+
+                            if !overflow_emitted && overflow.closed_by_overflow() {
+                                let error = CdpError::EventStreamOverflow {
+                                    event: event_name.to_string(),
+                                    capacity,
+                                    dropped: overflow.stats().dropped_events(),
+                                };
+                                return Some((Err(error), (receiver, overflow, true)));
+                            }
+
+                            None
+                        }
+                    },
+                );
+                (Box::pin(stream), stats)
             }
-            EventReceiver::Bounded(rx) => Box::pin(tokio_stream::wrappers::ReceiverStream::new(rx)),
         };
 
-        Box::pin(
-            rx_stream
-                .map(move |value| serde_json::from_value((*value).clone()).map_err(Into::into)),
+        EventStreamResult::new(
+            Box::pin(rx_stream.map(move |value| {
+                value.and_then(|value| serde_json::from_value((*value).clone()).map_err(Into::into))
+            })),
+            stats,
         )
     }
 
@@ -318,7 +354,6 @@ impl CDPInner {
         // before the loop exited — treat the exit as Normal regardless of the WS-level outcome.
         let user_initiated = self.closed.load(Ordering::Acquire);
         self.closed.store(true, Ordering::Release);
-        let _ = self.close_complete.send(true);
 
         // Record close reason
         if let Some(reason) = exit_reason {
@@ -343,6 +378,8 @@ impl CDPInner {
                 e.into_inner()
             })
             .clear();
+
+        let _ = self.close_complete.send(true);
     }
 
     async fn handle_message(&self, value: Value) {
@@ -379,5 +416,72 @@ impl CDPInner {
         } else {
             warn!("Received message without id or method: {}", value);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use futures::SinkExt;
+    use tokio::net::TcpListener;
+    use tokio::sync::oneshot;
+
+    #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+    async fn closed_waits_until_listener_cleanup_finishes() {
+        let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = listener.local_addr().unwrap();
+        let (trigger_tx, trigger_rx) = oneshot::channel();
+
+        let server = tokio::spawn(async move {
+            let (stream, _) = listener.accept().await.unwrap();
+            let mut ws = tokio_tungstenite::accept_async(stream).await.unwrap();
+            trigger_rx.await.unwrap();
+            ws.send(Message::Close(None)).await.unwrap();
+        });
+
+        let inner = CDPInner::connect(
+            &format!("ws://127.0.0.1:{}", addr.port()),
+            Duration::from_secs(2),
+        )
+        .await
+        .unwrap();
+        let mut events =
+            inner.event_stream_result::<Value>("Test.event", None, EventStreamPolicy::Unbounded);
+
+        let mut closed = Box::pin(inner.closed());
+        assert!(futures::poll!(&mut closed).is_pending());
+
+        let event_listeners = Arc::clone(&inner.event_listeners);
+        let (locked_tx, locked_rx) = std::sync::mpsc::channel();
+        let (release_tx, release_rx) = std::sync::mpsc::channel();
+        let lock_holder = std::thread::spawn(move || {
+            let _listeners = event_listeners.write().unwrap_or_else(|e| e.into_inner());
+            locked_tx.send(()).unwrap();
+            release_rx.recv().unwrap();
+        });
+        locked_rx.recv().unwrap();
+        trigger_tx.send(()).unwrap();
+
+        while !inner.is_closed() {
+            tokio::task::yield_now().await;
+        }
+
+        assert!(
+            tokio::time::timeout(Duration::from_millis(100), &mut closed)
+                .await
+                .is_err(),
+            "closed() resolved before listener cleanup could acquire its lock"
+        );
+
+        release_tx.send(()).unwrap();
+        lock_holder.join().unwrap();
+        tokio::time::timeout(Duration::from_secs(2), &mut closed)
+            .await
+            .unwrap();
+        server.await.unwrap();
+
+        assert!(inner.close_reason().is_some());
+        assert!(inner.pending.lock().await.is_empty());
+        assert!(events.next().await.is_none());
     }
 }

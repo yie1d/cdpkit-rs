@@ -1,4 +1,5 @@
 use cdpkit_codegen::{generator, parser::Protocol};
+use std::path::PathBuf;
 
 fn generated_output() -> String {
     let protocol: Protocol =
@@ -6,50 +7,57 @@ fn generated_output() -> String {
     generator::generate_code(&[protocol])
 }
 
-fn assert_contains_golden(output: &str, golden: &str) {
-    let expected = std::fs::read_to_string(format!(
-        "{}/tests/goldens/{golden}",
-        env!("CARGO_MANIFEST_DIR")
-    ))
-    .unwrap();
-    let normalize = |text: &str| text.split_whitespace().collect::<Vec<_>>().join(" ");
-    let normalized_output = normalize(output);
-    let normalized_expected = normalize(&expected);
+fn complete_golden_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("tests/goldens/mini_protocol.rs")
+}
 
-    assert!(
-        normalized_output.contains(&normalized_expected),
-        "generated output did not contain golden snippet {golden}\n--- expected snippet ---\n{expected}\n--- generated output ---\n{output}"
+fn complete_golden() -> String {
+    let mut expected = std::fs::read_to_string(complete_golden_path()).unwrap();
+    expected.push('\n');
+    expected
+}
+
+fn assert_complete_golden(output: &str) {
+    let expected = complete_golden();
+    assert_eq!(
+        output, expected,
+        "generated output differed from the complete mini protocol golden"
     );
 }
 
 #[test]
-fn generate_code_is_stable_for_fixed_fixture() {
-    let first = generated_output();
-    let second = generated_output();
-
-    assert_eq!(first, second, "generator output should be byte-stable");
+fn generated_output_matches_complete_golden() {
+    assert_complete_golden(&generated_output());
 }
 
 #[test]
-fn golden_covers_command_builders_and_flatten_validation() {
+fn complete_golden_rejects_duplicated_output() {
     let output = generated_output();
+    let duplicated = format!("{output}{output}");
 
-    assert_contains_golden(&output, "command_builder.rs");
-    assert_contains_golden(&output, "set_auto_attach.rs");
+    assert_ne!(duplicated, complete_golden());
 }
 
 #[test]
-fn golden_covers_event_subscription_variants() {
+fn generated_header_is_static_without_wall_clock_metadata() {
     let output = generated_output();
+    let header = output.lines().take(2).collect::<Vec<_>>();
 
-    assert_contains_golden(&output, "event_subscription.rs");
+    assert_eq!(
+        header,
+        [
+            "// Auto-generated from Chrome DevTools Protocol",
+            "// DO NOT EDIT MANUALLY  OvO",
+        ]
+    );
 }
 
 #[test]
-fn golden_covers_enum_refs_and_keyword_renames() {
+#[ignore = "maintenance helper: run explicitly after intentional generator changes"]
+fn update_complete_golden() {
     let output = generated_output();
-
-    assert_contains_golden(&output, "enum_mode.rs");
-    assert_contains_golden(&output, "keyword_carrier.rs");
-    assert_contains_golden(&output, "inspect_command.rs");
+    let file_contents = output
+        .strip_suffix('\n')
+        .expect("generated output must end with a newline");
+    std::fs::write(complete_golden_path(), file_contents).unwrap();
 }
