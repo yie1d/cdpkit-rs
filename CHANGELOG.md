@@ -2,9 +2,22 @@
 
 ## [Unreleased]
 
+### Breaking Changes
+
+- `Target.attachToTarget` / `Target.setAutoAttach` no longer allow unsupported non-flatten sessions to slip through. Calling `.with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)`.
+- `CDP::connect(...)` discovery is intentionally narrower: it accepts `host:port` or `http://host:port`, always requests `/json/version`, and rejects `https://`, paths, and missing ports with `CdpError::InvalidDiscoveryInput`.
+
 ### Added
 
 - `CDP::closed()` — async method that resolves when the WebSocket connection is closed; returns immediately if already closed. Useful for spawning a monitoring task without polling `is_closed()`.
+- `Sender::event_stream_with_policy()` / generated `Event::subscribe_with_policy()` — opt-in bounded event buffering with explicit overflow handling.
+- `Sender::event_stream_result()` and `Sender::event_stream_result_with_policy()` plus generated `Event::subscribe_result()` helpers — surface event deserialization failures as `Result` instead of silently skipping them.
+- Codegen golden tests for command builders, event subscriptions, enums, `$ref` handling, keyword renames, and flatten validation.
+
+### Changed
+
+- `CDP::closed()` now waits for the background message loop to finish shutdown, closing the previous race where a close request could make it return before the WebSocket was actually done.
+- Generated `cdpkit/src/protocol.rs` is now stable across consecutive `cargo run -p cdpkit_codegen` runs; CI verifies that regeneration stays byte-for-byte identical.
 
 ## [0.4.0] - 2026-06-26
 

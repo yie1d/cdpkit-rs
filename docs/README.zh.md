@@ -2,6 +2,8 @@
 
 类型安全的 Rust [Chrome DevTools Protocol (CDP)](https://chromedevtools.github.io/devtools-protocol/) 客户端，支持 async/await。
 
+纯 CDP 协议实现，不是另一个浏览器自动化库。
+
 ## 特性
 
 - 🔒 **类型安全** - 所有 CDP 命令和事件都是强类型的，编译时检查参数和返回值
@@ -42,11 +44,13 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **OwnedSession** — 与 `Session` 类似但拥有连接（`Send + 'static`）。需要在 `tokio::spawn` 中使用时，用 `cdp.owned_session(id)` 创建。
 - **Sender trait** — `CDP` 和 `Session` 都实现了 `Sender`。传 `&cdp` 执行浏览器命令，传 `&session` 执行页面命令。
 - **Enable** — CDP 要求先启用域（如 `page::methods::Enable`）才能接收该域的事件。
-- **flatten 模式** — `AttachToTarget` 默认 `flatten: true`（session 事件正常工作的前提）。传 `with_flatten(false)` 不受支持——cdpkit 只实现了 flatten 模式。
+- **flatten 模式** — `AttachToTarget` / `SetAutoAttach` 默认 `flatten: true`（session 事件正常工作的前提）。现在显式传 `with_flatten(false)` 会直接返回 `CdpError::UnsupportedConfiguration(...)`，不再静默创建本库不支持的 non-flatten session。
 - **事件订阅顺序** — 必须在触发动作之前订阅事件，否则事件可能丢失。
-- **事件通道** — 每个订阅使用无界通道，不会丢事件。如果事件处理含有 I/O 或耗时操作，请用 `tokio::spawn` 将处理移出流消费循环，否则在高频事件下内存会持续增长。
-- **连接错误** — `CdpError` 针对每个失败阶段有专用变体：`Io`、`DiscoveryTimeout`、`HandshakeTimeout`、`HttpStatus`、`InvalidDiscoveryResponse`。可用 `err.is_connection_failed()` 或 `err.is_timeout()` 做宽泛判断。
+- **事件通道** — `event_stream()` / 生成的 `Event::subscribe()` 默认保持无界并在日志后跳过反序列化失败的事件。如果要显式控制高频事件的缓冲策略，用 `event_stream_with_policy()` / `subscribe_with_policy()`；如果要把反序列化失败暴露为 `Result`，用 `event_stream_result()` / `subscribe_result()`。
+- **discovery 边界** — `CDP::connect(...)` 只接受 `host:port` 或 `http://host:port`，固定请求 `/json/version`，并拒绝 `https://`、带路径的 URL、缺失端口的输入，错误为 `CdpError::InvalidDiscoveryInput`。
+- **连接错误** — `CdpError` 针对每个失败阶段有专用变体：`Io`、`DiscoveryTimeout`、`HandshakeTimeout`、`HttpStatus`、`InvalidDiscoveryInput`、`InvalidDiscoveryResponse`。可用 `err.is_connection_failed()` 或 `err.is_timeout()` 做宽泛判断。
 - **CloseReason** — `CDP::close_reason()` 返回连接关闭原因（`Normal` / `Remote` / `Error`）。所有 `CDP` handle drop 后连接会自动关闭。
+- **关闭等待** — `CDP::closed().await` 会在后台消息循环真正完成 WebSocket shutdown 后才返回。
 
 ## 快速开始
 
@@ -96,7 +100,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.3"
+cdpkit = "0.4"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -141,7 +145,7 @@ cargo run -p cdpkit_codegen
 - 当你需要实验性 CDP 功能时
 - 当贡献协议绑定更新时
 
-**注意：** 生成的 `protocol.rs` 文件已提交到版本控制，因此用户无需运行生成器，除非想要更新协议版本。
+**注意：** 生成的 `protocol.rs` 文件已提交到版本控制，因此用户无需运行生成器，除非想要更新协议版本。现在它还要求连续生成保持字节级稳定，CI 会自动验证。
 
 ## 为什么选择 cdpkit？
 
@@ -184,7 +188,9 @@ println!("Frame ID: {}", result["frameId"]);
 基于 Rust Stream 的事件系统，支持组合、过滤和多路复用：
 
 ```rust
+use cdpkit::{EventOverflowStrategy, EventStreamPolicy};
 use futures::StreamExt;
+use std::num::NonZeroUsize;
 
 // 订阅类型化事件（按 session 过滤）
 let mut load_events = page::events::LoadEventFired::subscribe(&session);
@@ -207,6 +213,21 @@ loop {
 let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
 while let Some(event) = requests.next().await {
     println!("请求: {}", event["request"]["url"]);
+}
+
+let mut request_events = network::events::RequestWillBeSent::subscribe_result_with_policy(
+    &session,
+    EventStreamPolicy::Bounded {
+        capacity: NonZeroUsize::new(256).unwrap(),
+        overflow: EventOverflowStrategy::DropNewest,
+    },
+);
+
+while let Some(event) = request_events.next().await {
+    match event {
+        Ok(event) => println!("请求: {}", event.request.url),
+        Err(err) => eprintln!("事件反序列化失败: {err}"),
+    }
 }
 ```
 

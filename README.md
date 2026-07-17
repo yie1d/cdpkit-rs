@@ -4,6 +4,8 @@
 
 Type-safe Rust [Chrome DevTools Protocol (CDP)](https://chromedevtools.github.io/devtools-protocol/) client with async/await support.
 
+Pure CDP protocol implementation. Not another browser automation library.
+
 ## Features
 
 - 🔒 **Type-safe** - All CDP commands and events are strongly typed with compile-time validation
@@ -44,11 +46,13 @@ chrome --headless --remote-debugging-port=9222 --user-data-dir=/tmp/cdp-profile
 - **OwnedSession** — Like `Session` but owns the connection (`Send + 'static`). Use `cdp.owned_session(id)` when you need to pass it into `tokio::spawn`.
 - **Sender trait** — Both `CDP` and `Session` implement `Sender`. Pass `&cdp` for browser commands, `&session` for page commands.
 - **Enable** — CDP requires you to enable a domain (e.g., `page::methods::Enable`) before its events are delivered.
-- **flatten mode** — `AttachToTarget` defaults to `flatten: true` (required for session events to work). Passing `with_flatten(false)` is unsupported — cdpkit only implements flatten mode.
+- **flatten mode** — `AttachToTarget` / `SetAutoAttach` default to `flatten: true` (required for session events to work). Calling `with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)` instead of silently creating an unsupported non-flatten session.
 - **Event ordering** — Always subscribe to events *before* triggering the action that produces them, otherwise events may be lost.
-- **Event channel** — Each subscription uses an unbounded channel. Event channels are unbounded — if your handler contains slow I/O, use `tokio::spawn` to process events off the stream loop, otherwise memory may grow unboundedly under high event rates.
-- **Connection errors** — `CdpError` has specific variants for each failure phase: `Io`, `DiscoveryTimeout`, `HandshakeTimeout`, `HttpStatus`, `InvalidDiscoveryResponse`. Use `err.is_connection_failed()` or `err.is_timeout()` for broad checks.
+- **Event channel** — `event_stream()` / generated `Event::subscribe()` keep the historical unbounded behavior and skip bad event payloads after logging. Use `event_stream_with_policy()` / `subscribe_with_policy()` for explicit bounded buffering, or `event_stream_result()` / `subscribe_result()` if you want `serde` decode failures surfaced as `Result`.
+- **Discovery boundary** — `CDP::connect(...)` is a pure CDP discovery helper: it accepts `host:port` or `http://host:port`, always requests `/json/version`, and rejects `https://`, paths, and missing ports with `CdpError::InvalidDiscoveryInput`.
+- **Connection errors** — `CdpError` has specific variants for each failure phase: `Io`, `DiscoveryTimeout`, `HandshakeTimeout`, `HttpStatus`, `InvalidDiscoveryInput`, `InvalidDiscoveryResponse`. Use `err.is_connection_failed()` or `err.is_timeout()` for broad checks.
 - **CloseReason** — `CDP::close_reason()` returns why the connection ended (`Normal` / `Remote` / `Error`). The connection is also closed automatically when all `CDP` handles are dropped.
+- **Shutdown wait** — `CDP::closed().await` resolves when the background message loop has actually finished shutting the WebSocket down.
 
 ## Quick Start
 
@@ -98,7 +102,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ```toml
 [dependencies]
-cdpkit = "0.3"
+cdpkit = "0.4"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 futures = "0.3"
 ```
@@ -122,6 +126,8 @@ cargo run -p cdpkit_codegen
 
 # The generated code will be written to cdpkit/src/protocol.rs
 ```
+
+The generated `cdpkit/src/protocol.rs` is checked in and now intentionally stable across consecutive runs. CI regenerates it and verifies the file stays byte-for-byte identical.
 
 ### How It Works
 
@@ -186,7 +192,9 @@ println!("Frame ID: {}", result["frameId"]);
 Stream-based event system with composition, filtering, and multiplexing:
 
 ```rust
+use cdpkit::{EventOverflowStrategy, EventStreamPolicy};
 use futures::StreamExt;
+use std::num::NonZeroUsize;
 
 // Subscribe to typed events (session-filtered)
 let mut load_events = page::events::LoadEventFired::subscribe(&session);
@@ -209,6 +217,22 @@ loop {
 let mut requests = cdp.event_stream::<serde_json::Value>("Network.requestWillBeSent");
 while let Some(event) = requests.next().await {
     println!("Request: {}", event["request"]["url"]);
+}
+
+// Or make backpressure and decode behavior explicit
+let mut request_events = network::events::RequestWillBeSent::subscribe_result_with_policy(
+    &session,
+    EventStreamPolicy::Bounded {
+        capacity: NonZeroUsize::new(256).unwrap(),
+        overflow: EventOverflowStrategy::DropNewest,
+    },
+);
+
+while let Some(event) = request_events.next().await {
+    match event {
+        Ok(event) => println!("Request: {}", event.request.url),
+        Err(err) => eprintln!("Failed to decode event: {err}"),
+    }
 }
 ```
 
