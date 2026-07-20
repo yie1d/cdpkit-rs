@@ -50,15 +50,6 @@ cargo run --example basic
 - Navigating to a URL
 - Listening to page load events
 
-**Output:**
-```
-Connected to Chrome
-Created target: ...
-Attached to session: ...
-Navigating to https://example.com
-Page loaded at timestamp: ...
-```
-
 ---
 
 ### evaluate.rs
@@ -74,15 +65,6 @@ cargo run --example evaluate
 - Accessing page properties (title, URL)
 - Counting DOM elements
 
-**Output:**
-```
-Connected to Chrome
-Page loaded
-Page title: "Example Domain"
-Page URL: "https://example.com/"
-Total elements: 11
-```
-
 ---
 
 ### dom.rs
@@ -97,16 +79,6 @@ cargo run --example dom
 - Querying elements with CSS selectors
 - Finding h1 and paragraph elements
 - Working with node IDs
-
-**Output:**
-```
-Connected to Chrome
-Navigating to https://example.com
-Page loaded
-Document node ID: 1
-Found h1 element with node ID: 7
-Found 2 paragraph elements
-```
 
 ---
 
@@ -124,16 +96,6 @@ cargo run --example events
 - Page lifecycle events
 - Timeout control
 
-**Output:**
-```
-Connected to Chrome
-Navigating to https://example.com
-Listening to events...
-Frame navigated: "https://example.com/"
-Page loaded at: ...
-Timeout reached
-```
-
 ---
 
 ### network.rs
@@ -149,18 +111,6 @@ cargo run --example network
 - Monitoring HTTP responses
 - Tracking network activity
 
-**Output:**
-```
-Connected to Chrome
-Navigating to https://example.com
-[Request #1] GET https://example.com/
-[Response #1] https://example.com/ - Status: 200
-
-Page loaded!
-Total requests: 1
-Total responses: 1
-```
-
 ---
 
 ### screenshot.rs
@@ -174,15 +124,6 @@ cargo run --example screenshot
 - Taking page screenshots
 - Saving PNG images to disk
 - Working with base64-encoded data
-
-**Output:**
-```
-Connected to Chrome
-Navigating to https://example.com
-Page loaded
-Capturing screenshot...
-Screenshot saved to screenshot.png (60700 bytes)
-```
 
 The screenshot will be saved as `screenshot.png` in the current directory.
 
@@ -198,20 +139,12 @@ The screenshot will be saved as `screenshot.png` in the current directory.
 
 ## Common Issues
 
-**Chrome not found:**
-```
-Error: Connection failed
-```
-→ Make sure Chrome is running with `--remote-debugging-port=9222`
-
-**Port already in use:**
-```
-Error: Address already in use
-```
-→ Use a different port: `google-chrome --remote-debugging-port=9223`
-
-**Permission denied:**
-```
-Error: Permission denied
-```
-→ On Linux, you may need to run Chrome with `--no-sandbox` in some environments
+- **`Io` / connection refused:** verify that Chrome is running with remote
+  debugging enabled and that `CDP_HOST` uses the same host and port.
+- **`DiscoveryTimeout`:** the endpoint did not answer `/json/version` before
+  the discovery timeout. Check the port and local firewall rules.
+- **`HttpStatus` with the Chrome 136+ user-profile toggle:** toggle mode exposes
+  a complete WebSocket URL through `DevToolsActivePort` instead of the HTTP
+  discovery endpoint. Use `CDP::connect_ws` or
+  `CDP::connect_ws_with_timeout`; see the existing-Chrome guide linked from the
+  repository README.

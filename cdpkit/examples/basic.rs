@@ -1,6 +1,7 @@
 // Basic example: Connect to Chrome and navigate to a page
 use cdpkit::{page, target, CDP};
 use futures::StreamExt;
+use std::time::Duration;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -50,6 +51,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Gracefully close the connection
     cdp.close().await;
+    // Wait until the background WebSocket loop has completed shutdown.
+    tokio::time::timeout(Duration::from_secs(5), cdp.closed()).await?;
 
     Ok(())
 }

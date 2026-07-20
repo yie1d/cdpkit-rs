@@ -10,7 +10,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let protocol_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("protocol");
 
     if update {
-        println!("Downloading latest protocol files to {:?}...", protocol_dir);
+        println!(
+            "Downloading the pinned protocol revision to {:?}...",
+            protocol_dir
+        );
         fetch::fetch_protocols(&protocol_dir).await?;
     }
 

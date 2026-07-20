@@ -127,11 +127,11 @@ cargo run -p cdpkit_codegen
 # The generated code will be written to cdpkit/src/protocol.rs
 ```
 
-To intentionally refresh the snapshot from the official Chrome repository, run `cargo run -p cdpkit_codegen -- --update`, review both JSON inputs and the generated diff, then commit them together. Normal generation and CI are offline and byte-for-byte stable.
+To intentionally refresh the snapshot, first choose an immutable upstream commit and update `PROTOCOL_REVISION` in `cdpkit_codegen/src/fetch.rs`. Then run `cargo run -p cdpkit_codegen -- --update`, update `cdpkit_codegen/protocol/README.md`, review both JSON inputs and the generated diff, and commit them together. Normal generation and CI are offline and byte-for-byte stable.
 
 ### How It Works
 
-1. **Read Protocol** - Reads the committed `browser_protocol.json` and `js_protocol.json` snapshot (`--update` refreshes it explicitly)
+1. **Read Protocol** - Reads the committed `browser_protocol.json` and `js_protocol.json` snapshot (`--update` re-downloads the explicitly pinned revision)
 2. **Parse Specification** - Parses the protocol definition into Rust data structures
 3. **Generate Code** - Generates type-safe Rust code for all CDP domains, commands, and events
 4. **Output** - Writes the generated code to `cdpkit/src/protocol.rs`

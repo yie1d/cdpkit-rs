@@ -93,6 +93,12 @@ futures = "0.3"
 
 ## Key Concepts
 
+- **CDP** — A browser-level connection. Use it for browser commands such as creating and closing targets.
+- **Session** — A page-level handle bound to one attached target. Use it for page, DOM, runtime, and network commands.
+- **OwnedSession** — An owned session handle suitable for `tokio::spawn` and other `Send + 'static` work.
+- **Sender trait** — Both `CDP` and session handles implement `Sender`. Pass `&cdp` for browser commands and `&session` for page commands.
+- **Enable** — Enable a CDP domain before subscribing to its events.
+- **Event ordering** — Subscribe before triggering the action that produces an event, otherwise that event can be missed.
 - **flatten mode** — `AttachToTarget` / `SetAutoAttach` default to `flatten: true` (required for session events to work). Calling `with_flatten(false)` now fails explicitly with `CdpError::UnsupportedConfiguration(...)`.
 - **Event buffering** — `event_stream()` / generated `Event::subscribe()` stay unbounded and skip malformed payloads after logging. Bounded result streams expose `EventStreamStats::dropped_events()` for `DropNewest`; `CloseStream` yields `CdpError::EventStreamOverflow` and then ends.
 - **Connection inputs** — `CDP::connect(...)` accepts only `host:port` or `http://host:port` and always requests `/json/version`. Use `CDP::connect_ws(...)` for a complete `ws://` or `wss://` DevTools URL.

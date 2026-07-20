@@ -7,7 +7,7 @@ repository.workspace = true
 authors.workspace = true
 rust-version.workspace = true
 description = "Type-safe Chrome DevTools Protocol (CDP) client for Rust"
-keywords = ["chrome", "devtools", "cdp", "automation", "browser"]
+keywords = ["chrome", "devtools", "cdp", "protocol", "browser"]
 categories = ["web-programming", "api-bindings"]
 readme = "README.md"
 

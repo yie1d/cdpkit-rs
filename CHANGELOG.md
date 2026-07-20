@@ -1,5 +1,14 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Include both MIT and Apache-2.0 license texts in the published crate.
+- Pin protocol snapshot downloads to the documented upstream revision.
+- Remove stale example troubleshooting and correct historical changelog
+  entries.
+
 ## [0.5.0] - 2026-07-17
 
 ### Breaking Changes
@@ -108,8 +117,6 @@ session.send_raw("Method", params).await?;  // via Sender trait
 ```
 
 ### Added
-- `CDP::connect_with_timeout(target, Duration)` and `CDP::connect_ws_with_timeout(url, Duration)` — connect with explicit WebSocket handshake timeout
-- `DEFAULT_CONNECT_TIMEOUT` constant (30s) — applied automatically by `CDP::connect` / `CDP::connect_ws`; previously those calls could hang indefinitely on unreachable endpoints
 - `Sender` trait (sealed) — unified interface with `send_cmd`, `send_raw`, `event_stream`
 - `EventStream<T>` type alias for event stream return types
 - `Session<'a>` — borrowed session bound to a target
@@ -126,9 +133,6 @@ session.send_raw("Method", params).await?;  // via Sender trait
 - `Default` derive on commands with no required parameters
 - Unit tests for `EventListeners` (dispatch, cleanup, session filtering)
 - Integration tests with mock WebSocket server (14 tests)
-- GitHub Actions CI (fmt, clippy, test on Linux/Windows/macOS, MSRV, docs, security audit)
-- `deny.toml` for license and vulnerability checking
-- `dependabot.yml` for automated dependency updates
 - MSRV declared as Rust 1.75
 
 ### Changed

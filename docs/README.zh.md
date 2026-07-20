@@ -125,11 +125,11 @@ cargo run -p cdpkit_codegen
 # 生成的代码将写入 cdpkit/src/protocol.rs
 ```
 
-只有在明确更新协议快照时才运行 `cargo run -p cdpkit_codegen -- --update` 联网获取官方版本；应同时审查并提交两份 JSON 输入和生成结果。默认生成与 CI 不依赖实时网络。
+只有在明确更新协议快照时，才先选择不可变的上游 commit，更新 `cdpkit_codegen/src/fetch.rs` 中的 `PROTOCOL_REVISION`，再运行 `cargo run -p cdpkit_codegen -- --update`。应同时更新快照来源说明，审查并提交两份 JSON 输入和生成结果。默认生成与 CI 不依赖实时网络。
 
 ### 工作原理
 
-1. **读取协议** - 读取已提交的 `browser_protocol.json` 与 `js_protocol.json`（`--update` 才联网刷新）
+1. **读取协议** - 读取已提交的 `browser_protocol.json` 与 `js_protocol.json`（`--update` 会重新下载显式固定的上游 revision）
 2. **解析规范** - 将协议定义解析为 Rust 数据结构
 3. **生成代码** - 为所有 CDP 域、命令和事件生成类型安全的 Rust 代码
 4. **输出** - 将生成的代码写入 `cdpkit/src/protocol.rs`
